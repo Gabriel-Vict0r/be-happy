@@ -3,8 +3,8 @@ import { FaArrowRight } from "react-icons/fa";
 
 export default function Home() {
   return (
-    <main className="w-[100vw] h-[100vh] bg-gradient-to-r from-initial-gradient to-end-gradient flex flex-col xl:flex-row gap-3 xl:px-32 xl:py-10">
-      <section className="flex flex-col px-10 pt-10 lg:p-0 justify-between md:justify-around w-[100vw] md:w-[60%] lg:w-[40%] h-[70%] md:h-auto">
+    <main className="w-[100vw] h-[100vh] bg-gradient-to-r from-initial-gradient to-end-gradient flex flex-col md:flex-row gap-3 xl:px-32 xl:py-10">
+      <section className="flex flex-col px-10 pt-10 justify-between md:justify-around w-[100vw] md:w-[50%] h-[70%] md:h-auto">
         <div className="flex gap-3 items-center">
           <Image
             className="lg:w-[63.97px] lg:h-[74px]"
@@ -23,7 +23,7 @@ export default function Home() {
         </p>
       </section>
       <section
-        className="lg:bg-kids-kidding bg-left bg-no-repeat bg-contain md:w-[55%] lg:items-end justify-between flex md:flex-col px-10 w-[80%]
+        className="md:bg-kids-kidding bg-left bg-no-repeat md:bg-tablet lg:bg-notebook  bg-left md:w-[55%] md:items-end justify-between flex md:flex-col px-10 w-[80%] md:pt-10
       "
       >
         <div className="text-sm xl:text-xl md:py-10">

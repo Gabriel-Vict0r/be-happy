@@ -28,6 +28,10 @@ const config: Config = {
       },
       backgroundImage: {
         'kids-kidding': "url('/kids-kidding.svg')"
+      },
+      backgroundSize: {
+        'tablet': '80%',
+        'notebook':'70%',
       }
     },
   },
