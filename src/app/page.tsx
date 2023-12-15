@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
-import { Bounce, Fade, JackInTheBox, Slide, Zoom } from "react-awesome-reveal";
+import { Fade, Slide } from "react-awesome-reveal";
 import Link from "next/link";
 import CityState from "@/components/forMap/CityState";
 export default function Home() {

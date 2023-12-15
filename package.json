@@ -11,16 +11,22 @@
   },
   "dependencies": {
     "framer-motion": "^10.16.16",
+    "google-map-react": "^2.2.1",
+    "leaflet": "^1.9.4",
+    "leaflet-defaulticon-compatibility": "^0.1.2",
+    "leaflet-geosearch": "^3.11.0",
     "next": "14.0.4",
     "react": "^18",
     "react-awesome-reveal": "^4.2.7",
     "react-dom": "^18",
-    "react-icons": "^4.12.0"
+    "react-icons": "^4.12.0",
+    "react-leaflet": "^4.2.1"
   },
   "devDependencies": {
     "@testing-library/dom": "^9.3.3",
     "@testing-library/react": "^14.1.2",
     "@types/jest": "^29.5.11",
+    "@types/leaflet": "^1.9.8",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

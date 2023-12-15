@@ -2,13 +2,11 @@ import Image from "next/image";
 import React from "react";
 import CityState from "./CityState";
 
-type Props = {};
-
-const SideMap = (props: Props) => {
+const SideMap = () => {
   return (
     <aside
       className="bg-gradient-to-r from-initial-gradient to-end-gradient flex flex-col justify-between
-     p-12 max-w-[30%] h-screen"
+     p-12 w-[30%] h-screen"
     >
       <Image
         src="/icon-principal.svg"
