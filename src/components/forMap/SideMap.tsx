@@ -5,8 +5,10 @@ import CityState from "./CityState";
 const SideMap = () => {
   return (
     <aside
-      className="bg-gradient-to-r from-initial-gradient to-end-gradient flex flex-col justify-between
-     p-12 w-[30%] h-screen"
+      className="bg-gradient-to-r from-initial-gradient to-end-gradient 
+    hidden 
+    md:flex md:flex-col md:justify-between
+     md:p-12 md:w-[30%] md:h-screen"
     >
       <Image
         src="/icon-principal.svg"
@@ -15,8 +17,10 @@ const SideMap = () => {
         height={72}
       />
       <div className="flex flex-col gap-4">
-        <h1 className="text-5xl font-bold">Escolha um orfanato no mapa</h1>
-        <p className="text-lg w-[70%]">
+        <h1 className="text-3xl lg:text-5xl font-bold">
+          Escolha um orfanato no mapa
+        </h1>
+        <p className="text-base lg:text-lg lg:w-[70%]">
           Muitas crianças estão esperando a sua visita :){" "}
         </p>
       </div>

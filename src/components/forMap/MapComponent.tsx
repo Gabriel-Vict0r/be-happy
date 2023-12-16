@@ -7,7 +7,6 @@ import "leaflet-defaulticon-compatibility";
 import L from "leaflet";
 import Link from "next/link";
 import { IoIosAdd } from "react-icons/io";
-import { IoIosAddCircle } from "react-icons/io";
 
 const MapComponent = () => {
   const url = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=sk.eyJ1Ijoicm90Y2l2MDEwMTAxIiwiYSI6ImNscTV0MGNldzBrYjAybG14eXI5cnM5ZHYifQ.uh9eBIYmXQIuLjOtZqLpwA`;
@@ -17,7 +16,7 @@ const MapComponent = () => {
     iconSize: new L.Point(60, 65),
   });
   return (
-    <div className="w-[70%]">
+    <div className="w-full h-screen md:w-[70%]">
       <MapContainer
         center={[-12.13885, -44.988522]}
         zoom={17}
@@ -29,7 +28,8 @@ const MapComponent = () => {
           position={[-12.13885, -44.988522]}
           draggable={true}
           icon={markerIcon}
-          interactive={false}
+          interactive={true}
+          autoPanOnFocus
         >
           <Popup
             keepInView={true}
@@ -39,7 +39,7 @@ const MapComponent = () => {
         </Marker>
       </MapContainer>
       <Link
-        href="/"
+        href="/Form"
         className="absolute bottom-10 right-10 rounded-[20px] p-1 text-white text-5xl bg-blue z-10"
       >
         <IoIosAdd className="" />
