@@ -14,10 +14,13 @@ const config: Config = {
         'end-gradient': '#00C7C7',
         yellow: '#FFD666',
         'dark-yellow': '#8D734B',
+        'bg-form': '#EBF2F5',
         blue: '#15C3D6',
+        'btn-side-bar': '#12AFCB',
         'light-blue': '#96FEFF',
         'blue-hover': 'rgba(23, 214, 235, 1)',
         title: '#4D6F80',
+        'title-page': '#8FA7B2',
         text: '#5C8599',
         'off-green': '#37C77F',
         'green-normal': '#37C77F',
@@ -31,7 +34,7 @@ const config: Config = {
       },
       backgroundSize: {
         'tablet': '80%',
-        'notebook':'70%',
+        'notebook': '70%',
       }
     },
   },
