@@ -7,7 +7,7 @@ type Props = {};
 
 const SideBar = (props: Props) => {
   return (
-    <aside className="w-24 bg-gradient-to-r from-initial-gradient to-end-gradient h-screen flex flex-col justify-between items-center py-5">
+    <aside className="w-24 bg-gradient-to-r from-initial-gradient to-end-gradient h-screen flex flex-col justify-between items-center py-5 fixed top-0 left-0 z-10">
       <Image src="/icon-principal.svg" alt="icone" width={48} height={56} />
       <Link
         href="/"

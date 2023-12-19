@@ -4,6 +4,6 @@ export interface ISubTitle {
 
 export interface IInput {
     label: string;
-    type: "text" | "phone" | "archieve"
+    type?: "text" | "phone" | "file" | "checkbox" | "submit"
     name: string;
 }

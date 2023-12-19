@@ -12,6 +12,8 @@ const Input = (props: IInput) => {
         name={props.name}
         id={props.name}
         className="bg-bg-btn-map h-14 border-border-form border-2 rounded-[20px] text-text p-4 font-semibold outline-none"
+        //pattern={props.type == "phone" ? "[0-9]{3}-[0-9]{2}-[0-9]{3}" : ""}
+        pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"
       />
     </div>
   );

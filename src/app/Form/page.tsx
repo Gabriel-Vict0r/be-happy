@@ -8,7 +8,7 @@ const PageForm = (props: Props) => {
   return (
     <div className="flex bg-bg-form">
       <SideBar />
-      <section className="w-full flex flex-col justify-start items-center py-7">
+      <section className="w-full flex flex-col justify-start items-center py-7 z-0">
         <p className="font-semibold text-title-page text-base">
           Adicione um orfanato
         </p>

@@ -2,6 +2,10 @@ import React from "react";
 import Input from "./Input";
 import SubTitle from "./SubTitle";
 import dynamic from "next/dynamic";
+import TextArea from "./TextArea";
+import InputImage from "./InputImage";
+import CheckInput from "./CheckInput";
+import Submit from "./Submit";
 type Props = {};
 
 const Form = (props: Props) => {
@@ -14,7 +18,19 @@ const Form = (props: Props) => {
       <div className="w-full h-[291px]">
         <MapNoSSR />
       </div>
-      <Input type="text" name="name" label="Nome"/>
+      <Input type="text" name="name" label="Nome" />
+      <TextArea label="Sobre" name="about" />
+      <Input type="phone" name="phone" label="Número de whatsapp" />
+      <InputImage type="file" name="file" label="Fotos" />
+      <SubTitle subTitle="Visitação" />
+      <TextArea label="Instruções" name="instructions" />
+      <Input type="text" name="hours" label="Horário das visitas" />
+      <CheckInput
+        label="Atende fim de semana?"
+        type="checkbox"
+        name="aceptWeekend"
+      />
+      <Submit type="submit" name="submit" label="Confirmar"/>
     </form>
   );
 };
