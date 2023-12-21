@@ -13,7 +13,7 @@ const Form = (props: Props) => {
     ssr: false,
   });
   return (
-    <form className="bg-white w-[70%] max-w-[44.25rem] rounded-2xl p-8 border-2 border-border-form flex flex-col justify-between gap-6">
+    <form className="bg-white w-[95%] md:w-[70%] md:max-w-[44.25rem] rounded-2xl p-4 md:p-8 border-2 border-border-form flex flex-col justify-between gap-6">
       <SubTitle subTitle="Dados" />
       <div className="w-full h-[291px]">
         <MapNoSSR />
@@ -30,7 +30,7 @@ const Form = (props: Props) => {
         type="checkbox"
         name="aceptWeekend"
       />
-      <Submit type="submit" name="submit" label="Confirmar"/>
+      <Submit type="submit" name="submit" label="Confirmar" />
     </form>
   );
 };

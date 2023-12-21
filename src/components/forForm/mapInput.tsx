@@ -33,7 +33,7 @@ const MapInput = (props: Props) => {
           ></Popup>
         </Marker>
       </MapContainer>
-      <span className="w-full h-[48px] text-base text-dark-blue absolute bottom-0 bg-bg-btn-map rounded-b-[20px] flex justify-center items-center">
+      <span className="w-full h-[48px] text-base text-dark-blue absolute bottom-0 bg-bg-btn-map rounded-b-[20px] flex justify-center items-center text-center">
         Arraste o marcador para adicionar a localização
       </span>
     </div>
