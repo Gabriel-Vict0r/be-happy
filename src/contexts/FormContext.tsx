@@ -1,19 +1,30 @@
+"use client";
 import { useContext, createContext, useState } from "react";
 import { Iorphanage, IorphanageProvider } from "@/interfaces/Iorphanage";
 
-const formContext = createContext<Iorphanage>({
+//context with the values and functions that SetValues;
+const FormContext = createContext<Iorphanage>({
   latitude: null,
   setLatitude: () => {},
   longitude: null,
+  setLongitude: () => {},
   name: "",
+  setName: () => {},
   about: "",
+  setAbout: () => {},
   phone: "",
+  setPhone: () => {},
   pictures: [],
+  setPictures: () => {},
   instructions: "",
+  setInstructions: () => {},
   hours_visitations: "",
-  open_in_weekend: false,
+  setHours_Visitations: () => {},
+  open_in_weekend: '',
+  setOpen_in_weekend: () => {},
 });
 
+//wrapper the components that will use the context
 const FormProvider = ({ children }: IorphanageProvider) => {
   //states
   const [latitude, setLatitude] = useState<number | null>(null);
@@ -21,12 +32,12 @@ const FormProvider = ({ children }: IorphanageProvider) => {
   const [name, setName] = useState<string>("");
   const [about, setAbout] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
-  const [pictures, setPictures] = useState<File[]>([]);
+  const [pictures, setPictures] = useState<string[]>([]);
   const [instructions, setInstructions] = useState<string>("");
-  const [hours_visitations, setHours_visitations] = useState<string>("");
-  const [open_in_weekend, setOpen_in_weekend] = useState<boolean>(false);
+  const [hours_visitations, setHours_Visitations] = useState<string>("");
+  const [open_in_weekend, setOpen_in_weekend] = useState<string>("");
   return (
-    <formContext.Provider
+    <FormContext.Provider
       value={{
         latitude,
         setLatitude,
@@ -43,12 +54,22 @@ const FormProvider = ({ children }: IorphanageProvider) => {
         instructions,
         setInstructions,
         hours_visitations,
-        setHours_visitations,
+        setHours_Visitations,
         open_in_weekend,
         setOpen_in_weekend,
       }}
     >
       {children}
-    </formContext.Provider>
+    </FormContext.Provider>
   );
 };
+
+//use inside a useFormContextProvider
+const useFormContext = (): Iorphanage => {
+  const context = useContext(FormContext);
+  if (!context) {
+    throw new Error("useFormContext must be used inside a formContextProvider");
+  } else return context;
+};
+
+export { useFormContext, FormProvider };

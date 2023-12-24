@@ -1,5 +1,6 @@
 import Form from "@/components/forForm/Form";
 import SideBar from "@/components/forForm/SideBar";
+import { FormProvider } from "@/contexts/FormContext";
 import React from "react";
 
 type Props = {};
@@ -12,7 +13,9 @@ const PageForm = (props: Props) => {
         <p className="font-semibold text-title-page text-base">
           Adicione um orfanato
         </p>
-        <Form />
+        <FormProvider>
+          <Form />
+        </FormProvider>
       </section>
     </div>
   );

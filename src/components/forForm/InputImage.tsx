@@ -27,6 +27,7 @@ const InputImage = (props: IInput) => {
           accept="image/*"
           placeholder=""
           multiple
+          value={props.value}
         />
       </div>
     </div>

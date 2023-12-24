@@ -1,7 +1,7 @@
 import React from "react";
-import { IInput } from "@/interfaces/IForms";
+import { IInput, ITextArea } from "@/interfaces/IForms";
 
-const TextArea = (props: IInput) => {
+const TextArea = (props: ITextArea) => {
   return (
     <div className="flex flex-col gap-2">
       <label
@@ -18,6 +18,8 @@ const TextArea = (props: IInput) => {
         id={props.name}
         rows={3}
         className="bg-bg-btn-map border-border-form border-2 rounded-[20px] text-text p-4 font-semibold outline-none"
+        value={props.value}
+        onChange={props.handleTextArea}
       />
     </div>
   );
