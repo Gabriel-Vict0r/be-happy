@@ -27,27 +27,48 @@ const Form = () => {
     open_in_weekend,
     setName,
     setAbout,
+    setPhone,
+    setPictures,
+    setHours_Visitations,
+    setInstructions
   } = useFormContext();
 
   //estrutura de dados para executar uma função de acordo com a chave do objeto
-  const setFields: IFields = {
+  const setFields: IFields<string | FileList | File> = {
     name: (e) => {
-      setName!(e);
+      setName!(e as string);
     },
     about: (e) => {
-      setAbout!(e);
+      setAbout!(e as string);
     },
+    phone: (e) => {
+      setPhone!(e as string);
+    },
+    pictures: (e) => {
+      setPictures!(e as File);
+    },
+    hours: (e) => {
+      setHours_Visitations!(e as string);
+    },
+    aceptWeekend: (e) => {
+      
+    }
   };
   const receiveData = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //recebe o nome/valor dos inputs
+    //recebe o nome
     const nameField = e.currentTarget.name;
-    const valueField = e.currentTarget.value;
-    console.log(nameField);
 
-    /*verifica qual chave foi passada pelos inputs
+    //verifica se o tipo de dado recebido é uma string ou uma lista de arquivos
+    let valueField: string | FileList;
+    if (nameField === "pictures") {
+      valueField = e.target.files!;
+    } else {
+      valueField = e.currentTarget.value;
+    }
+    /*verifica qual chave foi passada pelos inputs (baseada no nome do input)
     após verificar qual chave é compativel, uma função será executada com base na chave/valor do input*/
     if (setFields[nameField]) {
-      setFields[nameField](valueField);
+      setFields[nameField](valueField!);
     } else {
       throw new Error("No one of the values passed is available");
     }
@@ -76,8 +97,14 @@ const Form = () => {
         name="phone"
         label="Número de whatsapp"
         value={phone}
+        handleInput={(e) => receiveData(e)}
       />
-      <InputImage type="file" name="file" label="Fotos" value={pictures} />
+      <InputImage
+        type="file"
+        name="pictures"
+        label="Fotos"
+        handleInput={(e) => receiveData(e)}
+      />
       <SubTitle subTitle="Visitação" />
       <TextArea
         label="Instruções"
@@ -90,12 +117,14 @@ const Form = () => {
         name="hours"
         label="Horário das visitas"
         value={hours_visitations}
+        handleInput={(e) => receiveData(e)}
       />
       <CheckInput
         label="Atende fim de semana?"
         type="checkbox"
         name="aceptWeekend"
-        value={open_in_weekend}
+        value={open_in_weekend as unknown}
+        handleInput={(e) => receiveData(e)}
       />
       <Submit type="submit" name="submit" label="Confirmar" />
     </form>

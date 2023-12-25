@@ -13,21 +13,21 @@ const InputImage = (props: IInput) => {
       </label>
       <div className="w-full h-full">
         <label
-          htmlFor="picture"
+          htmlFor="pictures"
           className="bg-bg-btn-map w-24 h-24 border-2 rounded-[20px] flex justify-center items-center border-dashed text-blue text-4xl cursor-pointer"
         >
           <IoIosAdd className="" />
         </label>
         <input
           type={props.type}
-          name="picture"
-          id="picture"
+          name="pictures"
+          id="pictures"
           className="hidden"
           //pattern={props.type == "phone" ? "[0-9]{3}-[0-9]{2}-[0-9]{3}" : ""}
           accept="image/*"
           placeholder=""
           multiple
-          value={props.value}
+          onChange={props.handleInput}
         />
       </div>
     </div>

@@ -14,13 +14,13 @@ const FormContext = createContext<Iorphanage>({
   setAbout: () => {},
   phone: "",
   setPhone: () => {},
-  pictures: [],
+  pictures: null,
   setPictures: () => {},
   instructions: "",
   setInstructions: () => {},
   hours_visitations: "",
   setHours_Visitations: () => {},
-  open_in_weekend: '',
+  open_in_weekend: false,
   setOpen_in_weekend: () => {},
 });
 
@@ -32,10 +32,10 @@ const FormProvider = ({ children }: IorphanageProvider) => {
   const [name, setName] = useState<string>("");
   const [about, setAbout] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
-  const [pictures, setPictures] = useState<string[]>([]);
+  const [pictures, setPictures] = useState<FileList | File | null>(null);
   const [instructions, setInstructions] = useState<string>("");
   const [hours_visitations, setHours_Visitations] = useState<string>("");
-  const [open_in_weekend, setOpen_in_weekend] = useState<string>("");
+  const [open_in_weekend, setOpen_in_weekend] = useState<boolean>(false);
   return (
     <FormContext.Provider
       value={{

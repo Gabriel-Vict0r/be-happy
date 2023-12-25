@@ -10,14 +10,14 @@ export interface Iorphanage {
     setAbout?: React.Dispatch<React.SetStateAction<string>>;
     phone: string;
     setPhone?: React.Dispatch<React.SetStateAction<string>>;
-    pictures: readonly string[];
-    setPictures?: React.Dispatch<React.SetStateAction<string[]>>;
+    pictures: FileList | File | null;
+    setPictures?: React.Dispatch<React.SetStateAction<FileList | File | null>>;
     instructions: string;
     setInstructions?: React.Dispatch<React.SetStateAction<string>>;
     hours_visitations: string;
     setHours_Visitations?: React.Dispatch<React.SetStateAction<string>>;
-    open_in_weekend: string;
-    setOpen_in_weekend?: React.Dispatch<React.SetStateAction<string>>;
+    open_in_weekend: boolean;
+    setOpen_in_weekend?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export interface IorphanageProvider {
     children: ReactNode;

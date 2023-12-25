@@ -15,6 +15,6 @@ export interface IInput {
 export interface ITextArea extends IInput {
     handleTextArea: React.ChangeEventHandler<HTMLTextAreaElement>
 }
-export interface IFields {
-    [index: string]: (e: string) => void;
+export interface IFields<T> {
+    [index: string]: (e: T) => void;
 }

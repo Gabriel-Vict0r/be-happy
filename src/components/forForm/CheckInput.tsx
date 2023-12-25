@@ -10,7 +10,7 @@ const CheckInput = (props: IInput) => {
         {props.label}
       </label>
       <label className="relative inline-flex items-center cursor-pointer">
-        <input type="checkbox" value={props.value} className="sr-only peer" />
+        <input type="checkbox" value={props.value} className="sr-only peer" onChange={props.handleInput} name={props.name} />
         <div
           className="w-11 h-6 bg-bg-btn-map border-border-form border-2
          peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-light-green rounded-full peer-checked:after:translate-x-full
