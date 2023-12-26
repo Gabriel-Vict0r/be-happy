@@ -10,6 +10,7 @@ export interface IInput {
     type?: "text" | "phone" | "file" | "checkbox" | "submit"
     name: string;
     value?: values;
+    checked?: boolean;
     handleInput?: React.ChangeEventHandler<HTMLInputElement>;
 }
 export interface ITextArea extends IInput {

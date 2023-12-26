@@ -30,11 +30,12 @@ const Form = () => {
     setPhone,
     setPictures,
     setHours_Visitations,
-    setInstructions
+    setOpen_in_weekend,
+    setInstructions,
   } = useFormContext();
 
   //estrutura de dados para executar uma função de acordo com a chave do objeto
-  const setFields: IFields<string | FileList | File> = {
+  const setFields: IFields<string | FileList | File | boolean> = {
     name: (e) => {
       setName!(e as string);
     },
@@ -47,12 +48,17 @@ const Form = () => {
     pictures: (e) => {
       setPictures!(e as File);
     },
-    hours: (e) => {
+    instructions: (e) => {
+      setInstructions!(e as string);
+    },
+    visitHours: (e) => {
       setHours_Visitations!(e as string);
     },
     aceptWeekend: (e) => {
-      
-    }
+      !open_in_weekend ? setOpen_in_weekend!(true) : setOpen_in_weekend!(false);
+      //setOpen_in_weekend!(!e as boolean);
+      console.log(e, open_in_weekend);
+    },
   };
   const receiveData = (e: React.ChangeEvent<HTMLInputElement>) => {
     //recebe o nome
@@ -65,6 +71,7 @@ const Form = () => {
     } else {
       valueField = e.currentTarget.value;
     }
+
     /*verifica qual chave foi passada pelos inputs (baseada no nome do input)
     após verificar qual chave é compativel, uma função será executada com base na chave/valor do input*/
     if (setFields[nameField]) {
@@ -114,7 +121,7 @@ const Form = () => {
       />
       <Input
         type="text"
-        name="hours"
+        name="visitHours"
         label="Horário das visitas"
         value={hours_visitations}
         handleInput={(e) => receiveData(e)}
@@ -123,7 +130,7 @@ const Form = () => {
         label="Atende fim de semana?"
         type="checkbox"
         name="aceptWeekend"
-        value={open_in_weekend as unknown}
+        value={open_in_weekend.toString()}
         handleInput={(e) => receiveData(e)}
       />
       <Submit type="submit" name="submit" label="Confirmar" />
