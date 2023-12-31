@@ -1,18 +1,16 @@
 import React, { useState } from "react";
-import { MapContainer, Marker, useMapEvents, Popup } from "react-leaflet";
-import { LatLng } from "leaflet-geosearch/dist/providers/provider.js";
-import { Icon, DivIcon } from "leaflet";
+import { Marker, useMapEvents, Popup } from "react-leaflet";
 import markerIcon from "../markerIcon";
+import { LatLng } from "leaflet";
 import { useFormContext } from "@/contexts/FormContext";
+import { IPosition } from "@/interfaces/IForms";
 
-interface ILocation {
-  position: LatLng;
-  popUpText: string;
+interface IPositionMarker {
+  position: IPosition;
 }
 const LocationMarker = () => {
   const { position, setPosition } = useFormContext();
-
-  //const [position, setPosition] = useState<LatLng>();
+  //const [position, setPosition] = useState<IPosition>();
   const map = useMapEvents({
     click() {
       map.locate();
@@ -24,9 +22,9 @@ const LocationMarker = () => {
   });
   return (
     <Marker
-      position={[position.lat, position.lng]}
+      position={position!}
       draggable={true}
-      //icon={markerIcon}
+      icon={markerIcon}
       interactive={true}
       autoPanOnFocus
     >
