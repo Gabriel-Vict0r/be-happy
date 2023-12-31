@@ -5,6 +5,7 @@ import "leaflet/dist/leaflet.css";
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
 import "leaflet-defaulticon-compatibility";
 import markerIcon from "../markerIcon";
+import LocationMarker from "./LocationMarker";
 
 type Props = {};
 
@@ -19,7 +20,8 @@ const MapInput = (props: Props) => {
         style={{ height: "100%", width: "100%", zIndex: 0, borderRadius: 20 }}
       >
         <TileLayer url={url!} />
-        <Marker
+        <LocationMarker />
+        {/* <Marker
           position={[-12.13885, -44.988522]}
           draggable={true}
           icon={markerIcon}
@@ -31,7 +33,7 @@ const MapInput = (props: Props) => {
             position={[-12.13885, -44.988522]}
             className="text-5xl"
           ></Popup>
-        </Marker>
+        </Marker> */}
       </MapContainer>
       <span className="w-full h-[48px] text-base text-dark-blue absolute bottom-0 bg-bg-btn-map rounded-b-[20px] flex justify-center items-center text-center">
         Arraste o marcador para adicionar a localização

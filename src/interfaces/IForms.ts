@@ -1,10 +1,10 @@
-import { DetailedHTMLProps, HTMLAttributes, InputHTMLAttributes } from "react";
+import { values } from "@/types/All";
+import { LatLng } from "leaflet-geosearch/dist/providers/provider.js";
 
 export interface ISubTitle {
     subTitle: string;
 }
 
-type values = string | number | readonly string[] | undefined
 export interface IInput {
     label: string;
     type?: "text" | "phone" | "file" | "checkbox" | "submit"
@@ -18,4 +18,9 @@ export interface ITextArea extends IInput {
 }
 export interface IFields<T> {
     [index: string]: (e: T) => void;
+}
+
+export interface IPosition {
+    lat: number;
+    lng: number;
 }

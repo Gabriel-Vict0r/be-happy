@@ -1,17 +1,18 @@
+import { ImageList } from "@/types/All";
 import React, { ReactNode } from "react";
+import { IPosition } from "./IForms";
+
 export interface Iorphanage {
-    latitude: number | null;
-    setLatitude?: React.Dispatch<React.SetStateAction<number | null>>;
-    longitude: number | null;
-    setLongitude?: React.Dispatch<React.SetStateAction<number | null>>;
+    position: IPosition;
+    setPosition?: React.Dispatch<React.SetStateAction<IPosition>>;
     name: string;
     setName?: React.Dispatch<React.SetStateAction<string>>;
     about: string;
     setAbout?: React.Dispatch<React.SetStateAction<string>>;
     phone: string;
     setPhone?: React.Dispatch<React.SetStateAction<string>>;
-    pictures: FileList | File | null;
-    setPictures?: React.Dispatch<React.SetStateAction<FileList | File | null>>;
+    pictures: ImageList;
+    setPictures?: React.Dispatch<React.SetStateAction<ImageList>>;
     instructions: string;
     setInstructions?: React.Dispatch<React.SetStateAction<string>>;
     hours_visitations: string;

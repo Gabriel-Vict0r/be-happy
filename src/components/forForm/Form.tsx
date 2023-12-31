@@ -9,8 +9,14 @@ import CheckInput from "./CheckInput";
 import Submit from "./Submit";
 import { useFormContext } from "@/contexts/FormContext";
 import { IFields } from "@/interfaces/IForms";
+import { ImageList } from "@/types/All";
+import * as yup from "yup";
 
 const Form = () => {
+
+  let OrphanageSchema = yup.object({
+    
+  })
   //traz o mapa dinamicamente do lado do cliente
   const MapNoSSR = dynamic(() => import("@/components/forForm/MapInput"), {
     ssr: false,
@@ -19,12 +25,12 @@ const Form = () => {
   //extrai os estados/funções de atualização do contexto
   const {
     name,
-    pictures,
     phone,
     about,
     instructions,
     hours_visitations,
     open_in_weekend,
+    position,
     setName,
     setAbout,
     setPhone,
@@ -35,7 +41,7 @@ const Form = () => {
   } = useFormContext();
 
   //estrutura de dados para executar uma função de acordo com a chave do objeto
-  const setFields: IFields<string | FileList | File | boolean> = {
+  const setFields: IFields<string | boolean | ImageList> = {
     name: (e) => {
       setName!(e as string);
     },
@@ -56,8 +62,6 @@ const Form = () => {
     },
     aceptWeekend: (e) => {
       !open_in_weekend ? setOpen_in_weekend!(true) : setOpen_in_weekend!(false);
-      //setOpen_in_weekend!(!e as boolean);
-      console.log(e, open_in_weekend);
     },
   };
   const receiveData = (e: React.ChangeEvent<HTMLInputElement>) => {

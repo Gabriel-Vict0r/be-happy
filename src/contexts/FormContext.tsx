@@ -1,13 +1,29 @@
 "use client";
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
 import { Iorphanage, IorphanageProvider } from "@/interfaces/Iorphanage";
+import { IPosition } from "@/interfaces/IForms";
+import { ImageList } from "@/types/All";
+
+//request for the api to get the user location
+const requestOptions = {
+  method: "GET",
+};
+
+let initialPosition: IPosition = { lat: 0, lng: 0 };
+fetch(
+  `https://api.geoapify.com/v1/ipinfo?apiKey=${process.env.KEY_IP_GEOLOCATION_API}`
+)
+  .then((response) => response.json())
+  .then((result) => {
+    initialPosition.lat = result.location.latitude;
+    initialPosition.lng = result.location.longitude;
+  })
+  .catch((error) => console.log(error));
 
 //context with the values and functions that SetValues;
 const FormContext = createContext<Iorphanage>({
-  latitude: null,
-  setLatitude: () => {},
-  longitude: null,
-  setLongitude: () => {},
+  position: initialPosition,
+  setPosition: () => {},
   name: "",
   setName: () => {},
   about: "",
@@ -27,22 +43,19 @@ const FormContext = createContext<Iorphanage>({
 //wrapper the components that will use the context
 const FormProvider = ({ children }: IorphanageProvider) => {
   //states
-  const [latitude, setLatitude] = useState<number | null>(null);
-  const [longitude, setLongitude] = useState<number | null>(null);
+  const [position, setPosition] = useState<IPosition>(initialPosition);
   const [name, setName] = useState<string>("");
   const [about, setAbout] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
-  const [pictures, setPictures] = useState<FileList | File | null>(null);
+  const [pictures, setPictures] = useState<ImageList>(null);
   const [instructions, setInstructions] = useState<string>("");
   const [hours_visitations, setHours_Visitations] = useState<string>("");
   const [open_in_weekend, setOpen_in_weekend] = useState<boolean>(false);
   return (
     <FormContext.Provider
       value={{
-        latitude,
-        setLatitude,
-        longitude,
-        setLongitude,
+        position,
+        setPosition,
         name,
         setName,
         about,
