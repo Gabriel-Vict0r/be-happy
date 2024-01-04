@@ -10,15 +10,13 @@ import Submit from "./Submit";
 import { useFormContext } from "@/contexts/FormContext";
 import { IFields } from "@/interfaces/IForms";
 import { ImageList } from "@/types/All";
-import * as yup from "yup";
+//import * as yup from "yup";
 
 const Form = () => {
-
-  let OrphanageSchema = yup.object({
-    
-  })
   //traz o mapa dinamicamente do lado do cliente
-  const MapNoSSR = dynamic(() => import("@/components/forForm/MapInput"), {
+  const MapNoSSR = dynamic(
+    () => import("@/components/forForm/MapInput"),
+    {
     ssr: false,
   });
 

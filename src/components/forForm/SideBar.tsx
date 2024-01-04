@@ -16,7 +16,7 @@ const SideBar = (props: Props) => {
         className="w-[35px]"
       />
       <Link
-        href="/"
+        href="/Form"
         className="text-base p-3 md:text-xl md:p-4 rounded-2xl bg-btn-side-bar hover:bg-blue-hover transition"
       >
         <FaArrowLeft />

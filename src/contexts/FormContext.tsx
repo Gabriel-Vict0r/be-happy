@@ -4,25 +4,9 @@ import { Iorphanage, IorphanageProvider } from "@/interfaces/Iorphanage";
 import { IPosition } from "@/interfaces/IForms";
 import { ImageList } from "@/types/All";
 
-//request for the api to get the user location
-const requestOptions = {
-  method: "GET",
-};
-
-let initialPosition: IPosition = { lat: 0, lng: 0 };
-fetch(
-  `https://api.geoapify.com/v1/ipinfo?apiKey=${process.env.KEY_IP_GEOLOCATION_API}`
-)
-  .then((response) => response.json())
-  .then((result) => {
-    initialPosition.lat = result.location.latitude;
-    initialPosition.lng = result.location.longitude;
-  })
-  .catch((error) => console.log(error));
-
 //context with the values and functions that SetValues;
 const FormContext = createContext<Iorphanage>({
-  position: initialPosition,
+  position: { lat: 0, lng: 0 },
   setPosition: () => {},
   name: "",
   setName: () => {},
@@ -43,7 +27,11 @@ const FormContext = createContext<Iorphanage>({
 //wrapper the components that will use the context
 const FormProvider = ({ children }: IorphanageProvider) => {
   //states
-  const [position, setPosition] = useState<IPosition>(initialPosition);
+  const [position, setPosition] = useState<IPosition>({
+    lat: 0,
+    lng: 0,
+  });
+
   const [name, setName] = useState<string>("");
   const [about, setAbout] = useState<string>("");
   const [phone, setPhone] = useState<string>("");

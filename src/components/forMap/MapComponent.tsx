@@ -10,7 +10,6 @@ import { IoIosAdd } from "react-icons/io";
 
 const MapComponent = () => {
   const url = process.env.TOKEN_MAP;
-
   return (
     <div className="w-full h-screen md:w-[70%]">
       <MapContainer

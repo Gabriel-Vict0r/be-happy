@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+"use client";
+import React, { ReactNode, useEffect, useRef, useState } from "react";
 import { Marker, useMapEvents, Popup } from "react-leaflet";
 import markerIcon from "../markerIcon";
 import { LatLng } from "leaflet";
@@ -10,16 +11,17 @@ interface IPositionMarker {
 }
 const LocationMarker = () => {
   const { position, setPosition } = useFormContext();
-  //const [position, setPosition] = useState<IPosition>();
-  const map = useMapEvents({
-    click() {
-      map.locate();
-    },
-    locationfound(e) {
-      setPosition!(e.latlng);
-      map.flyTo(e.latlng, map.getZoom());
-    },
-  });
+
+  const markerRef = useRef();
+
+  const updatePosition = () => {
+    const marker: any = markerRef.current;
+    if (marker !== null) {
+      const newPosition = { ...marker.leafletElement.getLatLng() };
+      setPosition!(newPosition);
+      console.log(position);
+    }
+  };
   return (
     <Marker
       position={position!}
