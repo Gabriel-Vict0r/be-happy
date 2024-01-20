@@ -1,36 +1,63 @@
 "use client";
 import React, { ReactNode, useEffect, useRef, useState } from "react";
-import { Marker, useMapEvents, Popup } from "react-leaflet";
+import {
+  Marker,
+  useMapEvents,
+  Popup,
+  useMapEvent,
+  useMap,
+} from "react-leaflet";
 import markerIcon from "../markerIcon";
 import { LatLng } from "leaflet";
 import { useFormContext } from "@/contexts/FormContext";
-import { IPosition } from "@/interfaces/IForms";
+import { IPosition, IPositionLocal } from "@/interfaces/IForms";
 
-interface IPositionMarker {
-  position: IPosition;
-}
 const LocationMarker = () => {
-  const { position, setPosition } = useFormContext();
+  const { setPosition } = useFormContext();
+  const [positionLocal, setPositionLocal] = useState<IPosition>({
+    lat: 0,
+    lng: 0,
+  });
+  const [isLocationFound, setIsLocationFound] = useState<boolean>(false);
+  const map = useMap();
+  useEffect(() => {
+    const handleLocation = (e: IPositionLocal) => {
+      const newPosition = e.latlng;
+      console.log(newPosition);
+      if (
+        !positionLocal ||
+        newPosition.lat !== positionLocal.lat ||
+        newPosition.lng !== positionLocal.lng ||
+        !isLocationFound
+      ) {
+        setPositionLocal(newPosition);
+        setIsLocationFound(true);
+        //setPosition(newPosition);
+        moveToGlobaPosition(newPosition);
+        //map.flyTo(newPosition, map.getZoom());
+        map.flyTo(newPosition);
+      }
+    };
+    map.locate().on("locationfound", handleLocation);
+    console.log("position do estado local", positionLocal);
 
-  const markerRef = useRef();
+    return () => {
+      map.off("locationfound", handleLocation);
+    };
+  }, [isLocationFound, positionLocal]);
 
-  const updatePosition = () => {
-    const marker: any = markerRef.current;
-    if (marker !== null) {
-      const newPosition = { ...marker.leafletElement.getLatLng() };
-      setPosition!(newPosition);
-      console.log(position);
-    }
-  };
+  function moveToGlobaPosition(value: IPosition): void {
+    isLocationFound ? setPosition!(value) : null;
+  }
   return (
     <Marker
-      position={position!}
+      position={positionLocal!}
       draggable={true}
       icon={markerIcon}
       interactive={true}
       autoPanOnFocus
     >
-      <Popup keepInView={true} position={position} className="text-5xl">
+      <Popup keepInView={true} position={positionLocal} className="text-5xl">
         Localização
       </Popup>
     </Marker>

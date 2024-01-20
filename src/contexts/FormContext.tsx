@@ -3,6 +3,7 @@ import { useContext, createContext, useState, useEffect } from "react";
 import { Iorphanage, IorphanageProvider } from "@/interfaces/Iorphanage";
 import { IPosition } from "@/interfaces/IForms";
 import { ImageList } from "@/types/All";
+import { useMap } from "react-leaflet";
 
 //context with the values and functions that SetValues;
 const FormContext = createContext<Iorphanage>({
@@ -27,11 +28,7 @@ const FormContext = createContext<Iorphanage>({
 //wrapper the components that will use the context
 const FormProvider = ({ children }: IorphanageProvider) => {
   //states
-  const [position, setPosition] = useState<IPosition>({
-    lat: 0,
-    lng: 0,
-  });
-
+  const [position, setPosition] = useState<IPosition>({ lat: 0, lng: 0 });
   const [name, setName] = useState<string>("");
   const [about, setAbout] = useState<string>("");
   const [phone, setPhone] = useState<string>("");

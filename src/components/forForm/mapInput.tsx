@@ -7,21 +7,12 @@ import "leaflet-defaulticon-compatibility";
 import LocationMarker from "./LocationMarker";
 import { useFormContext } from "@/contexts/FormContext";
 import GetLocation from "./GetLocation";
+import { IPosition } from "@/interfaces/IForms";
 
 const MapInput = () => {
   const { position, setPosition } = useFormContext();
-  //request for the api to get the user location
-  // useEffect(() => {
-  //   navigator.geolocation.getCurrentPosition((position) => {
-  //     setPosition!({
-  //       lat: position.coords.latitude,
-  //       lng: position.coords.longitude,
-  //     });
-  //   });
-  // }, []);
-
   const url = process.env.TOKEN_MAP!;
-
+  console.log("position do context", position);
   return (
     <div className="w-full h-full rounded-[20px] relative border-2 border-border-map-form">
       <MapContainer

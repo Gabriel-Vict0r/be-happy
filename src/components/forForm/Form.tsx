@@ -10,13 +10,12 @@ import Submit from "./Submit";
 import { useFormContext } from "@/contexts/FormContext";
 import { IFields } from "@/interfaces/IForms";
 import { ImageList } from "@/types/All";
+import { useMap } from "react-leaflet";
 //import * as yup from "yup";
 
 const Form = () => {
   //traz o mapa dinamicamente do lado do cliente
-  const MapNoSSR = dynamic(
-    () => import("@/components/forForm/MapInput"),
-    {
+  const MapNoSSR = dynamic(() => import("@/components/forForm/MapInput"), {
     ssr: false,
   });
 
@@ -28,7 +27,6 @@ const Form = () => {
     instructions,
     hours_visitations,
     open_in_weekend,
-    position,
     setName,
     setAbout,
     setPhone,
