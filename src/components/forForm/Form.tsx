@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import Input from "./Input";
 import SubTitle from "./SubTitle";
 import dynamic from "next/dynamic";
@@ -34,8 +34,9 @@ const Form = () => {
     setHours_Visitations,
     setOpen_in_weekend,
     setInstructions,
+    position,
   } = useFormContext();
-
+  const MapGetMemoizated = useMemo(() => MapNoSSR, [position]);
   //estrutura de dados para executar uma função de acordo com a chave do objeto
   const setFields: IFields<string | boolean | ImageList> = {
     name: (e) => {
@@ -84,7 +85,7 @@ const Form = () => {
     <form className="bg-white w-[95%] md:w-[70%] md:max-w-[44.25rem] rounded-2xl p-4 md:p-8 border-2 border-border-form flex flex-col justify-between gap-6">
       <SubTitle subTitle="Dados" />
       <div className="w-full h-[291px]">
-        <MapNoSSR />
+        <MapGetMemoizated />
       </div>
       <Input
         type="text"

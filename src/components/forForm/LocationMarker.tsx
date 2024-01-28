@@ -1,5 +1,12 @@
 "use client";
-import React, { ReactNode, useEffect, useRef, useState } from "react";
+import React, {
+  ReactNode,
+  useEffect,
+  useRef,
+  useState,
+  useCallback,
+  useMemo,
+} from "react";
 import {
   Marker,
   useMapEvents,
@@ -13,51 +20,41 @@ import { useFormContext } from "@/contexts/FormContext";
 import { IPosition, IPositionLocal } from "@/interfaces/IForms";
 
 const LocationMarker = () => {
-  const { setPosition } = useFormContext();
-  const [positionLocal, setPositionLocal] = useState<IPosition>({
-    lat: 0,
-    lng: 0,
-  });
+  const { position, setPosition } = useFormContext();
   const [isLocationFound, setIsLocationFound] = useState<boolean>(false);
+  const isFoundMemo = localStorage.getItem("active");
+  console.log(`condicional inicial ${isLocationFound}`);
+  const conditional =
+    !position ||
+    position.lat === 0 ||
+    position.lng === 0 ||
+    !localStorage.getItem("active");
+
   const map = useMap();
-  useEffect(() => {
-    const handleLocation = (e: IPositionLocal) => {
-      const newPosition = e.latlng;
-      console.log(newPosition);
-      if (
-        !positionLocal ||
-        newPosition.lat !== positionLocal.lat ||
-        newPosition.lng !== positionLocal.lng ||
-        !isLocationFound
-      ) {
-        setPositionLocal(newPosition);
-        setIsLocationFound(true);
-        //setPosition(newPosition);
-        moveToGlobaPosition(newPosition);
-        //map.flyTo(newPosition, map.getZoom());
-        map.flyTo(newPosition);
-      }
-    };
-    map.locate().on("locationfound", handleLocation);
-    console.log("position do estado local", positionLocal);
-
-    return () => {
-      map.off("locationfound", handleLocation);
-    };
-  }, [isLocationFound, positionLocal]);
-
-  function moveToGlobaPosition(value: IPosition): void {
-    isLocationFound ? setPosition!(value) : null;
-  }
+  const getPosition = useCallback(() => {
+    if (conditional) {
+      map.locate().on("locationfound", (e) => {
+        const newPosition = e.latlng;
+        localStorage.setItem("active", "true");
+        //setIsLocationFound(true);
+        setPosition!(newPosition);
+        map.flyTo(newPosition, map.getZoom());
+      });
+    }
+  }, [isFoundMemo, position]);
+  getPosition();
+  console.log(map.getBounds());
+  console.log(map.getCenter());
+  //setPosition!({ lat: 0, lng: 0 });
   return (
     <Marker
-      position={positionLocal!}
+      position={position}
       draggable={true}
       icon={markerIcon}
       interactive={true}
       autoPanOnFocus
     >
-      <Popup keepInView={true} position={positionLocal} className="text-5xl">
+      <Popup keepInView={true} position={position} className="text-5xl">
         Localização
       </Popup>
     </Marker>

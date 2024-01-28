@@ -13,8 +13,6 @@
     "@types/dotenv": "^8.2.0",
     "@types/yup": "^0.32.0",
     "dotenv": "^16.3.1",
-    "flowbite": "^2.2.1",
-    "flowbite-react": "^0.7.2",
     "framer-motion": "^10.16.16",
     "google-map-react": "^2.2.1",
     "leaflet": "^1.9.4",

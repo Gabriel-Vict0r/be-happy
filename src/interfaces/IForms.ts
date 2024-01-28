@@ -24,6 +24,6 @@ export interface IPosition {
     lat: number;
     lng: number;
 }
-interface IPositionLocal {
+export interface IPositionLocal {
     latlng: IPosition;
 }
