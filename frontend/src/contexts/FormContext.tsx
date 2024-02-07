@@ -11,6 +11,8 @@ const FormContext = createContext<Iorphanage>({
   setPosition: () => {},
   name: "",
   setName: () => {},
+  cnpj: "",
+  setCnpj: () => {},
   about: "",
   setAbout: () => {},
   phone: "",
@@ -30,6 +32,7 @@ const FormProvider = ({ children }: IorphanageProvider) => {
   //states
   const [position, setPosition] = useState<IPosition>({ lat: 0, lng: 0 });
   const [name, setName] = useState<string>("");
+  const [cnpj, setCnpj] = useState<string>("");
   const [about, setAbout] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [pictures, setPictures] = useState<ImageList>(null);
@@ -43,6 +46,8 @@ const FormProvider = ({ children }: IorphanageProvider) => {
         setPosition,
         name,
         setName,
+        cnpj,
+        setCnpj,
         about,
         setAbout,
         phone,

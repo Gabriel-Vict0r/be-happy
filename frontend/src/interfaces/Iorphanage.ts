@@ -7,6 +7,8 @@ export interface Iorphanage {
     setPosition?: React.Dispatch<React.SetStateAction<IPosition>>;
     name: string;
     setName?: React.Dispatch<React.SetStateAction<string>>;
+    cnpj: string;
+    setCnpj?: React.Dispatch<React.SetStateAction<string>>;
     about: string;
     setAbout?: React.Dispatch<React.SetStateAction<string>>;
     phone: string;

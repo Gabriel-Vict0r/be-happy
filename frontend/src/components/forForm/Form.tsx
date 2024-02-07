@@ -22,6 +22,7 @@ const Form = () => {
   //extrai os estados/funções de atualização do contexto
   const {
     name,
+    cnpj,
     phone,
     about,
     instructions,
@@ -34,6 +35,7 @@ const Form = () => {
     setHours_Visitations,
     setOpen_in_weekend,
     setInstructions,
+    setCnpj,
     position,
   } = useFormContext();
   const MapGetMemoizated = useMemo(() => MapNoSSR, [position]);
@@ -41,6 +43,9 @@ const Form = () => {
   const setFields: IFields<string | boolean | ImageList> = {
     name: (e) => {
       setName!(e as string);
+    },
+    cnpj: (e) => {
+      setCnpj!(e as string);
     },
     about: (e) => {
       setAbout!(e as string);
@@ -92,6 +97,13 @@ const Form = () => {
         name="name"
         label="Nome"
         value={name}
+        handleInput={(e) => receiveData(e)}
+      />
+      <Input
+        type="text"
+        name="cnpj"
+        label="CNPJ"
+        value={cnpj}
         handleInput={(e) => receiveData(e)}
       />
       <TextArea
