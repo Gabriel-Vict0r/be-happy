@@ -3,19 +3,19 @@ import { MigrationInterface, QueryRunner, Table } from "typeorm";
 export class CreateOrphanage1707268286573 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.createTable(
+        await queryRunner.createTable(
             new Table({
                 name: 'Orphanage',
                 columns: [
                     {
                         name: 'id',
                         type: 'uuid',
-                        isPrimary: true
+                        isPrimary: true,
+                        isUnique: true
                     },
                     {
                         name: 'name',
                         type: 'varchar',
-                        isUnique: true
                     },
                     {
                         name: 'acept_weekend',
@@ -36,8 +36,15 @@ export class CreateOrphanage1707268286573 implements MigrationInterface {
                     },
                     {
                         name: 'fk_location',
-                        type: 'varchar',
-                        isUnique: true
+                        type: 'uuid',
+                    }
+                ],
+                foreignKeys: [
+                    {
+                        name: 'fk_orphanage_position',
+                        columnNames: ['fk_location'],
+                        referencedTableName: 'location',
+                        referencedColumnNames: ['id']
                     }
                 ]
             })
@@ -45,6 +52,6 @@ export class CreateOrphanage1707268286573 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        queryRunner.dropTable('orphanage')
+        await queryRunner.dropTable('orphanage')
     }
 }
