@@ -6,6 +6,7 @@ import { CreatePicture1707666905362 } from "./migration/1707666905362-CreatePict
 import { Location } from "./entity/Location"
 import { Orphanage } from "./entity/Orphanage"
 import { Picture } from "./entity/Picture"
+import { Adjusments1707963627782 } from "./migration/1707963627782-Adjusments"
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -15,8 +16,8 @@ export const AppDataSource = new DataSource({
     password: "admin",
     database: "beHappy",
     synchronize: true,
-    entities: [Location, Orphanage, Picture],
-    migrations: [CreateOrphanage1707268286573,
-        CreateLocation1707654904130,
-        CreatePicture1707666905362],
+    entities: [Picture, Orphanage, Location],
+    migrations: [
+    ]
+    //logging: ['query', 'error']
 })

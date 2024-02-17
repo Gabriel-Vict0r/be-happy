@@ -9,6 +9,6 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "sourceMap": true,
-    "strict": false
+    "strict": false,
   }
 }

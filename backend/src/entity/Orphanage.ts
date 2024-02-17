@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
 import { Location } from "./Location";
 import { v4 as uuid } from 'uuid'
 
-@Entity('Orphanage')
+@Entity('orphanage')
 export class Orphanage {
 
     @PrimaryColumn()

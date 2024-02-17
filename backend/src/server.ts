@@ -6,6 +6,7 @@ import { routes } from './routes'
 
 const app = express()
 
+
 const main = async () => {
     await AppDataSource.initialize();
 }
@@ -21,3 +22,4 @@ app.use(routes);
 app.listen(3000, () => {
     console.log('listening');
 })
+

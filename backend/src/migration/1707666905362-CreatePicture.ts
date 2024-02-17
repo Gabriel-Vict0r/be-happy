@@ -5,7 +5,7 @@ export class CreatePicture1707666905362 implements MigrationInterface {
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(new Table(
             {
-                name: 'Picture',
+                name: 'picture',
                 columns: [
                     {
                         name: 'id',
@@ -26,7 +26,7 @@ export class CreatePicture1707666905362 implements MigrationInterface {
                     {
                         name: 'fk_orphanage_and_image',
                         columnNames: ['id_orphanage'],
-                        referencedTableName: 'Orphanage',
+                        referencedTableName: 'orphanage',
                         referencedColumnNames: ['id']
                     }
                 ]
@@ -37,5 +37,4 @@ export class CreatePicture1707666905362 implements MigrationInterface {
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable('picture')
     }
-
 }

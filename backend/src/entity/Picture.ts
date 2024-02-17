@@ -1,8 +1,8 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
 import { Orphanage } from "./Orphanage";
 import { v4 as uuid } from 'uuid'
 
-@Entity('Picture')
+@Entity('picture')
 export class Picture {
     @PrimaryColumn()
     id: string;
@@ -13,7 +13,7 @@ export class Picture {
     @Column()
     id_orphanage: string;
 
-    @OneToOne(() => Orphanage)
+    @ManyToOne(() => Orphanage)
     @JoinColumn({ name: 'id_orphanage' })
     orphanage: Orphanage;
 

@@ -10,8 +10,7 @@ interface IPosition {
 export class CreateLocationService {
     async execute({ latitude, longitude }: IPosition): Promise<Location | Error> {
         const repo = AppDataSource.getRepository(Location);
-
-        if (await repo.findOne({
+        const verification = await repo.findOne({
             select: {
                 latitude: true,
                 longitude: true
@@ -20,17 +19,16 @@ export class CreateLocationService {
                 latitude: latitude,
                 longitude: longitude
             }
-        })) {
-            return new Error('This location already is been used.')
+        })
+        if (verification) {
+            return new Error('Esta localização já está sendo usada.')
         }
         const location = repo.create({
             latitude,
             longitude
         })
-
         await repo.save(location);
 
         return location;
     }
-
 }

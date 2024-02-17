@@ -10,20 +10,17 @@ interface IOrphanage {
     id_location: string;
 }
 export class CreateOrphanageService {
-    async execute(orphanage: IOrphanage) {
+    async execute(orphanage: IOrphanage): Promise<Orphanage | Error> {
         const repo = AppDataSource.getRepository(Orphanage)
-        if (await repo.find({
+        const verification = await repo.findOne({
             select: {
-                name: true,
                 cnpj: true,
-                id_location: true
             },
             where: {
-                name: orphanage.name,
                 cnpj: orphanage.cnpj,
-                id_location: orphanage.id_location
             }
-        })) {
+        });
+        if (verification) {
             return new Error('Este Orfanato já está cadastrado.')
         }
         const newOrphanage = repo.create(orphanage)
