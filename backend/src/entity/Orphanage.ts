@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryColumn } from "typeorm";
 import { Location } from "./Location";
 import { v4 as uuid } from 'uuid'
 
@@ -29,6 +29,12 @@ export class Orphanage {
     @OneToOne(() => Location)
     @JoinColumn({ name: 'id_location' })
     location: Location;
+
+    @CreateDateColumn()
+    createdAt: Date;
+
+    @CreateDateColumn()
+    updatedAt: Date;
 
     constructor() {
         if (!this.id) {

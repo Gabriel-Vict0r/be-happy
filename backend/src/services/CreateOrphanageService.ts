@@ -15,9 +15,11 @@ export class CreateOrphanageService {
         const verification = await repo.findOne({
             select: {
                 cnpj: true,
+                id_location: true
             },
             where: {
                 cnpj: orphanage.cnpj,
+                id_location: orphanage.id_location
             }
         });
         if (verification) {
