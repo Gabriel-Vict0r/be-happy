@@ -10,5 +10,6 @@
     "experimentalDecorators": true,
     "sourceMap": true,
     "strict": false,
+    "strictNullChecks": false
   }
 }
