@@ -2,9 +2,9 @@ import { AppDataSource } from "../data-source";
 import { Picture } from "../entity/Picture";
 
 
-interface IPicture {
-    url: string;
+export interface IPicture {
     id_orphanage: string;
+    url: string;
 }
 export class CreatePictureService {
     async execute({ url, id_orphanage }: IPicture): Promise<Picture | Error> {
