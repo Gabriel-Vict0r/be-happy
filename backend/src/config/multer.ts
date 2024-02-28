@@ -10,7 +10,7 @@ export default {
         filename(req, file, callback) {
             const fileHash = crypto.randomBytes(10).toString('hex');
             const fileName = `${fileHash}-${file.originalname}`;
-            console.log('multer config', fileName)
+            console.log('multer config', fileName);
             return callback(null, fileName);
         }
     }),

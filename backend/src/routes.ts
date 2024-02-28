@@ -7,6 +7,7 @@ import { validateDataMiddlewares } from "./middlewares/ValidateDataMiddleware";
 import multer from "multer";
 import multerConfig from './config/multer'
 import { uploadImageMiddleware } from "./middlewares/UploadImageMiddleware";
+import { GetOrphanageController } from "./controllers/GetOrphanageController";
 
 const routes = Router();
 const upload = multer(multerConfig);
@@ -23,4 +24,6 @@ routes.post('/picture',
     //upload.single('image'),
     uploadImageMiddleware,
     new CreatePictureController().handle);
+
+routes.get('/getOrphanage/:id', new GetOrphanageController().handle)
 export { routes }

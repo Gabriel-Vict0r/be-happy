@@ -8,6 +8,10 @@ import { Orphanage } from "./entity/Orphanage"
 import { Picture } from "./entity/Picture"
 import { Adjusments1707963627782 } from "./migration/1707963627782-Adjusments"
 import { AlterColumnsCreatedAt1708132100233 } from "./migration/1708132100233-AlterColumnsCreatedAt"
+import { Hour } from "./entity/Hour"
+import { CreateHours1708987894675 } from "./migration/1708987894675-CreateHours"
+import { AddPhone1709085455574 } from "./migration/1709085455574-AddPhone"
+import { OrphanageView } from "./entity/OrphanageView"
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -17,9 +21,9 @@ export const AppDataSource = new DataSource({
     password: "admin",
     database: "beHappy",
     synchronize: true,
-    entities: [Picture, Orphanage, Location],
+    entities: [Picture, Orphanage, Location, Hour, OrphanageView],
     migrations: [
-        AlterColumnsCreatedAt1708132100233
+        AddPhone1709085455574
     ]
     //logging: ['query', 'error']
 })
