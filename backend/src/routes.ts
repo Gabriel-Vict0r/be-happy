@@ -8,6 +8,8 @@ import multer from "multer";
 import multerConfig from './config/multer'
 import { uploadImageMiddleware } from "./middlewares/UploadImageMiddleware";
 import { GetOrphanageController } from "./controllers/GetOrphanageController";
+import { GetPictureController } from "./controllers/GetPictureController";
+import { GetLocationsController } from "./controllers/GetLocationsController";
 
 const routes = Router();
 const upload = multer(multerConfig);
@@ -26,4 +28,6 @@ routes.post('/picture',
     new CreatePictureController().handle);
 
 routes.get('/getOrphanage/:id', new GetOrphanageController().handle)
+routes.get('/getPictures/:id', new GetPictureController().handle);
+routes.get('/getLocations', new GetLocationsController().handle);
 export { routes }

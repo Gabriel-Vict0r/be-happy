@@ -20,7 +20,6 @@ class S3Storage {
         }
 
         const fileContent = await fs.promises.readFile(originalPath);
-
         this.client.putObject({
             Bucket: 'behappybucket',
             Key: filename,
