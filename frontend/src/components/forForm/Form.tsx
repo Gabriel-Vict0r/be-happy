@@ -104,7 +104,9 @@ const Form = () => {
         name="cnpj"
         label="CNPJ"
         value={cnpj}
+        maxLength={18}
         handleInput={(e) => receiveData(e)}
+        maskType="cnpj"
       />
       <TextArea
         label="Sobre"
@@ -118,6 +120,8 @@ const Form = () => {
         label="Número de whatsapp"
         value={phone}
         handleInput={(e) => receiveData(e)}
+        maskType="phone"
+        maxLength={15}
       />
       <InputImage
         type="file"

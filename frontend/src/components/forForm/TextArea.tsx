@@ -4,10 +4,7 @@ import { IInput, ITextArea } from "@/interfaces/IForms";
 const TextArea = (props: ITextArea) => {
   return (
     <div className="flex flex-col gap-2">
-      <label
-        htmlFor="name"
-        className="text-title-page font-semibold text-base flex gap-7 items-center"
-      >
+      <label className="text-title-page font-semibold text-base flex gap-7 items-center">
         {props.label}
         <span className="font-normal text-sm">
           Máximo de até 300 caracteres

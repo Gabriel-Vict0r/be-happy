@@ -8,6 +8,7 @@ const Submit = (props: IInput) => {
     <input
       type={props.type}
       value={props.label}
+      onClick={props.clickButton}
       className="w-full bg-off-green h-16 rounded-[20px] cursor-pointer"
     />
   );

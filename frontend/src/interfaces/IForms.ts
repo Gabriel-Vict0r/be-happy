@@ -1,5 +1,6 @@
 import { values } from "@/types/All";
 import { LatLng } from "leaflet-geosearch/dist/providers/provider.js";
+import React from "react";
 
 export interface ISubTitle {
     subTitle: string;
@@ -12,6 +13,8 @@ export interface IInput {
     value?: values;
     checked?: boolean;
     handleInput?: React.ChangeEventHandler<HTMLInputElement>;
+    clickButton?: React.MouseEventHandler<HTMLInputElement>;
+    maxLength?: number;
 }
 export interface ITextArea extends IInput {
     handleTextArea: React.ChangeEventHandler<HTMLTextAreaElement>
