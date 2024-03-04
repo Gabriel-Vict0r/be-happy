@@ -7,7 +7,7 @@ export class AddPhone1709085455574 implements MigrationInterface {
         queryRunner.addColumn('orphanage', new TableColumn({
             name: 'phone',
             type: 'varchar',
-            isNullable: true
+            isNullable: true,
         }))
     }
 

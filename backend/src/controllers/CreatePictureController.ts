@@ -26,7 +26,7 @@ export class CreatePictureController {
             const result = await service.execute(objPicture);
 
             if (result instanceof Error) {
-                return res.status(400).send('erro na controller: ').json(result.message);
+                return res.status(400).send('erro inserir imagem no banco de dados: ').json(result.message);
             }
             console.log('result', result)
             resultFinal.push(result)
