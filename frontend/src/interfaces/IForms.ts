@@ -8,11 +8,12 @@ export interface ISubTitle {
 
 export interface IInput {
     label: string;
-    type?: "text" | "phone" | "file" | "checkbox" | "submit"
+    type?: "text" | "phone" | "file" | "checkbox" | "submit" | "time"
     name: string;
     value?: values;
     checked?: boolean;
     handleInput?: React.ChangeEventHandler<HTMLInputElement>;
+    //handleDate?: React.Dispatch<SetStateAction<string | undefined>>;
     clickButton?: React.MouseEventHandler<HTMLInputElement>;
     maxLength?: number;
 }

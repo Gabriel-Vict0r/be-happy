@@ -4,8 +4,10 @@ import { Iorphanage, IorphanageProvider } from "@/interfaces/Iorphanage";
 import { IPosition } from "@/interfaces/IForms";
 import { ImageList } from "@/types/All";
 import { useMap } from "react-leaflet";
+import { IHour } from "@/interfaces/IHour";
 
 //context with the values and functions that SetValues;
+
 const FormContext = createContext<Iorphanage>({
   position: { lat: 0, lng: 0 },
   setPosition: () => {},
@@ -21,7 +23,7 @@ const FormContext = createContext<Iorphanage>({
   setPictures: () => {},
   instructions: "",
   setInstructions: () => {},
-  hours_visitations: "",
+  hours_visitations: { initial_hour: "", final_hour: "" },
   setHours_Visitations: () => {},
   open_in_weekend: false,
   setOpen_in_weekend: () => {},
@@ -37,7 +39,10 @@ const FormProvider = ({ children }: IorphanageProvider) => {
   const [phone, setPhone] = useState<string>("");
   const [pictures, setPictures] = useState<ImageList>(null);
   const [instructions, setInstructions] = useState<string>("");
-  const [hours_visitations, setHours_Visitations] = useState<string>("");
+  const [hours_visitations, setHours_Visitations] = useState<IHour>({
+    initial_hour: "",
+    final_hour: "",
+  });
   const [open_in_weekend, setOpen_in_weekend] = useState<boolean>(false);
   return (
     <FormContext.Provider

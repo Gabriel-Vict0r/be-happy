@@ -12,7 +12,7 @@ import { Hour } from "./entity/Hour"
 import { CreateHours1708987894675 } from "./migration/1708987894675-CreateHours"
 import { AddPhone1709085455574 } from "./migration/1709085455574-AddPhone"
 import { OrphanageView } from "./entity/OrphanageView"
-import { AlterIds1709947904323 } from "./migration/1709947904323-AlterIds"
+
 
 export const AppDataSource = new DataSource({
     type: "postgres",
@@ -24,7 +24,6 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     entities: [Picture, Orphanage, Location, Hour, OrphanageView],
     migrations: [
-        AlterIds1709947904323
     ]
     //logging: ['query', 'error']
 })

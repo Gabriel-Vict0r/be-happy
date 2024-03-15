@@ -23,7 +23,7 @@ const LocationMarker = () => {
   const { position, setPosition } = useFormContext();
   const [isLocationFound, setIsLocationFound] = useState<boolean>(false);
   const isFoundMemo = localStorage.getItem("active");
-  console.log(`condicional inicial ${isLocationFound}`);
+  //console.log(`condicional inicial ${isLocationFound}`);
   const conditional =
     !position ||
     position.lat === 0 ||
@@ -43,8 +43,8 @@ const LocationMarker = () => {
     }
   }, [isFoundMemo, position]);
   getPosition();
-  console.log(map.getBounds());
-  console.log(map.getCenter());
+  // console.log(map.getBounds());
+  // console.log(map.getCenter());
   //setPosition!({ lat: 0, lng: 0 });
   return (
     <Marker

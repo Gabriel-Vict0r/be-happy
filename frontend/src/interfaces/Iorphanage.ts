@@ -1,6 +1,7 @@
 import { ImageList } from "@/types/All";
 import React, { ReactNode } from "react";
 import { IPosition } from "./IForms";
+import { IHour } from "./IHour";
 
 export interface Iorphanage {
     position: IPosition;
@@ -17,8 +18,8 @@ export interface Iorphanage {
     setPictures?: React.Dispatch<React.SetStateAction<ImageList>>;
     instructions: string;
     setInstructions?: React.Dispatch<React.SetStateAction<string>>;
-    hours_visitations: string;
-    setHours_Visitations?: React.Dispatch<React.SetStateAction<string>>;
+    hours_visitations: IHour;
+    setHours_Visitations?: React.Dispatch<React.SetStateAction<IHour>>;
     open_in_weekend: boolean;
     setOpen_in_weekend?: React.Dispatch<React.SetStateAction<boolean>>;
 }

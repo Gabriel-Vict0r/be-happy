@@ -11,6 +11,8 @@ import { useFormContext } from "@/contexts/FormContext";
 import { IFields } from "@/interfaces/IForms";
 import { ImageList } from "@/types/All";
 import { useMap } from "react-leaflet";
+import HourInput from "./HourInput";
+import { IHour } from "@/interfaces/IHour";
 //import * as yup from "yup";
 
 const Form = () => {
@@ -40,7 +42,7 @@ const Form = () => {
   } = useFormContext();
   const MapGetMemoizated = useMemo(() => MapNoSSR, [position]);
   //estrutura de dados para executar uma função de acordo com a chave do objeto
-  const setFields: IFields<string | boolean | ImageList> = {
+  const setFields: IFields<string | boolean | ImageList | IHour> = {
     name: (e) => {
       setName!(e as string);
     },
@@ -59,9 +61,9 @@ const Form = () => {
     instructions: (e) => {
       setInstructions!(e as string);
     },
-    visitHours: (e) => {
-      setHours_Visitations!(e as string);
-    },
+    // visitHours: (e) => {
+    //   setHours_Visitations!(e as IHour);
+    // },
     aceptWeekend: (e) => {
       !open_in_weekend ? setOpen_in_weekend!(true) : setOpen_in_weekend!(false);
     },
@@ -86,6 +88,8 @@ const Form = () => {
       throw new Error("No one of the values passed is available");
     }
   };
+  console.log("horas: ", hours_visitations);
+  const handleData = () => {};
   return (
     <form className="bg-white w-[95%] md:w-[70%] md:max-w-[44.25rem] rounded-2xl p-4 md:p-8 border-2 border-border-form flex flex-col justify-between gap-6">
       <SubTitle subTitle="Dados" />
@@ -136,13 +140,7 @@ const Form = () => {
         value={instructions}
         handleTextArea={(e: any) => receiveData(e)}
       />
-      <Input
-        type="text"
-        name="visitHours"
-        label="Horário das visitas"
-        value={hours_visitations}
-        handleInput={(e) => receiveData(e)}
-      />
+      <HourInput type="time" name="visitHours" label="Horário das visitas" />
       <CheckInput
         label="Atende fim de semana?"
         type="checkbox"
@@ -150,7 +148,12 @@ const Form = () => {
         value={open_in_weekend.toString()}
         handleInput={(e) => receiveData(e)}
       />
-      <Submit type="submit" name="submit" label="Confirmar" />
+      <Submit
+        type="submit"
+        clickButton={handleData}
+        name="submit"
+        label="Confirmar"
+      />
     </form>
   );
 };
