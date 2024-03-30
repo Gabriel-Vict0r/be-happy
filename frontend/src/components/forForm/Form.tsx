@@ -1,5 +1,5 @@
 "use client";
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import Input from "./Input";
 import SubTitle from "./SubTitle";
 import dynamic from "next/dynamic";
@@ -8,13 +8,10 @@ import InputImage from "./InputImage";
 import CheckInput from "./CheckInput";
 import Submit from "./Submit";
 import { useFormContext } from "@/contexts/FormContext";
-import { IFields } from "@/interfaces/IForms";
-import { ImageList } from "@/types/All";
-import { useMap } from "react-leaflet";
-import HourInput from "./HourInput";
-import { IHour } from "@/interfaces/IHour";
-//import * as yup from "yup";
-
+import { schema } from "@/utils/schema";
+import { useFormik } from "formik";
+import WrapperHour from "./WrapperHour";
+import InputHourShift from "./InputHourShift";
 const Form = () => {
   //traz o mapa dinamicamente do lado do cliente
   const MapNoSSR = dynamic(() => import("@/components/forForm/MapInput"), {
@@ -22,138 +19,142 @@ const Form = () => {
   });
 
   //extrai os estados/funções de atualização do contexto
-  const {
-    name,
-    cnpj,
-    phone,
-    about,
-    instructions,
-    hours_visitations,
-    open_in_weekend,
-    setName,
-    setAbout,
-    setPhone,
-    setPictures,
-    setHours_Visitations,
-    setOpen_in_weekend,
-    setInstructions,
-    setCnpj,
-    position,
-  } = useFormContext();
+  const { position } = useFormContext();
   const MapGetMemoizated = useMemo(() => MapNoSSR, [position]);
-  //estrutura de dados para executar uma função de acordo com a chave do objeto
-  const setFields: IFields<string | boolean | ImageList | IHour> = {
-    name: (e) => {
-      setName!(e as string);
-    },
-    cnpj: (e) => {
-      setCnpj!(e as string);
-    },
-    about: (e) => {
-      setAbout!(e as string);
-    },
-    phone: (e) => {
-      setPhone!(e as string);
-    },
-    pictures: (e) => {
-      setPictures!(e as File);
-    },
-    instructions: (e) => {
-      setInstructions!(e as string);
-    },
-    // visitHours: (e) => {
-    //   setHours_Visitations!(e as IHour);
-    // },
-    aceptWeekend: (e) => {
-      !open_in_weekend ? setOpen_in_weekend!(true) : setOpen_in_weekend!(false);
-    },
-  };
-  const receiveData = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //recebe o nome
-    const nameField = e.currentTarget.name;
 
-    //verifica se o tipo de dado recebido é uma string ou uma lista de arquivos
-    let valueField: string | FileList;
-    if (nameField === "pictures") {
-      valueField = e.target.files!;
-    } else {
-      valueField = e.currentTarget.value;
-    }
+  /**<--------------CONF WITH FORMIK ----------------> */
 
-    /*verifica qual chave foi passada pelos inputs (baseada no nome do input)
-    após verificar qual chave é compativel, uma função será executada com base na chave/valor do input*/
-    if (setFields[nameField]) {
-      setFields[nameField](valueField!);
-    } else {
-      throw new Error("No one of the values passed is available");
-    }
+  //ASYNC FUNCTIONS FOR SEND DATAS
+  const sendToBack = async (data: string, method: string, url: string) => {
+    const requestOptions = {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      //body: JSON.stringify(data),
+    };
+    const response = await fetch(url, requestOptions).then((values) =>
+      values.json()
+    );
+    return response;
   };
-  console.log("horas: ", hours_visitations);
-  const handleData = () => {};
+
+  const sendOrphanage = async (data: string) => {
+    const responseOrphanage = await sendToBack(data, method, urlOrphanage);
+    console.log(responseOrphanage);
+  };
+  //URLS
+  const urlOrphanage = "http://localhost:8080/orphanage";
+  const urlPosition = "http://localhost:8080/position";
+  const urlPictures = "http://localhost:8080/pictures";
+  const method = "POST";
+  const formik = useFormik({
+    initialValues: {
+      nome: "",
+      cnpj: "",
+      sobre: "",
+      telefone: "",
+      instrucoes: "",
+      horario_visitas: { initial_hour: "", final_hour: "" },
+      abrir_fim_de_semana: false,
+      imagens: null,
+      position: {},
+    },
+    validationSchema: schema,
+    onSubmit: (values): void => {
+      //const justOrphanage = delete values.imagens;
+      const data = JSON.stringify(values);
+      console.log(data);
+
+      sendOrphanage(data);
+    },
+  });
   return (
-    <form className="bg-white w-[95%] md:w-[70%] md:max-w-[44.25rem] rounded-2xl p-4 md:p-8 border-2 border-border-form flex flex-col justify-between gap-6">
+    <form
+      className="bg-white w-[95%] md:w-[70%] md:max-w-[44.25rem] rounded-2xl p-4 md:p-8 border-2 border-border-form flex flex-col justify-between gap-6"
+      onSubmit={formik.handleSubmit}
+    >
       <SubTitle subTitle="Dados" />
       <div className="w-full h-[291px]">
         <MapGetMemoizated />
       </div>
       <Input
         type="text"
-        name="name"
+        name="nome"
         label="Nome"
-        value={name}
-        handleInput={(e) => receiveData(e)}
+        value={formik.values.nome}
+        handleInput={formik.handleChange}
+        error={formik.errors.nome}
       />
       <Input
         type="text"
         name="cnpj"
         label="CNPJ"
-        value={cnpj}
+        value={formik.values.cnpj}
         maxLength={18}
-        handleInput={(e) => receiveData(e)}
+        handleInput={formik.handleChange}
         maskType="cnpj"
+        error={formik.errors.cnpj}
       />
       <TextArea
         label="Sobre"
-        name="about"
-        value={about}
-        handleTextArea={(e: any) => receiveData(e)}
+        name="sobre"
+        value={formik.values.sobre}
+        handleTextArea={formik.handleChange}
+        error={formik.errors.sobre}
       />
       <Input
         type="phone"
-        name="phone"
+        name="telefone"
         label="Número de whatsapp"
-        value={phone}
-        handleInput={(e) => receiveData(e)}
+        value={formik.values.telefone}
+        handleInput={formik.handleChange}
         maskType="phone"
         maxLength={15}
+        error={formik.errors.telefone}
       />
       <InputImage
-        type="file"
-        name="pictures"
         label="Fotos"
-        handleInput={(e) => receiveData(e)}
+        type="file"
+        name="imagens"
+        handleInput={(event) =>
+          formik.setFieldValue("imagens", event.currentTarget.files)
+        }
+        //error={formik.errors.imagens}
       />
       <SubTitle subTitle="Visitação" />
       <TextArea
         label="Instruções"
-        name="instructions"
-        value={instructions}
-        handleTextArea={(e: any) => receiveData(e)}
+        name="instrucoes"
+        value={formik.values.instrucoes}
+        handleTextArea={formik.handleChange}
+        error={formik.errors.instrucoes}
       />
-      <HourInput type="time" name="visitHours" label="Horário das visitas" />
+      <WrapperHour>
+        <InputHourShift
+          label="Inicial"
+          name="horario_visitas.initial_hour"
+          value={formik.values.horario_visitas.initial_hour}
+          handleInput={formik.handleChange}
+          error={formik.errors.horario_visitas?.initial_hour}
+        />
+        <InputHourShift
+          label="Inicial"
+          name="horario_visitas.final_hour"
+          value={formik.values.horario_visitas.final_hour}
+          handleInput={formik.handleChange}
+          error={formik.errors.horario_visitas?.final_hour}
+        />
+      </WrapperHour>
       <CheckInput
         label="Atende fim de semana?"
         type="checkbox"
-        name="aceptWeekend"
-        value={open_in_weekend.toString()}
-        handleInput={(e) => receiveData(e)}
+        name="abrir_fim_de_semana"
+        value={formik.values.abrir_fim_de_semana.toString()}
+        handleInput={formik.handleChange}
+        error={formik.errors.abrir_fim_de_semana}
       />
-      <Submit
-        type="submit"
-        clickButton={handleData}
-        name="submit"
-        label="Confirmar"
-      />
+      <Submit type="submit" name="submit" label="Confirmar" />
     </form>
   );
 };

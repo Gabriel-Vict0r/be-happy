@@ -1,5 +1,6 @@
 import { IInput } from "@/interfaces/IForms";
 import React from "react";
+import Error from "./Error";
 
 type Props = {};
 
@@ -17,6 +18,7 @@ const InputHourShift = (props: IInput) => {
         value={props.value}
         onChange={props.handleInput}
       />
+      <Error error={props.error} />
     </div>
   );
 };

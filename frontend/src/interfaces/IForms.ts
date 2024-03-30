@@ -1,6 +1,7 @@
 import { values } from "@/types/All";
 import { LatLng } from "leaflet-geosearch/dist/providers/provider.js";
-import React from "react";
+import React, { ReactNode } from "react";
+import { FieldError } from "react-hook-form";
 
 export interface ISubTitle {
     subTitle: string;
@@ -16,6 +17,8 @@ export interface IInput {
     //handleDate?: React.Dispatch<SetStateAction<string | undefined>>;
     clickButton?: React.MouseEventHandler<HTMLInputElement>;
     maxLength?: number;
+    error?: string | undefined;
+    //error?: string;
 }
 export interface ITextArea extends IInput {
     handleTextArea: React.ChangeEventHandler<HTMLTextAreaElement>

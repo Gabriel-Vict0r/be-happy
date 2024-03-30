@@ -13,6 +13,7 @@ const config: Config = {
         'bg-gradient': 'linear-gradient(330deg, #29B6D1 0%, #00C7C7 100%)',
         'initial-gradient': '#29B6D1',
         'end-gradient': '#00C7C7',
+        'red-error': '#F02D3A',
         yellow: '#FFD666',
         'dark-yellow': '#8D734B',
         'bg-form': '#EBF2F5',
