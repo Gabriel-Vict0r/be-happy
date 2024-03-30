@@ -1,5 +1,5 @@
 import "reflect-metadata"
-import { DataSource } from "typeorm"
+import { DataSource, ViewEntity } from "typeorm"
 import { CreateOrphanage1707268286573 } from "./migration/1707268286573-CreateOrphanage"
 import { CreateLocation1707654904130 } from "./migration/1707654904130-CreateLocation"
 import { CreatePicture1707666905362 } from "./migration/1707666905362-CreatePicture"
@@ -12,6 +12,8 @@ import { Hour } from "./entity/Hour"
 import { CreateHours1708987894675 } from "./migration/1708987894675-CreateHours"
 import { AddPhone1709085455574 } from "./migration/1709085455574-AddPhone"
 import { OrphanageView } from "./entity/OrphanageView"
+import { AlterFkPosition1711770841019 } from "./migration/1711770841019-AlterFkPosition"
+import { AddForeignKey1711809682394 } from "./migration/1711809682394-AddForeignKey"
 
 
 export const AppDataSource = new DataSource({
@@ -24,6 +26,7 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     entities: [Picture, Orphanage, Location, Hour, OrphanageView],
     migrations: [
+        AddForeignKey1711809682394
     ]
     //logging: ['query', 'error']
 })

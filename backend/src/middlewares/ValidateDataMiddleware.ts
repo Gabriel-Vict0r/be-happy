@@ -21,7 +21,7 @@ const linkSchema: ObjectSchema<IOrphanage> = object({
     about: string().optional(),
     instructions: string().min(10),
     acept_weekend: boolean().nonNullable().required(),
-    id_location: string().nonNullable().required()
+    id_location: string()
 })
 
 export const validateDataMiddlewares = async (req: Request, res: Response, next: NextFunction) => {
