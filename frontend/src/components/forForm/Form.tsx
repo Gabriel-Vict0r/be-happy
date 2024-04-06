@@ -33,19 +33,23 @@ const Form = () => {
       },
       //body: JSON.stringify(data),
     };
-    const response = await fetch(url, requestOptions).then((values) =>
-      values.json()
-    );
+    const response = await fetch(url, {
+      mode: "cors",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((values) => values.json());
     return response;
   };
 
-  const sendOrphanage = async (data: string) => {
-    const responseOrphanage = await sendToBack(data, method, urlOrphanage);
-    console.log(responseOrphanage);
+  const sendData = async (data: string, url: string) => {
+    const responseData = await sendToBack(data, method, url);
+    console.log(responseData);
   };
   //URLS
   const urlOrphanage = "http://localhost:8080/orphanage";
-  const urlPosition = "http://localhost:8080/position";
+  const urlPosition = "http://localhost:8080/location";
   const urlPictures = "http://localhost:8080/pictures";
   const method = "POST";
   const formik = useFormik({
@@ -64,9 +68,8 @@ const Form = () => {
     onSubmit: (values): void => {
       //const justOrphanage = delete values.imagens;
       const data = JSON.stringify(values);
-      console.log(data);
-
-      sendOrphanage(data);
+      console.log(JSON.stringify(position));
+      sendData(JSON.stringify(position), urlPosition);
     },
   });
   return (
