@@ -21,12 +21,12 @@ dotenv.config()
 export const AppDataSource = new DataSource({
     type: "postgres",
     url: process.env.DATABASE_URL,
-    host: process.env.POSTGRES_HOST,
-    ssl: true,
-    username: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    database: process.env.POSTGRES_DATABASE,
-    synchronize: true,
+    // host: process.env.POSTGRES_HOST,
+    // ssl: true,
+    // username: process.env.POSTGRES_USER,
+    // password: process.env.POSTGRES_PASSWORD,
+    // database: process.env.POSTGRES_DATABASE,
+    // synchronize: true,
     entities: [Picture, Orphanage, Location, Hour, OrphanageView],
     migrations: [
         CreateOrphanage1707268286573,
