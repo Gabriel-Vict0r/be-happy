@@ -7,14 +7,14 @@ import cors from 'cors'
 //import * as app from 'express'
 dotenv.config()
 const app = express()
-const corsOptions = {
-    origin: 'http://localhost:3000',
-    method: ["GET", "POST"],
-    credencials: true,
-    optionSuccessStatus: 200,
-    allowedHeaders: ['Access-Control-Allow-Origin', 'Content-Type'],
-}
-app.use(cors(corsOptions))
+// const corsOptions = {
+//     origin: 'http://localhost:3000',
+//     method: ["GET", "POST"],
+//     credencials: true,
+//     optionSuccessStatus: 200,
+//     allowedHeaders: ['Access-Control-Allow-Origin', 'Content-Type'],
+// }
+// app.use(cors(corsOptions))
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
