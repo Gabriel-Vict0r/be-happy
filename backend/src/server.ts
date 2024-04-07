@@ -1,11 +1,11 @@
-import 'dotenv/config'
+import dotenv from 'dotenv'
 import 'reflect-metadata'
 import express, { NextFunction, Request, Response } from 'express'
 import { AppDataSource } from './data-source'
 import { routes } from './routes'
 import cors from 'cors'
 //import * as app from 'express'
-
+dotenv.config()
 const app = express()
 const corsOptions = {
     origin: 'http://localhost:3000',
@@ -33,6 +33,6 @@ main().catch(err => {
 
 app.use(routes);
 
-app.listen(8080, () => {
+app.listen(process.env.PORT, () => {
     console.log('listening');
 })
