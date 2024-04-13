@@ -1,5 +1,5 @@
 import { AppDataSource } from "../data-source";
-import { Orphanage } from "../entity/Orphanage";
+import { Orphanage } from "../entity/Orphanage.entity";
 
 interface IOrphanage {
     name: string;

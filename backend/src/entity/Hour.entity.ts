@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
 import { v4 as uuid } from 'uuid'
-import { Orphanage } from "./Orphanage";
+import { Orphanage } from "./Orphanage.entity";
 
 @Entity('hours')
 export class Hour {

@@ -1,5 +1,5 @@
 import { AppDataSource } from "../data-source";
-import { Location } from "../entity/Location";
+import { Location } from "../entity/Location.entity";
 
 
 export class GetLocationService {

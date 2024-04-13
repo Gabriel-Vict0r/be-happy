@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
-import { Location } from "./Location";
+import { Location } from "./Location.entity";
 import { v4 as uuid } from 'uuid'
 
 @Entity('orphanage')

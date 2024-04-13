@@ -1,6 +1,6 @@
 import { report } from "process";
 import { AppDataSource } from "../data-source";
-import { Location } from "../entity/Location";
+import { Location } from "../entity/Location.entity";
 
 
 interface IPosition {

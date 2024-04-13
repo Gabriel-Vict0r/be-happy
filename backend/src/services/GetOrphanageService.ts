@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 import { AppDataSource } from "../data-source";
-import { OrphanageView } from "../entity/OrphanageView";
+import { OrphanageView } from "../entity/OrphanageView.entity";
 
 
 export class GetOrphanageService {

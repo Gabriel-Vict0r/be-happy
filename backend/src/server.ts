@@ -15,14 +15,19 @@ const app = express()
 //     allowedHeaders: ['Access-Control-Allow-Origin', 'Content-Type'],
 // }
 // app.use(cors(corsOptions))
-app.use((req: Request, res: Response, next: NextFunction) => {
-    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-})
+// app.use((req: Request, res: Response, next: NextFunction) => {
+//     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// })
 
 const main = async () => {
-    await AppDataSource.initialize();
+    try {
+        await AppDataSource.initialize();
+        console.log('conexão estabelecida')
+    } catch (error) {
+        throw new Error(error);
+    }
 }
 
 app.use(express.json())

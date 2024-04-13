@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { CreatePictureService, IPicture } from "../services/CreatePictureService";
 import { UploadImageService } from "../services/UploadImageService";
-import { Picture } from "../entity/Picture";
+import { Picture } from "../entity/Picture.entity";
 
 
 type TResult = Picture[]

@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn } from "typeorm";
-import { Orphanage } from "./Orphanage";
+import { Orphanage } from "./Orphanage.entity";
 import { v4 as uuid } from 'uuid'
 
 @Entity('picture')
