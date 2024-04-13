@@ -27,7 +27,7 @@ export const AppDataSource = new DataSource({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DATABASE,
     synchronize: false,
-    entities: [Picture, Orphanage, Location, Hour, OrphanageView],
+    entities: ['src/entity/{*.ts, *.js}'],
     migrations: [
         CreateOrphanage1707268286573,
         CreateLocation1707654904130,
