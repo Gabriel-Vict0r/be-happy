@@ -7,6 +7,7 @@ import cors from 'cors'
 //import * as app from 'express'
 dotenv.config()
 const app = express()
+app.use(cors())
 // const corsOptions = {
 //     origin: 'http://localhost:3000',
 //     method: ["GET", "POST"],
