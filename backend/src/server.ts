@@ -4,6 +4,9 @@ import express, { NextFunction, Request, Response } from 'express'
 import { AppDataSource } from './data-source'
 import { routes } from './routes'
 import cors from 'cors'
+import { Hour } from './entity/Hour.entity'
+import { Location } from './entity/Location.entity'
+import { Orphanage } from './entity/Orphanage.entity'
 //import * as app from 'express'
 dotenv.config()
 const app = express()
@@ -22,20 +25,20 @@ app.use(cors())
 //     next();
 // })
 
-const main = async () => {
-    try {
-        await AppDataSource.initialize();
-        console.log('conexão estabelecida')
-    } catch (error) {
-        throw new Error(error);
-    }
-}
+// const main = async () => {
+//     try {
+//         await AppDataSource.initialize();
+//         console.log('conexão estabelecida')
+//     } catch (error) {
+//         throw new Error(error);
+//     }
+// }
 
 app.use(express.json())
-main().catch(err => {
-    console.log(err);
-    process.exit(1);
-})
+// main().catch(err => {
+//     console.log(err);
+//     process.exit(1);
+// })
 
 app.use(routes);
 

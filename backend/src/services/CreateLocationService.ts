@@ -1,5 +1,5 @@
 import { report } from "process";
-import { AppDataSource } from "../data-source";
+import { getDataSource } from "../data-source";
 import { Location } from "../entity/Location.entity";
 
 
@@ -9,6 +9,7 @@ interface IPosition {
 }
 export class CreateLocationService {
     async execute({ latitude, longitude }: IPosition): Promise<Location | Error> {
+        const AppDataSource = await getDataSource();
         const repo = AppDataSource.getRepository(Location);
         const verification = await repo.findOne({
             select: {
@@ -28,7 +29,6 @@ export class CreateLocationService {
             longitude
         })
         await repo.save(location);
-
         return location;
     }
 }

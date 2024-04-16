@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { CreateLocationService } from "../services/CreateLocationService";
+import { AppDataSource } from "../data-source";
 
 
 
@@ -14,6 +15,7 @@ export class CreateLocationController {
         const result = await service.execute({ latitude, longitude });
 
         if (result instanceof Error) {
+            AppDataSource.destroy()
             return res.status(400).json(result.message);
         }
 

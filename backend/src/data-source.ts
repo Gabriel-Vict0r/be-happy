@@ -15,6 +15,8 @@ import { OrphanageView } from "./entity/OrphanageView.entity"
 import { AlterFkPosition1711770841019 } from "./migration/1711770841019-AlterFkPosition"
 import { AddForeignKey1711809682394 } from "./migration/1711809682394-AddForeignKey"
 import dotenv from 'dotenv'
+import { resolve } from "path"
+import { rejects } from "assert"
 
 dotenv.config()
 
@@ -27,7 +29,7 @@ export const AppDataSource = new DataSource({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DATABASE,
     synchronize: false,
-    entities: ['src/entity/{*.ts, *.js}'],
+    entities: [Hour, Location, Orphanage, OrphanageView, Picture],
     migrations: [
         CreateOrphanage1707268286573,
         CreateLocation1707654904130,
@@ -40,3 +42,23 @@ export const AppDataSource = new DataSource({
         AddForeignKey1711809682394
     ]
 })
+AppDataSource.initialize().then(
+    async () => {
+        console.log('conectou ao banco')
+    }
+).catch((err) => console.log(err))
+
+export const getDataSource = (delay = 3000): Promise<DataSource> => {
+    if (AppDataSource.isInitialized) return Promise.resolve(AppDataSource);
+
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            if (AppDataSource.isInitialized) {
+                resolve(AppDataSource);
+            }
+            else {
+                reject('failed to inicialize database');
+            }
+        }, 5000);
+    })
+}
