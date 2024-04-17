@@ -3,7 +3,6 @@ import { CreateLocationService } from "../services/CreateLocationService";
 import { AppDataSource } from "../data-source";
 
 
-
 export class CreateLocationController {
     async handle(req: Request, res: Response) {
         const { lat, lng } = req.body;
@@ -15,10 +14,8 @@ export class CreateLocationController {
         const result = await service.execute({ latitude, longitude });
 
         if (result instanceof Error) {
-            AppDataSource.destroy()
             return res.status(400).json(result.message);
         }
-
         return res.json(result);
     }
 }
