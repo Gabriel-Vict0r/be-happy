@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Input from "./Input";
 import SubTitle from "./SubTitle";
 import dynamic from "next/dynamic";
@@ -24,23 +24,26 @@ const Form = () => {
 
   /**<--------------CONF WITH FORMIK ----------------> */
 
-  //ASYNC FUNCTIONS FOR SEND DATAS
+  const [idLocation, setIdLocation] = useState<string>("");
+  const [idOrphanage, setIdOrphanage] = useState<string>("");
+  //ASYNC FUNCTIONS FOR SEND DATA
   const sendToBack = async (data: string, method: string, url: string) => {
     const requestOptions = {
       method: method,
       headers: {
         "Content-Type": "application/json",
       },
-      //body: JSON.stringify(data),
+      body: data,
     };
-    const response = await fetch(url, {
-      mode: "cors",
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then((values) => values.json());
-    return response;
+    const response = await fetch(url, requestOptions);
+    const responseData = await response.json();
+    const responseCode = response.status;
+    console.log(responseCode);
+    if (responseCode === 200) {
+      setIdLocation(responseData.id);
+    } else {
+      return `${responseCode} - ${responseData}`;
+    }
   };
 
   const sendData = async (data: string, url: string) => {
@@ -48,10 +51,11 @@ const Form = () => {
     console.log(responseData);
   };
   //URLS
-  const urlOrphanage = "http://localhost:8080/orphanage";
-  const urlPosition = "http://localhost:8080/location";
-  const urlPictures = "http://localhost:8080/pictures";
-  const method = "POST";
+  const urlOrphanage = "https://be-happy-beta.vercel.app/orphanage";
+  const urlPosition = "https://be-happy-beta.vercel.app/location";
+  const urlPictures = "https://be-happy-beta.vercel.app/pictures";
+  const method = "post";
+
   const formik = useFormik({
     initialValues: {
       nome: "",
@@ -66,10 +70,15 @@ const Form = () => {
     },
     validationSchema: schema,
     onSubmit: (values): void => {
-      //const justOrphanage = delete values.imagens;
-      const data = JSON.stringify(values);
-      console.log(JSON.stringify(position));
+      console.log("do form", position);
       sendData(JSON.stringify(position), urlPosition);
+      if (idLocation) {
+        values.position = idLocation;
+        sendData(JSON.stringify(values), urlOrphanage);
+      }
+      position.lat = 0;
+      position.lng = 0;
+      //localStorage.setItem("active", "false");
     },
   });
   return (

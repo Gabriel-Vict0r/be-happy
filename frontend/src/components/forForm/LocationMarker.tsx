@@ -15,7 +15,7 @@ import {
   useMap,
 } from "react-leaflet";
 import markerIcon from "../markerIcon";
-import { LatLng } from "leaflet";
+import { LatLng, Marker, MarkerOptions } from "leaflet";
 import { useFormContext } from "@/contexts/FormContext";
 import { IPosition, IPositionLocal } from "@/interfaces/IForms";
 
@@ -23,6 +23,7 @@ const LocationMarker = () => {
   const { position, setPosition } = useFormContext();
   const [isLocationFound, setIsLocationFound] = useState<boolean>(false);
   const isFoundMemo = localStorage.getItem("active");
+  const markerRef = useRef();
   //console.log(`condicional inicial ${isLocationFound}`);
   const conditional =
     !position ||
@@ -41,10 +42,13 @@ const LocationMarker = () => {
         map.flyTo(newPosition, map.getZoom());
       });
     }
+    //console.log("mudou", position);
+    //console.log(map.getCenter());
   }, [isFoundMemo, position]);
   getPosition();
-  // console.log(map.getBounds());
-  // console.log(map.getCenter());
+
+  //console.log(map.getBounds());
+  //console.log(map.getCenter());
   //setPosition!({ lat: 0, lng: 0 });
   return (
     <Marker
