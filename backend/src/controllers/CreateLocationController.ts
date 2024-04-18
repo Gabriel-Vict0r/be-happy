@@ -6,7 +6,7 @@ import { AppDataSource } from "../data-source";
 export class CreateLocationController {
     async handle(req: Request, res: Response) {
         const { lat, lng } = req.body;
-        console.log(req.body);
+        console.log('corpo da requisição', req.body);
         const latitude = lng;
         const longitude = lat;
         const service = new CreateLocationService();
