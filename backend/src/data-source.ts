@@ -17,6 +17,7 @@ import { AddForeignKey1711809682394 } from "./migration/1711809682394-AddForeign
 import dotenv from 'dotenv'
 import { resolve } from "path"
 import { rejects } from "assert"
+import { AlterTypeCoords1713396562353 } from "./migration/1713396562353-AlterTypeCoords"
 
 dotenv.config()
 
@@ -29,17 +30,9 @@ export const AppDataSource = new DataSource({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DATABASE,
     synchronize: false,
-    entities: [Hour, Location, Orphanage, OrphanageView, Picture],
+    entities: [Hour, Location, Orphanage, Picture],
     migrations: [
-        CreateOrphanage1707268286573,
-        CreateLocation1707654904130,
-        CreatePicture1707666905362,
-        Adjusments1707963627782,
-        AlterColumnsCreatedAt1708132100233,
-        CreateHours1708987894675,
-        AddPhone1709085455574,
-        AlterFkPosition1711770841019,
-        AddForeignKey1711809682394
+        AlterTypeCoords1713396562353
     ]
 })
 AppDataSource.initialize().then(
