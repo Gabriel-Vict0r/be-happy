@@ -5,6 +5,7 @@ import { CreateOrphanageService } from "../services/CreateOrphanageService";
 export class CreateOrphanageController {
     async handle(req: Request, res: Response) {
         const orphanage = req.body;
+        console.log(orphanage);
         const newOrph = {
             name: orphanage.nome,
             cnpj: orphanage.cnpj,
