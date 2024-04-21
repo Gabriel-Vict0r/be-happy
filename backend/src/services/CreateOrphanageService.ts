@@ -1,4 +1,4 @@
-import { AppDataSource } from "../data-source";
+import { AppDataSource, getDataSource } from "../data-source";
 import { Orphanage } from "../entity/Orphanage.entity";
 
 interface IOrphanage {
@@ -12,6 +12,7 @@ interface IOrphanage {
 }
 export class CreateOrphanageService {
     async execute(orphanage: IOrphanage): Promise<Orphanage | Error> {
+        const AppDataSource = await getDataSource();
         const repo = AppDataSource.getRepository(Orphanage)
         const verification = await repo.findOne({
             select: {
