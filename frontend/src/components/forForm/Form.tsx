@@ -19,7 +19,7 @@ const Form = () => {
   });
 
   //extrai os estados/funções de atualização do contexto
-  const { position } = useFormContext();
+  const { position, newPos, setnewPos } = useFormContext();
   const MapGetMemoizated = useMemo(() => MapNoSSR, [position]);
 
   /**<--------------CONF WITH FORMIK ----------------> */
@@ -36,11 +36,15 @@ const Form = () => {
       body: data,
     };
     const response = await fetch(url, requestOptions);
+    const idType = /(\w+)$/.exec(urlPosition);
     const responseData = await response.json();
     const responseCode = response.status;
     console.log(responseCode);
     if (responseCode === 200) {
-      setIdLocation(responseData.id);
+      if (idType![1] === "location") {
+        console.log(responseData.id);
+        setIdLocation(responseData.id);
+      }
     } else {
       return `${responseCode} - ${responseData}`;
     }
@@ -70,14 +74,18 @@ const Form = () => {
     },
     validationSchema: schema,
     onSubmit: (values): void => {
-      console.log("do form", position);
+      setnewPos(true);
       sendData(JSON.stringify(position), urlPosition);
       if (idLocation) {
         values.position = idLocation;
-        sendData(JSON.stringify(values), urlOrphanage);
+        values.abrir_fim_de_semana = values.abrir_fim_de_semana as boolean;
+        //delete values.imagens;
+        console.log(JSON.stringify(values));
+        const dataJson = JSON.stringify(values);
+        sendData(dataJson, urlOrphanage);
+        setnewPos(false);
       }
-      position.lat = 0;
-      position.lng = 0;
+
       //localStorage.setItem("active", "false");
     },
   });

@@ -22,6 +22,9 @@ export interface Iorphanage {
     setHours_Visitations?: React.Dispatch<React.SetStateAction<IHour>>;
     open_in_weekend: boolean;
     setOpen_in_weekend?: React.Dispatch<React.SetStateAction<boolean>>;
+
+    newPos: boolean;
+    setnewPos: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export interface IorphanageProvider {
     children: ReactNode;

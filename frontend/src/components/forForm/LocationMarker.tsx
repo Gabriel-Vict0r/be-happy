@@ -15,15 +15,15 @@ import {
   useMap,
 } from "react-leaflet";
 import markerIcon from "../markerIcon";
-import { LatLng, Marker, MarkerOptions } from "leaflet";
+import { LatLng, MarkerOptions } from "leaflet";
 import { useFormContext } from "@/contexts/FormContext";
 import { IPosition, IPositionLocal } from "@/interfaces/IForms";
 
 const LocationMarker = () => {
-  const { position, setPosition } = useFormContext();
-  const [isLocationFound, setIsLocationFound] = useState<boolean>(false);
+  const { position, setPosition, newPos, setnewPos } = useFormContext();
   const isFoundMemo = localStorage.getItem("active");
-  const markerRef = useRef();
+  const [positionMarker, setPositionMarker] = useState(position);
+  const markerRef = useRef(null);
   //console.log(`condicional inicial ${isLocationFound}`);
   const conditional =
     !position ||
@@ -42,21 +42,34 @@ const LocationMarker = () => {
         map.flyTo(newPosition, map.getZoom());
       });
     }
-    //console.log("mudou", position);
-    //console.log(map.getCenter());
   }, [isFoundMemo, position]);
   getPosition();
 
-  //console.log(map.getBounds());
-  //console.log(map.getCenter());
-  //setPosition!({ lat: 0, lng: 0 });
+  const eventHandlers = useMemo(
+    () => ({
+      dragend() {
+        const marker = markerRef.current;
+        if (marker != null) {
+          setPositionMarker(marker.getLatLng());
+          //console.log(marker.getLatLng());
+        }
+      },
+    }),
+    []
+  );
+  useEffect(() => {
+    setPosition!(positionMarker);
+    //console.log("position marker", positionMarker, "nova posicao", position);
+  }, [newPos]);
   return (
     <Marker
-      position={position}
+      position={positionMarker}
       draggable={true}
+      eventHandlers={eventHandlers}
       icon={markerIcon}
       interactive={true}
       autoPanOnFocus
+      ref={markerRef}
     >
       <Popup keepInView={true} position={position} className="text-5xl">
         Localização
