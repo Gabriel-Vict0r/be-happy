@@ -8,6 +8,7 @@ interface IOrphanage {
     instructions: string;
     acept_weekend: boolean;
     id_location: string;
+    phone: string;
 }
 export class CreateOrphanageService {
     async execute(orphanage: IOrphanage): Promise<Orphanage | Error> {

@@ -12,6 +12,7 @@ interface IOrphanage {
     instructions: string;
     acept_weekend: boolean;
     id_location: string;
+    phone: string;
 }
 setLocale(translation);
 
@@ -21,7 +22,8 @@ const linkSchema: ObjectSchema<IOrphanage> = object({
     about: string().optional(),
     instructions: string().min(10),
     acept_weekend: boolean().nonNullable().required(),
-    id_location: string()
+    id_location: string(),
+    phone: string().min(5)
 })
 
 export const validateDataMiddlewares = async (req: Request, res: Response, next: NextFunction) => {
