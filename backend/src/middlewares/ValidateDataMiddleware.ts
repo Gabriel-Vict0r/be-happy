@@ -26,6 +26,7 @@ const linkSchema: ObjectSchema<IOrphanage> = object({
 
 export const validateDataMiddlewares = async (req: Request, res: Response, next: NextFunction) => {
     const orphanage = req.body;
+    console.log(orphanage)
     const newOrph = {
         name: orphanage.nome,
         cnpj: orphanage.cnpj,
@@ -35,6 +36,7 @@ export const validateDataMiddlewares = async (req: Request, res: Response, next:
         instructions: orphanage.instructions,
         acept_weekend: orphanage.abrir_fim_de_semana
     }
+    console.log(newOrph);
     try {
         await linkSchema.validate(newOrph);
         return next();
