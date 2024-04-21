@@ -9,6 +9,6 @@ export const validateCNPJMiddleware = (req: Request, res: Response, next: NextFu
         next();
     }
     else {
-        return res.status(400).send('CNPJ Inválido')
+        return res.status(400).json({ message: 'CNPJ Inválido' })
     }
 }

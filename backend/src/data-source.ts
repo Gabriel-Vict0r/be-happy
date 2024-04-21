@@ -52,6 +52,6 @@ export const getDataSource = (delay = 3000): Promise<DataSource> => {
             else {
                 reject('failed to inicialize database');
             }
-        }, 5000);
+        }, 1000);
     })
 }

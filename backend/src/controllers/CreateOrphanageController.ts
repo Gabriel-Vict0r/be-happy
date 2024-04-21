@@ -12,8 +12,8 @@ export class CreateOrphanageController {
             id_location: orphanage.position,
             about: orphanage.sobre,
             phone: orphanage.telefone,
-            instructions: orphanage.instructions,
-            acept_weekend: orphanage.abrir_fim_de_semana
+            instructions: orphanage.instrucoes,
+            acept_weekend: orphanage.abrir_fim_de_semana as boolean
         }
         console.log(newOrph)
         const service = new CreateOrphanageService();
