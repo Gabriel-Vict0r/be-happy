@@ -25,9 +25,18 @@ const linkSchema: ObjectSchema<IOrphanage> = object({
 })
 
 export const validateDataMiddlewares = async (req: Request, res: Response, next: NextFunction) => {
-    const data: IOrphanage = req.body;
+    const orphanage = req.body;
+    const newOrph = {
+        name: orphanage.nome,
+        cnpj: orphanage.cnpj,
+        id_location: orphanage.position,
+        about: orphanage.sobre,
+        phone: orphanage.telefone,
+        instructions: orphanage.instructions,
+        acept_weekend: orphanage.abrir_fim_de_semana
+    }
     try {
-        await linkSchema.validate(data);
+        await linkSchema.validate(newOrph);
         return next();
     } catch (error) {
         return res.status(400).json({ type: error.name, message: error.message })
