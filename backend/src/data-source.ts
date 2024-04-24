@@ -30,9 +30,9 @@ export const AppDataSource = new DataSource({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DATABASE,
     synchronize: false,
-    entities: [Hour, Location, Orphanage, Picture],
+    entities: [Hour, Location, Orphanage, Picture, OrphanageView],
     migrations: [
-        AlterTypeCoords1713396562353
+
     ]
 })
 AppDataSource.initialize().then(

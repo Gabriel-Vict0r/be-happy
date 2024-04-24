@@ -13,9 +13,15 @@ import {
   Popup,
   useMapEvent,
   useMap,
+  MarkerProps,
 } from "react-leaflet";
 import markerIcon from "../markerIcon";
-import { LatLng, MarkerOptions } from "leaflet";
+import {
+  Evented,
+  LatLng,
+  LeafletEventHandlerFnMap,
+  MarkerOptions,
+} from "leaflet";
 import { useFormContext } from "@/contexts/FormContext";
 import { IPosition, IPositionLocal } from "@/interfaces/IForms";
 
@@ -44,11 +50,13 @@ const LocationMarker = () => {
     }
   }, [isFoundMemo, position]);
   getPosition();
-
+  type TGetGeo = {
+    getLatLng(): LatLng;
+  };
   const eventHandlers = useMemo(
     () => ({
       dragend() {
-        const marker = markerRef.current;
+        const marker: TGetGeo = markerRef.current!;
         if (marker != null) {
           setPositionMarker(marker.getLatLng());
           //console.log(marker.getLatLng());

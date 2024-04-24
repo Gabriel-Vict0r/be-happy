@@ -10,6 +10,7 @@ import { uploadImageMiddleware } from "./middlewares/UploadImageMiddleware";
 import { GetOrphanageController } from "./controllers/GetOrphanageController";
 import { GetPictureController } from "./controllers/GetPictureController";
 import { GetLocationsController } from "./controllers/GetLocationsController";
+import { GetOrphanagesController } from "./controllers/GetOrphanagesController";
 
 const routes = Router();
 const upload = multer(multerConfig);
@@ -30,4 +31,5 @@ routes.post('/picture',
 routes.get('/getOrphanage/:id', new GetOrphanageController().handle)
 routes.get('/getPictures/:id', new GetPictureController().handle);
 routes.get('/getLocations', new GetLocationsController().handle);
+routes.get('/orphanages', new GetOrphanagesController().handle);
 export { routes }

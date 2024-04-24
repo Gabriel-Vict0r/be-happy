@@ -44,15 +44,22 @@ const Form = () => {
       if (idType![1] === "location") {
         console.log(responseData.id);
         setIdLocation(responseData.id);
+        return responseCode;
+      } else if ((idType![1] = "orphanage")) {
+        console.log(responseData.id);
+        setIdOrphanage(responseData.id);
+        return responseCode;
       }
     } else {
-      return `${responseCode} - ${responseData}`;
+      return `${responseCode} - ${
+        responseData.message ? responseData.message : responseData
+      }`;
     }
   };
-
-  const sendData = async (data: string, url: string) => {
-    const responseData = await sendToBack(data, method, url);
-    console.log(responseData);
+  type TPromise = string | number | undefined;
+  const sendData = async (data: string, url: string): Promise<TPromise> => {
+    return await sendToBack(data, method, url);
+    //console.log(responseData);
   };
   //URLS
   const urlOrphanage = "https://be-happy-beta.vercel.app/orphanage";
@@ -73,17 +80,30 @@ const Form = () => {
       position: {},
     },
     validationSchema: schema,
-    onSubmit: (values): void => {
-      setnewPos(true);
-      sendData(JSON.stringify(position), urlPosition);
+    onSubmit: async (values) => {
       if (idLocation) {
         values.position = idLocation;
         values.abrir_fim_de_semana = values.abrir_fim_de_semana as boolean;
-        //delete values.imagens;
-        console.log(JSON.stringify(values));
         const dataJson = JSON.stringify(values);
-        sendData(dataJson, urlOrphanage);
+        const res_orph = sendData(dataJson, urlOrphanage);
+        console.log(res_orph);
         setnewPos(false);
+      } else {
+        setnewPos(true);
+        const res_position = await sendData(
+          JSON.stringify(position),
+          urlPosition
+        );
+        console.log(res_position);
+        if (res_position === 200) {
+          values.position = idLocation;
+          values.abrir_fim_de_semana = values.abrir_fim_de_semana as boolean;
+          //delete values.imagens;
+          console.log(JSON.stringify(values));
+          const dataJson = JSON.stringify(values);
+          sendData(dataJson, urlOrphanage);
+          setnewPos(false);
+        }
       }
 
       //localStorage.setItem("active", "false");
