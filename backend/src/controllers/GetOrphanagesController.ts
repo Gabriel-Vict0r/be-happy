@@ -6,6 +6,6 @@ export class GetOrphanagesController {
     async handle(req: Request, res: Response) {
         const service = new GetOrphanagesService();
         const orphanages = await service.execute();
-        return res.status(200).json(orphanages)
+        return res.status(200).json(orphanages);
     }
 }

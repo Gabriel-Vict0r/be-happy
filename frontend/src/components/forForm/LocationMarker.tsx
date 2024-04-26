@@ -59,7 +59,7 @@ const LocationMarker = () => {
         const marker: TGetGeo = markerRef.current!;
         if (marker != null) {
           setPositionMarker(marker.getLatLng());
-          //console.log(marker.getLatLng());
+          console.log(marker.getLatLng());
         }
       },
     }),

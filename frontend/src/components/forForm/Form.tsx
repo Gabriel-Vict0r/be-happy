@@ -98,7 +98,6 @@ const Form = () => {
         if (res_position === 200) {
           values.position = idLocation;
           values.abrir_fim_de_semana = values.abrir_fim_de_semana as boolean;
-          //delete values.imagens;
           console.log(JSON.stringify(values));
           const dataJson = JSON.stringify(values);
           sendData(dataJson, urlOrphanage);

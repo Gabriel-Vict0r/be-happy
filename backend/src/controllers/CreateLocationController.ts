@@ -7,8 +7,8 @@ export class CreateLocationController {
     async handle(req: Request, res: Response) {
         const { lat, lng } = req.body;
         //console.log('corpo da requisição', req.body);
-        const latitude = lng;
-        const longitude = lat;
+        const latitude = lat;
+        const longitude = lng;
         const service = new CreateLocationService();
 
         const result = await service.execute({ latitude, longitude });
