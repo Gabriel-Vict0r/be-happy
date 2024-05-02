@@ -11,6 +11,7 @@ import { GetOrphanageController } from "./controllers/GetOrphanageController";
 import { GetPictureController } from "./controllers/GetPictureController";
 import { GetLocationsController } from "./controllers/GetLocationsController";
 import { GetOrphanagesController } from "./controllers/GetOrphanagesController";
+import { CreateHourController } from "./controllers/CreateHourController";
 
 const routes = Router();
 const upload = multer(multerConfig);
@@ -27,6 +28,8 @@ routes.post('/picture',
     //upload.single('image'),
     uploadImageMiddleware,
     new CreatePictureController().handle);
+
+routes.post('/hour', new CreateHourController().handle);
 
 routes.get('/getOrphanage/:id', new GetOrphanageController().handle)
 routes.get('/getPictures/:id', new GetPictureController().handle);

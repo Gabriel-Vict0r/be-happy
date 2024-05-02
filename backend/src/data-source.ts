@@ -18,6 +18,7 @@ import dotenv from 'dotenv'
 import { resolve } from "path"
 import { rejects } from "assert"
 import { AlterTypeCoords1713396562353 } from "./migration/1713396562353-AlterTypeCoords"
+import { AlterHour1714679117554 } from "./migration/1714679117554-AlterHour"
 
 dotenv.config()
 
@@ -32,7 +33,7 @@ export const AppDataSource = new DataSource({
     synchronize: false,
     entities: [Hour, Location, Orphanage, Picture, OrphanageView],
     migrations: [
-
+        AlterHour1714679117554
     ]
 })
 AppDataSource.initialize().then(
