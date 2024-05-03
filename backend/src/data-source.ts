@@ -31,6 +31,7 @@ export const AppDataSource = new DataSource({
     password: process.env.POSTGRES_PASSWORD,
     database: process.env.POSTGRES_DATABASE,
     synchronize: false,
+    logging: true,
     entities: [Hour, Location, Orphanage, Picture, OrphanageView],
     migrations: [
         AlterHour1714679117554

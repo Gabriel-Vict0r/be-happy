@@ -9,10 +9,10 @@ export class Hour {
     id: string;
 
     @Column()
-    initial_hour: Date;
+    initial_hour: string;
 
     @Column()
-    final_hour: Date;
+    final_hour: string;
 
     @Column()
     id_orphanage: string;
