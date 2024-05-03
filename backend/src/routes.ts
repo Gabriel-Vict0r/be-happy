@@ -24,7 +24,7 @@ routes.post('/orphanage',
     new CreateOrphanageController().handle);
 
 routes.post('/picture',
-    //upload.array('image'),
+    upload.array('image'),
     //upload.single('image'),
     uploadImageMiddleware,
     new CreatePictureController().handle);

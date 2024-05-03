@@ -6,6 +6,7 @@ import { Express } from "express";
 export const uploadImageMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     //const { file } = req;
     const files = req.files;
+    console.log(req.files);
     //var number = 0;
     const lengthArr = files.length as number;
     const uploadImageService = new UploadImageService();
