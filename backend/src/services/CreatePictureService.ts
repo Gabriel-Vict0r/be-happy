@@ -1,4 +1,4 @@
-import { AppDataSource } from "../data-source";
+import { getDataSource } from "../data-source";
 import { Picture } from "../entity/Picture.entity";
 
 
@@ -8,6 +8,7 @@ export interface IPicture {
 }
 export class CreatePictureService {
     async execute({ url, id_orphanage }: IPicture): Promise<Picture | Error> {
+        const AppDataSource = await getDataSource();
         const repo = AppDataSource.getRepository(Picture);
 
         const verification = await repo.findOne({
