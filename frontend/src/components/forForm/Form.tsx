@@ -12,7 +12,11 @@ import { schema } from "@/utils/schema";
 import { useFormik } from "formik";
 import WrapperHour from "./WrapperHour";
 import InputHourShift from "./InputHourShift";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import showSwal from "./ModalMessage";
 const Form = () => {
+  const SwalForm = withReactContent(Swal);
   //traz o mapa dinamicamente do lado do cliente
   const MapNoSSR = dynamic(() => import("@/components/forForm/MapInput"), {
     ssr: false,
@@ -27,7 +31,12 @@ const Form = () => {
   const [idLocation, setIdLocation] = useState<string>("");
   const [idOrphanage, setIdOrphanage] = useState<string>("");
   //ASYNC FUNCTIONS FOR SEND DATA
-  const sendToBack = async (data: string, method: string, url: string) => {
+  const sendToBack = async (
+    data: string | any,
+    method: string,
+    url: string,
+    files?: File[]
+  ) => {
     const requestOptions = {
       method: method,
       headers: {
@@ -35,36 +44,58 @@ const Form = () => {
       },
       body: data,
     };
-    const response = await fetch(url, requestOptions);
-    const idType = /(\w+)$/.exec(urlPosition);
+    const requestImage = {
+      method: method,
+      headers: {},
+      body: data,
+    };
+    const idType = /(\w+)$/.exec(url);
+    let response: any;
+    if (idType![1] === "picture") {
+      console.log("header usado do picture");
+      response = await fetch(url, requestImage);
+    } else {
+      response = await fetch(url, requestOptions);
+    }
     const responseData = await response.json();
     const responseCode = response.status;
-    console.log(responseCode);
     if (responseCode === 200) {
       if (idType![1] === "location") {
         console.log(responseData.id);
-        setIdLocation(responseData.id);
-        return responseCode;
-      } else if ((idType![1] = "orphanage")) {
+        // () => setIdLocation(responseData.id);
+        // console.log("localização apos envio", idLocation);
+        return responseData.id;
+      } else if (idType![1] === "orphanage") {
         console.log(responseData.id);
-        setIdOrphanage(responseData.id);
-        return responseCode;
+        return responseData.id;
+      } else if (idType![1] == "picture") {
+        return responseData;
+      } else if (idType![1] == "hour") {
+        const id: string = responseData.id_orphanage;
+        return id;
       }
     } else {
-      return `${responseCode} - ${
-        responseData.message ? responseData.message : responseData
-      }`;
+      return showSwal(
+        "Erro ao cadastrar",
+        responseData.message || responseData,
+        "error"
+      );
     }
   };
-  type TPromise = string | number | undefined;
-  const sendData = async (data: string, url: string): Promise<TPromise> => {
-    return await sendToBack(data, method, url);
+  const sendData = async (
+    data: string | any,
+    url: string,
+    files?: File[]
+  ): Promise<void | string> => {
+    //console.log("localizacao", data);
+    return await sendToBack(data, method, url, files);
     //console.log(responseData);
   };
   //URLS
   const urlOrphanage = "https://be-happy-beta.vercel.app/orphanage";
   const urlPosition = "https://be-happy-beta.vercel.app/location";
-  const urlPictures = "https://be-happy-beta.vercel.app/pictures";
+  const urlPictures = "https://be-happy-beta.vercel.app/picture";
+  const urlHour = "https://be-happy-beta.vercel.app/hour";
   const method = "post";
 
   const formik = useFormik({
@@ -76,12 +107,13 @@ const Form = () => {
       instrucoes: "",
       horario_visitas: { initial_hour: "", final_hour: "" },
       abrir_fim_de_semana: false,
-      imagens: null,
-      position: {},
+      imagens: [],
+      position: "",
     },
     validationSchema: schema,
+    validateOnChange: false,
     onSubmit: async (values) => {
-      if (idLocation) {
+      if (idLocation !== "") {
         values.position = idLocation;
         values.abrir_fim_de_semana = values.abrir_fim_de_semana as boolean;
         const dataJson = JSON.stringify(values);
@@ -90,22 +122,47 @@ const Form = () => {
         setnewPos(false);
       } else {
         setnewPos(true);
-        const res_position = await sendData(
-          JSON.stringify(position),
-          urlPosition
-        );
-        console.log(res_position);
-        if (res_position === 200) {
-          values.position = idLocation;
-          values.abrir_fim_de_semana = values.abrir_fim_de_semana as boolean;
-          console.log(JSON.stringify(values));
-          const dataJson = JSON.stringify(values);
-          sendData(dataJson, urlOrphanage);
-          setnewPos(false);
-        }
-      }
+        sendData(JSON.stringify(position), urlPosition)
+          .then((res_position) => {
+            if (res_position) {
+              values.position = res_position;
+              console.log("id local 103", values.position);
+              console.log("idLocation = ", res_position);
+              values.abrir_fim_de_semana =
+                values.abrir_fim_de_semana as boolean;
+              console.log(JSON.stringify(values));
+              const dataJson = JSON.stringify(values);
+              setnewPos(false);
+              return sendData(dataJson, urlOrphanage);
+            }
+          })
+          .then((id_orph) => {
+            //setIdOrphanage();
+            console.log(`id do orfanato: ${id_orph}`);
+            setIdOrphanage(id_orph!);
+            const hour = values.horario_visitas;
+            const hourOrph = { ...hour, id_orphanage: id_orph };
+            const hourJSON = JSON.stringify(hourOrph);
+            console.log("horas", hourJSON);
+            return sendData(hourJSON, urlHour);
+          })
+          .then((id_orphanage) => {
+            const photosLenght = values.imagens.length;
+            const formData = new FormData();
+            for (let index = 0; index < photosLenght; index++) {
+              formData.append("image", values.imagens[index]);
+            }
+            //formData.append("image", values.imagens[0]);
 
-      //localStorage.setItem("active", "false");
+            console.log(id_orphanage);
+            formData.append("id_orphanage", id_orphanage!);
+            //const orphId = { id_orphanage: idOrphanage };
+            //console.log(photos);
+            console.log(formData.values);
+            sendData(formData, urlPictures);
+          })
+          .catch((err) => console.log(err));
+      }
     },
   });
   return (
