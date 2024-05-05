@@ -15,6 +15,8 @@ import InputHourShift from "./InputHourShift";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import showSwal from "./ModalMessage";
+import { redirect } from "next/navigation";
+import { useRouter } from "next/navigation";
 const Form = () => {
   const SwalForm = withReactContent(Swal);
   //traz o mapa dinamicamente do lado do cliente
@@ -30,6 +32,7 @@ const Form = () => {
 
   const [idLocation, setIdLocation] = useState<string>("");
   const [idOrphanage, setIdOrphanage] = useState<string>("");
+  const router = useRouter();
   //ASYNC FUNCTIONS FOR SEND DATA
   const sendToBack = async (
     data: string | any,
@@ -160,6 +163,9 @@ const Form = () => {
             //console.log(photos);
             console.log(formData.values);
             sendData(formData, urlPictures);
+          })
+          .then(() => {
+            router.push("/Submited");
           })
           .catch((err) => console.log(err));
       }

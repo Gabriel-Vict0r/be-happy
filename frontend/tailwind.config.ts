@@ -32,6 +32,8 @@ const config: Config = {
         'green-normal': '#37C77F',
         'light-green': '#3EE08F',
         'green-contact': '#3CDC8C',
+        'green-btn-submit': '#31B272',
+        'green-btn-submit-h': '#3BD689',
         'gradient-blue': 'linear-gradient(150deg, #E6F7FB 8.13%, #FFF 92.67%)',
         'gradient-green': 'linear-gradient(154deg, #EDFFF6 7.85%, #FFF 91.03%)',
       },
