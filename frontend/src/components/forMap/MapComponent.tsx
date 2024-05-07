@@ -7,6 +7,7 @@ import "leaflet-defaulticon-compatibility";
 import markerIcon from "@/components/markerIcon";
 import Link from "next/link";
 import { IoIosAdd } from "react-icons/io";
+import { FaArrowRight } from "react-icons/fa6";
 
 const MapComponent = () => {
   interface IOrphanage {
@@ -45,18 +46,19 @@ const MapComponent = () => {
     fetchData();
   }, []);
   console.log("orfanatos", orphanages);
+  const palavra = "teste";
   return (
     <div className="w-full h-screen md:w-[70%]">
       <MapContainer
-        center={[-12.1389421537356, -44.9816716400635]}
-        zoom={30}
+        center={[-12.1482, -44.9925]}
+        zoom={15}
         scrollWheelZoom
         style={{ height: "100%", width: "100%", zIndex: 0 }}
       >
         <TileLayer url={url!} />
         {orphanages.map((orphanage) => (
           <Marker
-            position={[orphanage.longitude, orphanage.latitude]}
+            position={[orphanage.latitude, orphanage.longitude]}
             draggable={false}
             icon={markerIcon}
             interactive={true}
@@ -67,10 +69,18 @@ const MapComponent = () => {
               key={orphanage.id}
               keepInView={true}
               position={[orphanage.latitude, orphanage.longitude]}
-              className="text-5xl"
+              className="h-[64px] rounded-2xl text-base mw-[244px]"
               autoPan={true}
             >
-              <span>{orphanage.name}</span>
+              <span className="text-dark-blue flex gap-3 items-center">
+                {orphanage.name}
+                <Link
+                  href={`/Orphanages/${encodeURIComponent(orphanage.id)}`}
+                  className="bg-blue p-2 rounded-xl"
+                >
+                  <FaArrowRight className="text-white" />
+                </Link>
+              </span>
             </Popup>
           </Marker>
         ))}
@@ -86,15 +96,3 @@ const MapComponent = () => {
 };
 
 export default MapComponent;
-
-// export async function getServerSideProps() {
-//   const response = await fetch("https://be-happy-beta.vercel.app/orphanages");
-
-//   const orhphanages = response.json();
-//   console.log(orhphanages);
-//   return {
-//     props: {
-//       orhphanages,
-//     },
-//   };
-// }
