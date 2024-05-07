@@ -1,5 +1,6 @@
 import SideBar from "@/components/forForm/SideBar";
 import MapOrphanage from "@/components/forMap/MapOrphanage";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import React from "react";
 
@@ -38,8 +39,15 @@ async function fetchOrphanage(id: string) {
   return orphResponse.json();
 }
   export default async function PageOrphanage({ params, searchParams}: any) {
+    const MapNoSSR = dynamic(() => import('@/components/forMap/MapOrphanage'), { 
+
+      ssr: false,
+      loading: () => (<p>Carregando</p>)
+    })
+
     const {id} = params
     const orph = await fetchOrphanage(id)
+    console.log(orph);
     return <main className="flex bg-bg-form flex-col">
       <SideBar />
       <section className="w-full flex flex-col gap-4 justify-start items-center py-7 z-0">
@@ -48,7 +56,10 @@ async function fetchOrphanage(id: string) {
         <Image src='/icon-principal.svg' alt='teste' width={100} height={100}/>
         <h1 className="text-title font-bold text-4xl">{orph.name}</h1>
         <p className="text-text font-semibold text-base">{orph.about}</p>
-        <MapOrphanage latitude={orph.latitude} longitude={orph.latitude}/>
+        {/* <MapNoSSR latitude={orph.latitude} longitude={orph.longitude}/> */}
+        
+        <iframe width="600" height="450" style={{border: 0, width: '90%', borderRadius: 12, height: 291}} src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAhxEurhPz36Nlb92Seh2ZedhCVdxt8Kxk&q=${orph.latitude},${orph.longitude}&center=${orph.latitude},${orph.longitude}`}></iframe>
+
       </div>
       </section>
     </main>;
