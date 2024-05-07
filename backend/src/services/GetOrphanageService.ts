@@ -1,10 +1,11 @@
 import { DataSource } from "typeorm";
-import { AppDataSource } from "../data-source";
+import { getDataSource } from "../data-source";
 import { OrphanageView } from "../entity/OrphanageView.entity";
 
 
 export class GetOrphanageService {
     async execute(id: string) {
+        const AppDataSource = await getDataSource();
         const repo = AppDataSource.getRepository(OrphanageView);
 
         const orphanage = await repo.findOne({
