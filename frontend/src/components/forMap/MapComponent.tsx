@@ -75,7 +75,7 @@ const MapComponent = () => {
               <span className="text-dark-blue flex gap-3 items-center">
                 {orphanage.name}
                 <Link
-                  href={`/Orphanages/${encodeURIComponent(orphanage.id)}`}
+                  href={`/orphanages/${orphanage.id}`}
                   className="bg-blue p-2 rounded-xl"
                 >
                   <FaArrowRight className="text-white" />
