@@ -36,6 +36,8 @@ const config: Config = {
         'green-btn-submit-h': '#3BD689',
         'gradient-blue': 'linear-gradient(150deg, #E6F7FB 8.13%, #FFF 92.67%)',
         'gradient-green': 'linear-gradient(154deg, #EDFFF6 7.85%, #FFF 91.03%)',
+        'first-gradient': '#E6F7FB',
+        'second-gradient': '#FFF'
       },
       backgroundImage: {
         'kids-kidding': "url('/kids-kidding.svg')"

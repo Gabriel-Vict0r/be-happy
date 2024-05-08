@@ -4,6 +4,17 @@ const nextConfig = {
     TOKEN_MAP: process.env.TOKEN_MAP,
     KEY_IP_GEOLOCATION_API: process.env.KEY_IP_GEOLOCATION_API,
   },
+  images: {
+    formats: ['image/avif', 'image/webp'],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "behappybucket.s3.amazonaws.com",
+        port: "",
+        pathname: "**",
+      },
+    ],
+  },
   // async rewrites() {
   //   return [
   //     {
