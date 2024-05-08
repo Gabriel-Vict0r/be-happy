@@ -93,9 +93,12 @@ CREATE OR REPLACE VIEW public.orphanage_view
     location.longitude,
     orphanage.instructions,
     orphanage.acept_weekend,
-    orphanage.phone
+    orphanage.phone,
+    hours.initial_hour,
+    hours.final_hour
    FROM orphanage
-     LEFT JOIN location ON location.id::text = orphanage.id_location::text;
+     LEFT JOIN location ON location.id::text = orphanage.id_location::text
+     LEFT JOIN hours ON hours.id_orphanage::text = orphanage.id::text;
 
 ALTER TABLE public.orphanage_view
     OWNER TO admin;
