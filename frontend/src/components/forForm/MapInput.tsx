@@ -11,8 +11,9 @@ import { IPosition } from "@/interfaces/IForms";
 
 const MapInput = () => {
   const { position, setPosition } = useFormContext();
+  //setPosition!({lat: 0, lng: 0});
   const url = process.env.TOKEN_MAP!;
-  const valueMemoized = useMemo(() => position, [position]);
+
   return (
     <div className="w-full h-full rounded-[20px] relative border-2 border-border-map-form">
       <MapContainer

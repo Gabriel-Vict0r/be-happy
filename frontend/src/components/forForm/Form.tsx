@@ -25,7 +25,7 @@ const Form = () => {
   });
 
   //extrai os estados/funções de atualização do contexto
-  const { position, newPos, setnewPos } = useFormContext();
+  const { position, newPos, setnewPos, setPosition} = useFormContext();
   const MapGetMemoizated = useMemo(() => MapNoSSR, [position]);
 
   /**<--------------CONF WITH FORMIK ----------------> */
@@ -33,6 +33,7 @@ const Form = () => {
   const [idLocation, setIdLocation] = useState<string>("");
   const [idOrphanage, setIdOrphanage] = useState<string>("");
   const router = useRouter();
+  //console.log('posição ao carregar', position);
   //ASYNC FUNCTIONS FOR SEND DATA
   const sendToBack = async (
     data: string | any,
@@ -125,6 +126,7 @@ const Form = () => {
         setnewPos(false);
       } else {
         setnewPos(true);
+        console.log('posicao sendo cadastrada first', position);
         sendData(JSON.stringify(position), urlPosition)
           .then((res_position) => {
             if (res_position) {
@@ -165,6 +167,7 @@ const Form = () => {
             sendData(formData, urlPictures);
           })
           .then(() => {
+            setPosition!({lat: 0, lng: 0});
             router.push("/Submited");
           })
           .catch((err) => console.log(err));
@@ -241,7 +244,7 @@ const Form = () => {
           error={formik.errors.horario_visitas?.initial_hour}
         />
         <InputHourShift
-          label="Inicial"
+          label="Final"
           name="horario_visitas.final_hour"
           value={formik.values.horario_visitas.final_hour}
           handleInput={formik.handleChange}
