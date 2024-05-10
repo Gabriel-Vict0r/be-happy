@@ -6,8 +6,8 @@ import Link from "next/link";
 import CityState from "@/components/forMap/CityState";
 export default function Home() {
   return (
-    <main className="w-[100vw] h-[100vh] bg-gradient-to-r from-initial-gradient to-end-gradient flex flex-col md:flex-row gap-3 xl:px-32 xl:py-10">
-      <section className="flex flex-col px-10 pt-10 justify-between md:justify-around w-[100vw] md:w-[50%] h-[70%] md:h-auto">
+    <main className="w-[100vw] h-[100vh] bg-gradient-to-r from-initial-gradient to-end-gradient flex flex-col md:flex-row gap-3 xl:px-32 xl:py-10 justify-around">
+      <section className="flex flex-col px-10 pt-10 justify-between justify-around gap-3 w-[100vw] md:w-[50%] md:h-full lg:h-[80%] md:h-auto">
         <Fade>
           <div className="flex gap-3 items-center">
             <Image
@@ -21,7 +21,7 @@ export default function Home() {
           </div>
         </Fade>
         <Fade delay={500}>
-          <h1 className="leading-snug text-5xl w-1/2 md:w-[100%] font-black xl:text-8xl">
+          <h1 className="leading-snug w-full text-5xl sm:w-1/2 md:w-[100%] font-black xl:text-7xl">
             Leve felicidade para o mundo
           </h1>
         </Fade>
@@ -31,9 +31,9 @@ export default function Home() {
           </p>
         </Fade>
       </section>
-      <Fade className="w-[50%] h-[100%]" delay={1000}>
+      <Fade className="w-full sm:w-[50%] md:h-[100%]" delay={1000}>
         <section
-          className="md:bg-kids-kidding bg-left bg-no-repeat md:bg-tablet lg:bg-notebook  bg-left md:w-[100%] h-[100%] md:items-end justify-between flex md:flex-col px-10 w-[80%] md:pt-10
+          className="w-full md:bg-kids-kidding bg-left bg-no-repeat md:bg-tablet lg:bg-notebook  bg-left md:w-[100%] md:h-[100%] md:items-end justify-between flex md:flex-col px-10 w-[80%] md:pt-10
       "
         >
           <Slide direction="right">
@@ -41,7 +41,7 @@ export default function Home() {
           </Slide>
           <Link
             href="/Map"
-            className="bg-yellow p-3 md:p-5 rounded-3xl mb-10 hover:bg-light-blue hover:text-blue text-dark-yellow transition-all"
+            className="bg-yellow p-3 max-h-10 md:max-h-full md:p-5 rounded-3xl mb-10 hover:bg-light-blue hover:text-blue text-dark-yellow transition-all flex items-center justify-center"
           >
             <FaArrowRight />
           </Link>
