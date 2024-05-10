@@ -35,7 +35,7 @@ const MapComponent = () => {
   useEffect(() => {
     const fetchData = () => {
       try {
-        const data = fetch("https://be-happy-beta.vercel.app/orphanages")
+        const data = fetch("https://be-happy-api.vercel.app/orphanages")
           .then((response) => response.json())
           .then((data) => setOrphanages(data));
         console.log("ao setar", orphanages);

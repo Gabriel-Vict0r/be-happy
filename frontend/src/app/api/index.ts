@@ -1,5 +1,5 @@
 export async function getStaticPaths() {
-    const res = await fetch("https://be-happy-beta.vercel.app/orphanages");
+    const res = await fetch("https://be-happy-api.vercel.app/orphanages");
     const orphanages = await res.json();
     console.log(orphanages);
     const paths = orphanages.map((orphanage: any) => ({
@@ -10,7 +10,7 @@ export async function getStaticPaths() {
   };
   export async function getStaticProps({params}: any) {
     const res = await fetch(
-      `https://be-happy-beta.vercel.app/getOrphanage/${params.id}`
+      `https://be-happy-api.vercel.app/getOrphanage/${params.id}`
     );
     const orphanage = await res.json();
   
