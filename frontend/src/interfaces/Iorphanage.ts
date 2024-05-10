@@ -25,6 +25,8 @@ export interface Iorphanage {
 
     newPos: boolean;
     setnewPos: React.Dispatch<React.SetStateAction<boolean>>;
+    canSubmit?: boolean;
+    setCanSubmit: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export interface IorphanageProvider {
     children: ReactNode;

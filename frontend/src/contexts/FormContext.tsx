@@ -30,6 +30,8 @@ const FormContext = createContext<Iorphanage>({
 
   newPos: false,
   setnewPos: () => {},
+  canSubmit: false,
+  setCanSubmit: () => {},
 });
 
 //wrapper the components that will use the context
@@ -48,6 +50,7 @@ const FormProvider = ({ children }: IorphanageProvider) => {
   });
   const [open_in_weekend, setOpen_in_weekend] = useState<boolean>(false);
   const [newPos, setnewPos] = useState<boolean>(false);
+  const [canSubmit, setCanSubmit] = useState<boolean>(false);
   return (
     <FormContext.Provider
       value={{
@@ -71,6 +74,8 @@ const FormProvider = ({ children }: IorphanageProvider) => {
         setOpen_in_weekend,
         newPos,
         setnewPos,
+        canSubmit,
+        setCanSubmit,
       }}
     >
       {children}

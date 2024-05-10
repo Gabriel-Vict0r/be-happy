@@ -18,6 +18,7 @@ export interface IInput {
     clickButton?: React.MouseEventHandler<HTMLInputElement>;
     maxLength?: number;
     error?: string | undefined;
+    imagesArr?: File[];
     //error?: string;
 }
 export interface ITextArea extends IInput {

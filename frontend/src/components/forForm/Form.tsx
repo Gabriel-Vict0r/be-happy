@@ -25,7 +25,13 @@ const Form = () => {
   });
 
   //extrai os estados/funções de atualização do contexto
-  const { position, newPos, setnewPos, setPosition} = useFormContext();
+  const {
+    position,
+    newPos,
+    setnewPos,
+    setPosition,
+    canSubmit,
+  } = useFormContext();
   const MapGetMemoizated = useMemo(() => MapNoSSR, [position]);
 
   /**<--------------CONF WITH FORMIK ----------------> */
@@ -91,7 +97,7 @@ const Form = () => {
     url: string,
     files?: File[]
   ): Promise<void | string> => {
-    //console.log("localizacao", data);
+    console.log("localizacao que está indo", data);
     return await sendToBack(data, method, url, files);
     //console.log(responseData);
   };
@@ -101,6 +107,57 @@ const Form = () => {
   const urlPictures = "https://be-happy-beta.vercel.app/picture";
   const urlHour = "https://be-happy-beta.vercel.app/hour";
   const method = "post";
+
+  useEffect(() => {
+    if (canSubmit) {
+      const values = formik.values;
+      console.log("posicao no effect", position);
+
+      sendData(JSON.stringify(position), urlPosition)
+        .then((res_position) => {
+          if (res_position) {
+            values.position = res_position;
+            //console.log("id local 103", values.position);
+            //console.log("idLocation = ", res_position);
+            values.abrir_fim_de_semana = values.abrir_fim_de_semana as boolean;
+            //console.log(JSON.stringify(values));
+            const dataJson = JSON.stringify(values);
+            setnewPos(false);
+            return sendData(dataJson, urlOrphanage);
+          }
+        })
+        .then((id_orph) => {
+          //setIdOrphanage();
+          console.log(`id do orfanato: ${id_orph}`);
+          setIdOrphanage(id_orph!);
+          const hour = values.horario_visitas;
+          const hourOrph = { ...hour, id_orphanage: id_orph };
+          const hourJSON = JSON.stringify(hourOrph);
+          //console.log("horas", hourJSON);
+          return sendData(hourJSON, urlHour);
+        })
+        .then((id_orphanage) => {
+          const photosLenght = values.imagens.length;
+          const formData = new FormData();
+          for (let index = 0; index < photosLenght; index++) {
+            formData.append("image", values.imagens[index]);
+          }
+          //formData.append("image", values.imagens[0]);
+
+          //console.log(id_orphanage);
+          formData.append("id_orphanage", id_orphanage!);
+          //const orphId = { id_orphanage: idOrphanage };
+          //console.log(photos);
+          //console.log(formData.values);
+          sendData(formData, urlPictures);
+        })
+        .then(() => {
+          //setPosition!({lat: 0, lng: 0});
+          router.push("/Submited");
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [canSubmit]);
 
   const formik = useFormik({
     initialValues: {
@@ -114,33 +171,14 @@ const Form = () => {
       imagens: [],
       position: "",
     },
-    validationSchema: schema,
-    validateOnChange: false,
+    //validationSchema: schema,
+    //validateOnChange: false,
     onSubmit: async (values) => {
       if (idLocation !== "") {
         values.position = idLocation;
         values.abrir_fim_de_semana = values.abrir_fim_de_semana as boolean;
         const dataJson = JSON.stringify(values);
-        const res_orph = sendData(dataJson, urlOrphanage);
-        console.log(res_orph);
-        setnewPos(false);
-      } else {
-        setnewPos(true);
-        console.log('posicao sendo cadastrada first', position);
-        sendData(JSON.stringify(position), urlPosition)
-          .then((res_position) => {
-            if (res_position) {
-              values.position = res_position;
-              console.log("id local 103", values.position);
-              console.log("idLocation = ", res_position);
-              values.abrir_fim_de_semana =
-                values.abrir_fim_de_semana as boolean;
-              console.log(JSON.stringify(values));
-              const dataJson = JSON.stringify(values);
-              setnewPos(false);
-              return sendData(dataJson, urlOrphanage);
-            }
-          })
+        sendData(dataJson, urlOrphanage)
           .then((id_orph) => {
             //setIdOrphanage();
             console.log(`id do orfanato: ${id_orph}`);
@@ -148,7 +186,7 @@ const Form = () => {
             const hour = values.horario_visitas;
             const hourOrph = { ...hour, id_orphanage: id_orph };
             const hourJSON = JSON.stringify(hourOrph);
-            console.log("horas", hourJSON);
+            //console.log("horas", hourJSON);
             return sendData(hourJSON, urlHour);
           })
           .then((id_orphanage) => {
@@ -159,18 +197,23 @@ const Form = () => {
             }
             //formData.append("image", values.imagens[0]);
 
-            console.log(id_orphanage);
+            //console.log(id_orphanage);
             formData.append("id_orphanage", id_orphanage!);
             //const orphId = { id_orphanage: idOrphanage };
             //console.log(photos);
-            console.log(formData.values);
+            //console.log(formData.values);
             sendData(formData, urlPictures);
           })
           .then(() => {
-            setPosition!({lat: 0, lng: 0});
+            //setPosition!({lat: 0, lng: 0});
             router.push("/Submited");
           })
           .catch((err) => console.log(err));
+        setnewPos(false);
+      } else {
+        setnewPos(true);
+        //console.log("pos após setar", newPos);
+        //console.log('posicao sendo cadastrada first', position)
       }
     },
   });
@@ -225,6 +268,7 @@ const Form = () => {
         handleInput={(event) =>
           formik.setFieldValue("imagens", event.currentTarget.files)
         }
+        //imagesArr={formik.values.imagens}
         //error={formik.errors.imagens}
       />
       <SubTitle subTitle="Visitação" />
