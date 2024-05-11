@@ -1,6 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import CityState from "./CityState";
+import Link from "next/link";
 
 const SideMap = () => {
   return (
@@ -10,12 +11,14 @@ const SideMap = () => {
     md:flex md:flex-col md:justify-between
      md:p-12 md:w-[30%] md:h-screen"
     >
-      <Image
-        src="/icon-principal.svg"
-        alt="icone da logo"
-        width={64}
-        height={72}
-      />
+      <Link href="/">
+        <Image
+          src="/icon-principal.svg"
+          alt="icone da logo"
+          width={64}
+          height={72}
+        />
+      </Link>
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl lg:text-5xl font-bold">
           Escolha um orfanato no mapa

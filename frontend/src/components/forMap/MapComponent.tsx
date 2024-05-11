@@ -46,12 +46,11 @@ const MapComponent = () => {
     fetchData();
   }, []);
   console.log("orfanatos", orphanages);
-  const palavra = "teste";
   return (
     <div className="w-full h-screen md:w-[70%]">
       <MapContainer
         center={[-12.1482, -44.9925]}
-        zoom={15}
+        zoom={14}
         scrollWheelZoom
         style={{ height: "100%", width: "100%", zIndex: 0 }}
       >
