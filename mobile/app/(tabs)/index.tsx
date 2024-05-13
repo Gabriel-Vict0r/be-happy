@@ -4,12 +4,16 @@ import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import styled from "styled-components/native";
 
 export default function HomeScreen() {
+  const Component = styled.Text`
+    color: red;
+  `;
   return (
     <View className="flex items-center w-full h-full pt-80 bg-border-green">
       <View className="">
-        <Text>Box</Text>
+        <Component>Texto</Component>
       </View>
       <Text className="text-base text-red-box">Texto</Text>
     </View>
