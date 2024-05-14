@@ -1,14 +1,9 @@
 import { Image, StyleSheet, Platform, View, Text } from "react-native";
-
-import { HelloWave } from "@/components/HelloWave";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 import styled from "styled-components/native";
 
 export default function HomeScreen() {
   const Component = styled.Text`
-    color: red;
+    color: ${(props) => props.theme.colors.yellow};
   `;
   return (
     <View className="flex items-center w-full h-full pt-80 bg-border-green">
