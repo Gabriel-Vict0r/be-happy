@@ -40,6 +40,11 @@ declare module 'styled-components/native' {
             "end-gradient-green": string;
             "start-gradient-red": string;
             "end-gradient-red": string;
+            "bg-btn-next": string,
+        },
+        fonts: {
+            extraBold: string;
+            semiBold: string;
         }
     }
 }

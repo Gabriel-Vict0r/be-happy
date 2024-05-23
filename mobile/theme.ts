@@ -40,6 +40,11 @@ const theme: DefaultTheme = {
         "end-gradient-green": "#fff",
         "start-gradient-red": "#FCF0F4",
         "end-gradient-red": "#fff",
+        "bg-btn-next": "#D1EDF2",
+    },
+    fonts: {
+        extraBold: 'Nunito_800ExtraBold',
+        semiBold: 'Nunito_600SemiBold'
     }
 }
-export {theme}
+export { theme }
