@@ -15,7 +15,6 @@ import InputHourShift from "./InputHourShift";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import showSwal from "./ModalMessage";
-import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
 const Form = () => {
   const SwalForm = withReactContent(Swal);
@@ -25,13 +24,8 @@ const Form = () => {
   });
 
   //extrai os estados/funções de atualização do contexto
-  const {
-    position,
-    newPos,
-    setnewPos,
-    setPosition,
-    canSubmit,
-  } = useFormContext();
+  const { position, newPos, setnewPos, setPosition, canSubmit } =
+    useFormContext();
   const MapGetMemoizated = useMemo(() => MapNoSSR, [position]);
 
   /**<--------------CONF WITH FORMIK ----------------> */
@@ -44,8 +38,7 @@ const Form = () => {
   const sendToBack = async (
     data: string | any,
     method: string,
-    url: string,
-    files?: File[]
+    url: string
   ) => {
     const requestOptions = {
       method: method,
@@ -62,7 +55,7 @@ const Form = () => {
     const idType = /(\w+)$/.exec(url);
     let response: any;
     if (idType![1] === "picture") {
-      console.log("header usado do picture");
+      //console.log("header usado do picture");
       response = await fetch(url, requestImage);
     } else {
       response = await fetch(url, requestOptions);
@@ -71,12 +64,10 @@ const Form = () => {
     const responseCode = response.status;
     if (responseCode === 200) {
       if (idType![1] === "location") {
-        console.log(responseData.id);
-        // () => setIdLocation(responseData.id);
-        // console.log("localização apos envio", idLocation);
+        //console.log(responseData.id);
         return responseData.id;
       } else if (idType![1] === "orphanage") {
-        console.log(responseData.id);
+        //console.log(responseData.id);
         return responseData.id;
       } else if (idType![1] == "picture") {
         return responseData;
@@ -98,14 +89,14 @@ const Form = () => {
     files?: File[]
   ): Promise<void | string> => {
     console.log("localizacao que está indo", data);
-    return await sendToBack(data, method, url, files);
+    return await sendToBack(data, method, url);
     //console.log(responseData);
   };
   //URLS
-  const urlOrphanage = "https://be-happy-api.vercel.app/orphanage";
-  const urlPosition = "https://be-happy-api.vercel.app/location";
-  const urlPictures = "https://be-happy-api.vercel.app/picture";
-  const urlHour = "https://be-happy-api.vercel.app/hour";
+  const urlOrphanage = process.env.URL_ORPHANAGE!;
+  const urlPosition = process.env.URL_POSITION!;
+  const urlPictures = process.env.URL_PICTURES!;
+  const urlHour = process.env.URL_HOUR!;
   const method = "post";
 
   useEffect(() => {
@@ -128,7 +119,7 @@ const Form = () => {
         })
         .then((id_orph) => {
           //setIdOrphanage();
-          console.log(`id do orfanato: ${id_orph}`);
+          //console.log(`id do orfanato: ${id_orph}`);
           setIdOrphanage(id_orph!);
           const hour = values.horario_visitas;
           const hourOrph = { ...hour, id_orphanage: id_orph };
@@ -158,7 +149,21 @@ const Form = () => {
         .catch((err) => console.log(err));
     }
   }, [canSubmit]);
-
+  type THour = {
+    initial_hour: string;
+    final_hour: string;
+  };
+  interface IValues {
+    nome: string;
+    cnpj: string;
+    sobre: string;
+    telefone: string;
+    instrucoes: string;
+    horario_visitas: THour;
+    abrir_fim_de_semana: boolean;
+    imagens: never[];
+    position: string;
+  }
   const formik = useFormik({
     initialValues: {
       nome: "",
@@ -171,9 +176,9 @@ const Form = () => {
       imagens: [],
       position: "",
     },
-    //validationSchema: schema,
-    //validateOnChange: false,
-    onSubmit: async (values) => {
+    validationSchema: schema,
+    validateOnChange: false,
+    onSubmit: async (values: IValues) => {
       if (idLocation !== "") {
         values.position = idLocation;
         values.abrir_fim_de_semana = values.abrir_fim_de_semana as boolean;
@@ -181,7 +186,7 @@ const Form = () => {
         sendData(dataJson, urlOrphanage)
           .then((id_orph) => {
             //setIdOrphanage();
-            console.log(`id do orfanato: ${id_orph}`);
+            //console.log(`id do orfanato: ${id_orph}`);
             setIdOrphanage(id_orph!);
             const hour = values.horario_visitas;
             const hourOrph = { ...hour, id_orphanage: id_orph };

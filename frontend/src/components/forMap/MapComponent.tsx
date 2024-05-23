@@ -20,16 +20,6 @@ const MapComponent = () => {
     acept_weekend: boolean;
     phone: string;
   }
-  const objIni: IOrphanage = {
-    id: "1",
-    name: "instituto",
-    about: "testes",
-    latitude: 2221,
-    longitude: 2342,
-    instructions: "sdfsdf",
-    acept_weekend: false,
-    phone: "string",
-  };
   const url = process.env.TOKEN_MAP;
   const [orphanages, setOrphanages] = useState<IOrphanage[]>([]);
   useEffect(() => {
@@ -38,7 +28,7 @@ const MapComponent = () => {
         const data = fetch("https://be-happy-api.vercel.app/orphanages")
           .then((response) => response.json())
           .then((data) => setOrphanages(data));
-        console.log("ao setar", orphanages);
+        //console.log("ao setar", orphanages);
       } catch (error) {
         console.log(error);
       }
