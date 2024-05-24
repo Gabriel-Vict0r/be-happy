@@ -22,12 +22,18 @@ const config: Config = {
                     },
                 },
                 module: {
-                    type: "es6",
+                    type: "es2022",
                     noInterop: false,
                 },
             },
         ],
     },
+    setupFilesAfterEnv: [
+        '<rootDir>/src/__tests__/setup.ts'
+    ],
+    transformIgnorePatterns: [
+        "node_modules/!leaflet"
+    ]
 };
 
 export default config;
