@@ -47,7 +47,7 @@ const MapComponent = () => {
   }, []);
   console.log("orfanatos", orphanages);
   return (
-    <div className="w-full h-screen md:w-[70%]">
+    <div className="w-full h-screen lg:w-[70%]">
       <MapContainer
         center={[-12.1482, -44.9925]}
         zoom={14}
