@@ -65,7 +65,7 @@ const LocationMarker = () => {
           };
           setMarker(latlngPosition);
           //console.log("marker pointer", latlngPosition);
-          console.log("positionmaker", marker);
+          //console.log("positionmaker", marker);
           //console.log('latlng obj', latlng.lat);
         }
       },

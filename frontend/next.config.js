@@ -3,9 +3,13 @@ const nextConfig = {
   env: {
     TOKEN_MAP: process.env.TOKEN_MAP,
     KEY_IP_GEOLOCATION_API: process.env.KEY_IP_GEOLOCATION_API,
+    URL_ORPHANAGE: process.env.URL_ORPHANAGE,
+    URL_POSITION: process.env.URL_POSITION,
+    URL_PICTURES: process.env.URL_PICTURES,
+    URL_HOUR: process.env.URL_HOUR,
   },
   images: {
-    formats: ['image/avif', 'image/webp'],
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "https",
