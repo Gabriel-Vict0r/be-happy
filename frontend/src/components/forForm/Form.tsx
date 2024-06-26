@@ -16,216 +16,113 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import showSwal from "./ModalMessage";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 const Form = () => {
   const SwalForm = withReactContent(Swal);
   //traz o mapa dinamicamente do lado do cliente
   const MapNoSSR = dynamic(() => import("@/components/forForm/MapInput"), {
     ssr: false,
   });
-
+  const [imgPreview, setImgPreview] = useState(null);
   //extrai os estados/funções de atualização do contexto
-  const { position, newPos, setnewPos, setPosition, canSubmit } =
-    useFormContext();
+  const {
+    position,
+    newPos,
+    setnewPos,
+    setPosition,
+    setCanSubmit,
+    canSubmit,
+  } = useFormContext();
   const MapGetMemoizated = useMemo(() => MapNoSSR, [position]);
 
   /**<--------------CONF WITH FORMIK ----------------> */
 
-  const [idLocation, setIdLocation] = useState<string>("");
-  const [idOrphanage, setIdOrphanage] = useState<string>("");
   const router = useRouter();
-  //console.log('posição ao carregar', position);
-  //ASYNC FUNCTIONS FOR SEND DATA
-  const sendToBack = async (
-    data: string | any,
-    method: string,
-    url: string
-  ) => {
-    const requestOptions = {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: data,
-    };
-    const requestImage = {
-      method: method,
+
+  const sendData = async (formData: FormData) => {
+    const result = await fetch(`${process.env.URL_API}/create-orphanage`, {
       headers: {},
-      body: data,
-    };
-    const idType = /(\w+)$/.exec(url);
-    let response: any;
-    if (idType![1] === "picture") {
-      //console.log("header usado do picture");
-      response = await fetch(url, requestImage);
-    } else {
-      response = await fetch(url, requestOptions);
-    }
-    const responseData = await response.json();
-    const responseCode = response.status;
-    if (responseCode === 200) {
-      if (idType![1] === "location") {
-        //console.log(responseData.id);
-        return responseData.id;
-      } else if (idType![1] === "orphanage") {
-        //console.log(responseData.id);
-        return responseData.id;
-      } else if (idType![1] == "picture") {
-        return responseData;
-      } else if (idType![1] == "hour") {
-        const id: string = responseData.id_orphanage;
-        return id;
-      }
-    } else {
-      return showSwal(
-        "Erro ao cadastrar",
-        responseData.message || responseData,
+      method: "POST",
+      body: formData,
+    });
+    const message = await result.json();
+    if (!result.ok) {
+      showSwal(
+        "Erro ao realizar o cadastro!",
+        `${message.field} - ${message.error}`,
         "error"
       );
+    } else {
+      showSwal("Tudo Ok!", "cadastro realizado com sucesso!", "success");
+      formik.resetForm();
+      router.push("/Submited");
     }
   };
-  const sendData = async (
-    data: string | any,
-    url: string,
-    files?: File[]
-  ): Promise<void | string> => {
-    console.log("localizacao que está indo", data);
-    return await sendToBack(data, method, url);
-    //console.log(responseData);
-  };
-  //URLS
-  const urlOrphanage = process.env.URL_ORPHANAGE!;
-  const urlPosition = process.env.URL_POSITION!;
-  const urlPictures = process.env.URL_PICTURES!;
-  const urlHour = process.env.URL_HOUR!;
-  const method = "post";
-
   useEffect(() => {
     if (canSubmit) {
       const values = formik.values;
-      console.log("posicao no effect", position);
-
-      sendData(JSON.stringify(position), urlPosition)
-        .then((res_position) => {
-          if (res_position) {
-            values.position = res_position;
-            //console.log("id local 103", values.position);
-            //console.log("idLocation = ", res_position);
-            values.abrir_fim_de_semana = values.abrir_fim_de_semana as boolean;
-            //console.log(JSON.stringify(values));
-            const dataJson = JSON.stringify(values);
-            setnewPos(false);
-            return sendData(dataJson, urlOrphanage);
-          }
-        })
-        .then((id_orph) => {
-          //setIdOrphanage();
-          //console.log(`id do orfanato: ${id_orph}`);
-          setIdOrphanage(id_orph!);
-          const hour = values.horario_visitas;
-          const hourOrph = { ...hour, id_orphanage: id_orph };
-          const hourJSON = JSON.stringify(hourOrph);
-          //console.log("horas", hourJSON);
-          return sendData(hourJSON, urlHour);
-        })
-        .then((id_orphanage) => {
-          const photosLenght = values.imagens.length;
-          const formData = new FormData();
-          for (let index = 0; index < photosLenght; index++) {
-            formData.append("image", values.imagens[index]);
-          }
-          //formData.append("image", values.imagens[0]);
-
-          //console.log(id_orphanage);
-          formData.append("id_orphanage", id_orphanage!);
-          //const orphId = { id_orphanage: idOrphanage };
-          //console.log(photos);
-          //console.log(formData.values);
-          sendData(formData, urlPictures);
-        })
-        .then(() => {
-          //setPosition!({lat: 0, lng: 0});
-          router.push("/Submited");
-        })
-        .catch((err) => console.log(err));
+      console.log("valores", values);
+      const formData = new FormData();
+      for (let index = 0; index < formik.values.pictures.length; index++) {
+        formData.append("image", formik.values.pictures[index]);
+      }
+      formData.append("orphanage", JSON.stringify(formik.values));
+      for (const value of formData.values()) {
+        console.log(value);
+      }
+      sendData(formData);
+      setnewPos(false);
+      setCanSubmit(false);
     }
   }, [canSubmit]);
+
   type THour = {
     initial_hour: string;
     final_hour: string;
   };
+  type Tlocation = {
+    latitude?: number;
+    longitude?: number;
+  };
   interface IValues {
-    nome: string;
-    cnpj: string;
-    sobre: string;
-    telefone: string;
-    instrucoes: string;
-    horario_visitas: THour;
-    abrir_fim_de_semana: boolean;
-    imagens: never[];
-    position: string;
+    name: string;
+    about: string;
+    phone: string;
+    instructions: string;
+    hours: THour;
+    acept_weekend: boolean;
+    pictures: never[];
+    position: Tlocation;
   }
   const formik = useFormik({
     initialValues: {
-      nome: "",
-      cnpj: "",
-      sobre: "",
-      telefone: "",
-      instrucoes: "",
-      horario_visitas: { initial_hour: "", final_hour: "" },
-      abrir_fim_de_semana: false,
-      imagens: [],
-      position: "",
+      name: "",
+      about: "",
+      phone: "",
+      instructions: "",
+      hours: { initial_hour: "", final_hour: "" },
+      acept_weekend: false,
+      pictures: [],
+      location: { latitude: 0, longitude: 0 },
     },
-    validationSchema: schema,
+    //validationSchema: schema,
     validateOnChange: false,
-    onSubmit: async (values: IValues) => {
-      if (idLocation !== "") {
-        values.position = idLocation;
-        values.abrir_fim_de_semana = values.abrir_fim_de_semana as boolean;
-        const dataJson = JSON.stringify(values);
-        sendData(dataJson, urlOrphanage)
-          .then((id_orph) => {
-            //setIdOrphanage();
-            //console.log(`id do orfanato: ${id_orph}`);
-            setIdOrphanage(id_orph!);
-            const hour = values.horario_visitas;
-            const hourOrph = { ...hour, id_orphanage: id_orph };
-            const hourJSON = JSON.stringify(hourOrph);
-            //console.log("horas", hourJSON);
-            return sendData(hourJSON, urlHour);
-          })
-          .then((id_orphanage) => {
-            const photosLenght = values.imagens.length;
-            const formData = new FormData();
-            for (let index = 0; index < photosLenght; index++) {
-              formData.append("image", values.imagens[index]);
-            }
-            //formData.append("image", values.imagens[0]);
-
-            //console.log(id_orphanage);
-            formData.append("id_orphanage", id_orphanage!);
-            //const orphId = { id_orphanage: idOrphanage };
-            //console.log(photos);
-            //console.log(formData.values);
-            sendData(formData, urlPictures);
-          })
-          .then(() => {
-            //setPosition!({lat: 0, lng: 0});
-            router.push("/Submited");
-          })
-          .catch((err) => console.log(err));
-        setnewPos(false);
-      } else {
-        setnewPos(true);
-        //console.log("pos após setar", newPos);
-        //console.log('posicao sendo cadastrada first', position)
-      }
+    onSubmit: async (values) => {
+      values.acept_weekend = values.acept_weekend as boolean;
+      values.location = { latitude: position.lat, longitude: position.lng };
+      setnewPos(true);
     },
   });
+  const previewImage = (event: any) => {
+    formik.setFieldValue("pictures", event.currentTarget.files);
+    const urls = URL.createObjectURL(event.currentTarget.files);
+    console.log(urls);
+  };
   return (
     <form
       className="bg-white w-[95%] md:w-[70%] md:max-w-[44.25rem] rounded-2xl p-4 md:p-8 border-2 border-border-form flex flex-col justify-between gap-6"
       onSubmit={formik.handleSubmit}
+      method="POST"
     >
       <SubTitle subTitle="Dados" />
       <div className="w-full h-[291px]">
@@ -233,80 +130,71 @@ const Form = () => {
       </div>
       <Input
         type="text"
-        name="nome"
+        name="name"
         label="Nome"
-        value={formik.values.nome}
+        value={formik.values.name}
         handleInput={formik.handleChange}
-        error={formik.errors.nome}
-      />
-      <Input
-        type="text"
-        name="cnpj"
-        label="CNPJ"
-        value={formik.values.cnpj}
-        maxLength={18}
-        handleInput={formik.handleChange}
-        maskType="cnpj"
-        error={formik.errors.cnpj}
+        error={formik.errors.name}
       />
       <TextArea
         label="Sobre"
-        name="sobre"
-        value={formik.values.sobre}
+        name="about"
+        value={formik.values.about}
         handleTextArea={formik.handleChange}
-        error={formik.errors.sobre}
+        error={formik.errors.about}
       />
       <Input
         type="phone"
-        name="telefone"
+        name="phone"
         label="Número de whatsapp"
-        value={formik.values.telefone}
+        value={formik.values.phone}
         handleInput={formik.handleChange}
         maskType="phone"
         maxLength={15}
-        error={formik.errors.telefone}
+        error={formik.errors.phone}
       />
-      <InputImage
-        label="Fotos"
-        type="file"
-        name="imagens"
-        handleInput={(event) =>
-          formik.setFieldValue("imagens", event.currentTarget.files)
-        }
-        //imagesArr={formik.values.imagens}
-        //error={formik.errors.imagens}
-      />
+      <div className="flex gap-2 w-full">
+        <InputImage
+          label="Fotos"
+          type="file"
+          name="pictures"
+          handleInput={(event) => previewImage(event)}
+        />
+        {formik.values.pictures && (
+          <Image src="" width={50} height={50} alt="image" />
+        )}
+      </div>
       <SubTitle subTitle="Visitação" />
       <TextArea
         label="Instruções"
-        name="instrucoes"
-        value={formik.values.instrucoes}
+        name="instructions"
+        value={formik.values.instructions}
         handleTextArea={formik.handleChange}
-        error={formik.errors.instrucoes}
+        error={formik.errors.instructions}
       />
       <WrapperHour>
         <InputHourShift
           label="Inicial"
-          name="horario_visitas.initial_hour"
-          value={formik.values.horario_visitas.initial_hour}
+          name="hours.initial_hour"
+          value={formik.values.hours.initial_hour}
           handleInput={formik.handleChange}
-          error={formik.errors.horario_visitas?.initial_hour}
+          error={formik.errors.hours?.initial_hour}
         />
         <InputHourShift
           label="Final"
-          name="horario_visitas.final_hour"
-          value={formik.values.horario_visitas.final_hour}
+          name="hours.final_hour"
+          value={formik.values.hours.final_hour}
           handleInput={formik.handleChange}
-          error={formik.errors.horario_visitas?.final_hour}
+          error={formik.errors.hours?.final_hour}
         />
       </WrapperHour>
       <CheckInput
         label="Atende fim de semana?"
         type="checkbox"
-        name="abrir_fim_de_semana"
-        value={formik.values.abrir_fim_de_semana.toString()}
+        name="acept_weekend"
+        value={formik.values.acept_weekend.toString()}
         handleInput={formik.handleChange}
-        error={formik.errors.abrir_fim_de_semana}
+        error={formik.errors.acept_weekend}
       />
       <Submit type="submit" name="submit" label="Confirmar" />
     </form>
