@@ -10,12 +10,15 @@ import { IoIosAdd } from "react-icons/io";
 import { FaArrowRight } from "react-icons/fa6";
 
 const MapComponent = () => {
+  interface TPosition {
+    latitude: number;
+    longitude: number;
+  }
   interface IOrphanage {
     id: string;
     name: string;
     about: string;
-    latitude: number;
-    longitude: number;
+    location: TPosition;
     instructions: string;
     acept_weekend: boolean;
     phone: string;
@@ -25,7 +28,7 @@ const MapComponent = () => {
   useEffect(() => {
     const fetchData = () => {
       try {
-        const data = fetch("https://be-happy-api.vercel.app/orphanages")
+        const data = fetch(`${process.env.URL_API}/get-orphanages`)
           .then((response) => response.json())
           .then((data) => setOrphanages(data));
         //console.log("ao setar", orphanages);
@@ -34,10 +37,10 @@ const MapComponent = () => {
       }
     };
     fetchData();
+    console.log("orfanatos", orphanages);
   }, []);
-  console.log("orfanatos", orphanages);
   return (
-    <div className="w-full h-screen md:w-[70%]">
+    <div className="w-full h-screen lg:w-[70%]">
       <MapContainer
         center={[-12.1482, -44.9925]}
         zoom={14}
@@ -47,7 +50,10 @@ const MapComponent = () => {
         <TileLayer url={url!} />
         {orphanages.map((orphanage) => (
           <Marker
-            position={[orphanage.latitude, orphanage.longitude]}
+            position={[
+              orphanage.location.latitude,
+              orphanage.location.longitude,
+            ]}
             draggable={false}
             icon={markerIcon}
             interactive={true}
@@ -57,7 +63,10 @@ const MapComponent = () => {
             <Popup
               key={orphanage.id}
               keepInView={true}
-              position={[orphanage.latitude, orphanage.longitude]}
+              position={[
+                orphanage.location.latitude,
+                orphanage.location.longitude,
+              ]}
               className="h-[64px] rounded-2xl text-base mw-[244px]"
               autoPan={true}
             >

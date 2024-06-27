@@ -7,9 +7,9 @@ const SideMap = () => {
   return (
     <aside
       className="bg-gradient-to-r from-initial-gradient to-end-gradient 
-    hidden 
+    hidden
     md:flex md:flex-col md:justify-between
-     md:p-12 md:w-[30%] md:h-screen"
+    md:p-12 md:w-[30%] h-screen"
     >
       <Link href="/">
         <Image

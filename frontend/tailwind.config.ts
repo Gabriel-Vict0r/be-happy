@@ -7,6 +7,7 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     //"./node_modules/flowbite-react/**/*.js"
   ],
+  important: true,
   theme: {
     extend: {
       colors: {
