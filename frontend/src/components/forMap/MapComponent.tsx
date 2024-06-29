@@ -15,7 +15,7 @@ const MapComponent = () => {
     longitude: number;
   }
   interface IOrphanage {
-    id: string;
+    id: number;
     name: string;
     about: string;
     location: TPosition;
@@ -37,7 +37,7 @@ const MapComponent = () => {
       }
     };
     fetchData();
-    console.log("orfanatos", orphanages);
+    //console.log("orfanatos", orphanages);
   }, []);
   return (
     <div className="w-full h-screen lg:w-[70%]">

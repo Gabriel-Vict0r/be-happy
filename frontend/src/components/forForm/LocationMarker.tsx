@@ -26,13 +26,8 @@ import { useFormContext } from "@/contexts/FormContext";
 import { IPosition, IPositionLocal } from "@/interfaces/IForms";
 
 const LocationMarker = () => {
-  const {
-    position,
-    setPosition,
-    newPos,
-    canSubmit,
-    setCanSubmit,
-  } = useFormContext();
+  const { position, setPosition, newPos, canSubmit, setCanSubmit } =
+    useFormContext();
   const isFoundMemo = localStorage.getItem("active");
   //const standard = {lat: 25124, lng: 2503}
   const [marker, setMarker] = useState(position);
@@ -79,7 +74,7 @@ const LocationMarker = () => {
     [markerRef.current]
   );
   useEffect(() => {
-    console.log("estado mudou", newPos);
+    //console.log("estado mudou", newPos);
     if (newPos) {
       setPosition!(marker);
       console.log("nova posicao", position);

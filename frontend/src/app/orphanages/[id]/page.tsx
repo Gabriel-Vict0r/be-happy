@@ -10,17 +10,33 @@ import { FaRegClock } from "react-icons/fa";
 import { IoAlertCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
 
-interface IOrphonage {
-  id: string;
-  name: string;
-  about: string;
+interface ILocation {
+  id: number;
   latitude: number;
   longitude: number;
+}
+interface IPictures {
+  id: number;
+  url: string;
+  id_orphanage: number;
+}
+interface IHours {
+  id: number;
+  initial_hour: string;
+  final_hour: string;
+  id_orphanage: string;
+}
+interface IOrphonage {
+  id: number;
+  name: string;
+  about: string;
   instructions: string;
   acept_weekend: boolean;
   phone: string;
-  initial_hour: string;
-  final_hour: string;
+  acepted: boolean;
+  hours: IHours;
+  location: ILocation;
+  pictures: IPictures;
 }
 interface IArrayOrph {
   index: Array<IOrphonage>;
@@ -32,9 +48,7 @@ interface IImage {
 }
 async function getStaticSideProps(context: GetStaticPropsContext) {
   const id = context.params?.id;
-  const orphResponse = await fetch(
-    "https://https://be-happy-api.vercel.app/orphanages"
-  );
+  const orphResponse = await fetch(`${process.env.URL_API}/get-orphanages`);
   const orph = await orphResponse.json();
 
   return {
@@ -44,9 +58,7 @@ async function getStaticSideProps(context: GetStaticPropsContext) {
   };
 }
 export async function generateStaticParams() {
-  const orphResponse = await fetch(
-    "https://be-happy-api.vercel.app/orphanages"
-  );
+  const orphResponse = await fetch(`${process.env.URL_API}/get-orphanages`);
 
   const orph: Array<IOrphonage> = await orphResponse.json();
 
@@ -57,7 +69,7 @@ export async function generateStaticParams() {
 
 async function fetchOrphanage(id: string) {
   const orphResponse = await fetch(
-    `https://be-happy-api.vercel.app/getOrphanage/${id}`,
+    `${process.env.URL_API}/get-orphanage/${id}`,
     { next: { revalidate: 3600 } }
   );
 
@@ -65,12 +77,7 @@ async function fetchOrphanage(id: string) {
   //console.log(orphResponse.json());
   return orphResponse.json();
 }
-async function fetchImages(id: string) {
-  const imagesResponse = await fetch(
-    `https://be-happy-api.vercel.app/getPictures/${id}`
-  );
-  return imagesResponse.json();
-}
+
 export default async function PageOrphanage({ params }: any) {
   const MapNoSSR = dynamic(() => import("@/components/forMap/MapOrphanage"), {
     ssr: false,
@@ -81,10 +88,8 @@ export default async function PageOrphanage({ params }: any) {
   const orph = await fetchOrphanage(id);
 
   var regex = /(\d{2}):(\d{2})/;
-  var mathInitial = regex.exec(orph.initial_hour);
-  var mathFinal = regex.exec(orph.final_hour);
-  const images = await fetchImages(id);
-  const listImage = images.filter(
+  console.log(orph.hours[0].initial_hour);
+  const listImage = orph.pictures.filter(
     (image: IImage, index: number) => index !== 0
   );
 
@@ -120,12 +125,16 @@ export default async function PageOrphanage({ params }: any) {
         <p className="text-title-page">Orfanato</p>
         <div className="flex flex-col items-center gap-3 rounded-2xl bg-white w-full pb-10 md:w-[70%]">
           <div className="w-full flex flex-col gap-3">
-            {/* <Image src={images[0].url} alt={images[0].id} width={100} height={100}
-        className="w-full rounded-t-2xl"
-        /> */}
+            {/* <Image
+              src={orph.pictures[0].url}
+              alt={orph.pictures[0].id}
+              width={100}
+              height={100}
+              className="rounded-t-2xl object-cover"
+            /> */}
             <div
-              style={{ backgroundImage: `url(${images[0].url})` }}
-              className="w-full h-[336px] bg-cover bg-no-repeat bg-center rounded-t-2xl"
+              style={{ backgroundImage: `url(${orph.pictures[0].url})` }}
+              className="w-full h-[336px] bg-contain bg-no-repeat bg-center rounded-t-2xl"
             ></div>
             <div className="flex flex-row items-center justify-between flex-wrap gap-2">
               {listImage.map((image: IImage) => (
@@ -147,7 +156,7 @@ export default async function PageOrphanage({ params }: any) {
             width="600"
             height="450"
             style={{ border: 0, width: "90%", borderRadius: 12, height: 291 }}
-            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAhxEurhPz36Nlb92Seh2ZedhCVdxt8Kxk&q=${orph.latitude},${orph.longitude}&center=${orph.latitude},${orph.longitude}`}
+            src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyAhxEurhPz36Nlb92Seh2ZedhCVdxt8Kxk&q=${orph.location.latitude},${orph.location.longitude}&center=${orph.location.latitude},${orph.location.longitude}`}
           ></iframe>
           <p className="w-[90%] bg-gradient-blue text-dark-blue text-center py-2">
             Rotas do local
@@ -163,7 +172,7 @@ export default async function PageOrphanage({ params }: any) {
                 <FaRegClock className="text-3xl text-initial-gradient " />
                 <div className="text-text text-base font-semibold">
                   <p>Horário das visitas</p>
-                  <p>{`Das ${mathInitial![0]} às ${mathFinal![0]}`}</p>
+                  <p>{`Das ${orph.hours[0].initial_hour} às ${orph.hours[0].final_hour}`}</p>
                 </div>
               </div>
               <div

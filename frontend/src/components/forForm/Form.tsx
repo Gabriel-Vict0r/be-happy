@@ -25,14 +25,8 @@ const Form = () => {
   });
   const [imgPreview, setImgPreview] = useState(null);
   //extrai os estados/funções de atualização do contexto
-  const {
-    position,
-    newPos,
-    setnewPos,
-    setPosition,
-    setCanSubmit,
-    canSubmit,
-  } = useFormContext();
+  const { position, newPos, setnewPos, setPosition, setCanSubmit, canSubmit } =
+    useFormContext();
   const MapGetMemoizated = useMemo(() => MapNoSSR, [position]);
 
   /**<--------------CONF WITH FORMIK ----------------> */
@@ -61,6 +55,7 @@ const Form = () => {
   useEffect(() => {
     if (canSubmit) {
       const values = formik.values;
+      values.location = { latitude: position.lat, longitude: position.lng };
       console.log("valores", values);
       const formData = new FormData();
       for (let index = 0; index < formik.values.pictures.length; index++) {
@@ -94,6 +89,10 @@ const Form = () => {
     pictures: never[];
     position: Tlocation;
   }
+  interface IImagePreview {
+    url: string;
+  }
+  const [imagePreview, setImagePreview] = useState<IImagePreview[]>([]);
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -105,18 +104,20 @@ const Form = () => {
       pictures: [],
       location: { latitude: 0, longitude: 0 },
     },
-    //validationSchema: schema,
+    validationSchema: schema,
     validateOnChange: false,
     onSubmit: async (values) => {
       values.acept_weekend = values.acept_weekend as boolean;
-      values.location = { latitude: position.lat, longitude: position.lng };
       setnewPos(true);
     },
   });
   const previewImage = (event: any) => {
     formik.setFieldValue("pictures", event.currentTarget.files);
-    const urls = URL.createObjectURL(event.currentTarget.files);
-    console.log(urls);
+
+    for (let index = 0; index < event.currentTarget.files.length; index++) {
+      let url = URL.createObjectURL(event.currentTarget.files[index]);
+      setImagePreview((imagePreview) => [...imagePreview, { url: url }]);
+    }
   };
   return (
     <form
@@ -153,16 +154,24 @@ const Form = () => {
         maxLength={15}
         error={formik.errors.phone}
       />
-      <div className="flex gap-2 w-full">
+      <div className="flex gap-2 w-full flex-wrap items-end">
         <InputImage
           label="Fotos"
           type="file"
           name="pictures"
           handleInput={(event) => previewImage(event)}
         />
-        {formik.values.pictures && (
-          <Image src="" width={50} height={50} alt="image" />
-        )}
+        {imagePreview.map((img, index) => (
+          <Image
+            src={img.url}
+            alt="preview"
+            className="w-24 h-24 object-cover rounded-[20px]"
+            width={96}
+            objectFit="cover"
+            height={96}
+            key={index}
+          />
+        ))}
       </div>
       <SubTitle subTitle="Visitação" />
       <TextArea
