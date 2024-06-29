@@ -37,7 +37,15 @@ export default function Home() {
       "
         >
           <Slide direction="right">
-            <CityState />
+            <div className="flex flex-col-reverse justify-between gap-6 md:flex-col md:gap-5">
+              <Link
+                href="/login"
+                className="bg-btn-access p-2 rounded-2xl hover:bg-light-blue hover:text-blue text-center lg:px-4 ease-in-out duration-200"
+              >
+                Acesso restrito
+              </Link>
+              <CityState />
+            </div>
           </Slide>
           <Link
             href="/Map"

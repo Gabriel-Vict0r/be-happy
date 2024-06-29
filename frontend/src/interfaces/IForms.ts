@@ -9,7 +9,7 @@ export interface ISubTitle {
 
 export interface IInput {
     label: string;
-    type?: "text" | "phone" | "file" | "checkbox" | "submit" | "time"
+    type?: "text" | "phone" | "file" | "checkbox" | "submit" | "time" | "email" | "password";
     name: string;
     value?: values;
     checked?: boolean;

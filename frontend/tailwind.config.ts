@@ -21,6 +21,7 @@ const config: Config = {
         'border-form': '#D3E2E5',
         'border-map-form': '#DDE3F0',
         'bg-btn-map': '#F5F8FA',
+        'btn-access': '#12D4E0',
         blue: '#15C3D6',
         'btn-side-bar': '#12AFCB',
         'dark-blue': '#0089A5',
