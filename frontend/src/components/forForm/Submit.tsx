@@ -9,7 +9,7 @@ const Submit = (props: IInput) => {
       type={props.type}
       value={props.label}
       onClick={props.clickButton}
-      className="w-full bg-off-green h-16 rounded-[20px] cursor-pointer"
+      className="w-full hover:bg-light-green bg-off-green h-16 rounded-[20px] cursor-pointer text-center transition-colors"
     />
   );
 };
