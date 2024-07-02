@@ -22,7 +22,7 @@ const Form = (props: Props) => {
       action=""
       method="POST"
       onSubmit={formik.handleSubmit}
-      className="flex flex-col justify-between gap-6 w-11/12"
+      className="flex flex-col justify-between gap-6 "
     >
       <SubTitle subTitle="Fazer login" />
       <Input

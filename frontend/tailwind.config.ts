@@ -41,6 +41,7 @@ const config: Config = {
         'red-box': '#FF669D',
         'border-green': '#A1E9C5',
         'border-red': '#FFBCD4',
+        'back-background': '#EBF2F5',
         'gradient-blue': 'linear-gradient(150deg, #E6F7FB 8.13%, #FFF 92.67%)',
         'gradient-green': 'linear-gradient(154deg, #EDFFF6 7.85%, #FFF 91.03%)',
         'first-gradient': '#E6F7FB',
