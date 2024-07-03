@@ -28,6 +28,7 @@
     "leaflet-defaulticon-compatibility": "^0.1.2",
     "leaflet-geosearch": "^3.11.0",
     "next": "14.0.4",
+    "next-auth": "^4.24.7",
     "react": "^18",
     "react-awesome-reveal": "^4.2.7",
     "react-dom": "^18",

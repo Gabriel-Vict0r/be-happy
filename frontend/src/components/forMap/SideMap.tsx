@@ -27,7 +27,7 @@ const SideMap = () => {
           Muitas crianças estão esperando a sua visita :){" "}
         </p>
       </div>
-      <CityState />
+      <CityState center={false} />
     </aside>
   );
 };
