@@ -19,7 +19,7 @@ const Form = (props: Props) => {
       remember: "false",
     },
     onSubmit: async (values) => {
-      console.log(values);
+      //console.log(values);
 
       const result = await signIn("credentials", {
         email: values.email,

@@ -26,7 +26,7 @@ const WrapPage = (props: Props) => {
       <section className="flex flex-col w-full lg:w-[40%] p-16 lg:p-12 gap-16 ">
         <Link
           href="/"
-          className="text-blue bg-back-background w-10 h-10 flex items-center justify-center rounded-2xl self-end"
+          className="text-blue bg-back-background w-10 h-10 flex items-center justify-center rounded-2xl self-end p-2 md:p-0"
         >
           <FaArrowLeft />
         </Link>

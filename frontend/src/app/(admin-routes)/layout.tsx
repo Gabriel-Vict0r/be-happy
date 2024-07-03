@@ -13,7 +13,7 @@ const PrivateLayout = async ({ children }: { children: React.ReactNode }) => {
   return (
     <main>
       <SideBarDashboard />
-      <section>{children}</section>
+      <section className="md:ml-24">{children}</section>
     </main>
   );
 };
