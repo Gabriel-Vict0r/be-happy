@@ -1,17 +1,32 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { FaPowerOff } from "react-icons/fa6";
 import IconSideBar from "./IconSideBar";
 import { IoAlertCircleOutline } from "react-icons/io5";
 import { signOut } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 type Props = {};
 
 const SideBarDashboard = (props: Props) => {
   const router = useRouter();
+  const pathname = usePathname();
+  const [dashboard, setDashboard] = useState<boolean>(true);
+  const [pending, setPending] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (pathname === "/dashboard") {
+      setDashboard(true);
+      setPending(false);
+    }
+    if (pathname === "/pending") {
+      setDashboard(false);
+      setPending(true);
+    }
+  }, [pathname]);
+
   async function logOut() {
     await signOut({
       redirect: false,
@@ -30,10 +45,10 @@ const SideBarDashboard = (props: Props) => {
         />
       </Link>
       <div className="flex gap-5 md:flex-col">
-        <IconSideBar href="/dashboard">
+        <IconSideBar href="/dashboard" active={dashboard}>
           <IoLocationOutline />
         </IconSideBar>
-        <IconSideBar href="/pending">
+        <IconSideBar href="/pending" active={pending}>
           <IoAlertCircleOutline />
         </IconSideBar>
       </div>

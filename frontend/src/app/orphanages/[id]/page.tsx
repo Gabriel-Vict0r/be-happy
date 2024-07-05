@@ -133,7 +133,13 @@ export default async function PageOrphanage({ params }: any) {
               className="rounded-t-2xl object-cover"
             /> */}
             <div
-              style={{ backgroundImage: `url(${orph.pictures[0].url})` }}
+              style={{
+                backgroundImage: `url(${
+                  orph.pictures[0] !== undefined
+                    ? orph.pictures[0].url
+                    : "/illustration.jpg"
+                })`,
+              }}
               className="w-full h-[336px] bg-contain bg-no-repeat bg-center rounded-t-2xl"
             ></div>
             <div className="flex flex-row items-center justify-between flex-wrap gap-2">
