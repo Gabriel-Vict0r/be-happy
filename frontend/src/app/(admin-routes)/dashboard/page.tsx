@@ -11,7 +11,7 @@ export async function getOrphanages() {
     next: { revalidate: 100 },
   });
   const orpahanges = res.json();
-  console.log(orpahanges);
+  //console.log(orpahanges);
   return orpahanges;
 }
 
@@ -20,7 +20,7 @@ const Dashboard = async () => {
     ssr: false,
   });
   const orphanages = await getOrphanages();
-  console.log(orphanages);
+  //console.log(orphanages);
   return (
     <main className="p-5">
       <div className="flex justify-between flex-col md:flex-row border-b border-border-form p-3">

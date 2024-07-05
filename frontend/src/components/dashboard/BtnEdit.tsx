@@ -11,7 +11,7 @@ const BtnEdit = (props: Props) => {
     <button
       type="button"
       onClick={props.event}
-      className="p-2 bg-back-background text-blue rounded-xl text-2xl"
+      className="p-2 bg-back-background text-blue rounded-xl text-2xl hover:bg-yellow transition-colors"
     >
       {props.icon}
     </button>
