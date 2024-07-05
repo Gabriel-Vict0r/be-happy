@@ -1,11 +1,14 @@
+import Card from "@/components/dashboard/Card";
 import SideBarDashboard from "@/components/dashboard/SideBarDashboard";
+import { OrphType } from "@/types/All";
+import dynamic from "next/dynamic";
 import React from "react";
 
 type Props = {};
 
 export async function getOrphanages() {
-  const res = await fetch(`https://behappy-api.vercel.app/v1/get-orphanages`, {
-    next: { revalidate: 3600 },
+  const res = await fetch(`${process.env.URL_API}/get-orphanages`, {
+    next: { revalidate: 100 },
   });
   const orpahanges = res.json();
   console.log(orpahanges);
@@ -13,6 +16,9 @@ export async function getOrphanages() {
 }
 
 const Dashboard = async () => {
+  const CardDynamic = dynamic(() => import("@/components/dashboard/Card"), {
+    ssr: false,
+  });
   const orphanages = await getOrphanages();
   console.log(orphanages);
   return (
@@ -23,6 +29,19 @@ const Dashboard = async () => {
           {orphanages.length} orfanatos cadastrados
         </p>
       </div>
+      <section className="py-5 flex flex-col gap-5 lg:flex-row flex-nowrap">
+        {/* <Card position={{ lat: -788, lng: 4545 }} /> */}
+        {orphanages.map((orph: OrphType) => (
+          <CardDynamic
+            key={orph.id}
+            position={{
+              lat: orph.location.latitude,
+              lng: orph.location.longitude,
+            }}
+            orphanage={orph}
+          />
+        ))}
+      </section>
     </main>
   );
 };

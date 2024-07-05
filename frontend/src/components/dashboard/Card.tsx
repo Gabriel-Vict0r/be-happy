@@ -1,36 +1,50 @@
+"use client";
 import React from "react";
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css";
+import "leaflet-defaulticon-compatibility";
 import LocationMarker from "../forForm/LocationMarker";
 import { LatLngExpression } from "leaflet";
 import markerIcon from "@/components/markerIcon";
+import { OrphType } from "@/types/All";
+import { FiEdit3 } from "react-icons/fi";
+import { MdOutlineDelete } from "react-icons/md";
+import BtnEdit from "./BtnEdit";
 
 type Props = {
   position: LatLngExpression | undefined;
+  orphanage: OrphType;
 };
-
 const Card = (props: Props) => {
   const url = process.env.TOKEN_MAP!;
-
+  function handleEdit() {}
+  function handleDelete() {}
   return (
-    <div className="w-full h-full rounded-[20px] relative border-2 border-border-map-form">
+    <div className="w-full lg:w-1/2 h-[296px] rounded-[20px] relative border-2 border-border-map-form">
       <MapContainer
         center={props.position}
         zoom={17}
         scrollWheelZoom
-        style={{ height: "100%", width: "100%", zIndex: 0, borderRadius: 20 }}
+        style={{ height: "291px", width: "100%", zIndex: 0, borderRadius: 20 }}
       >
         <TileLayer url={url} />
         <Marker
           position={props.position!}
           draggable={false}
           icon={markerIcon}
-          interactive={true}
-          autoPanOnFocus
+          interactive={false}
         />
       </MapContainer>
-      <span className="w-full h-[48px] text-base text-dark-blue absolute bottom-0 bg-bg-btn-map rounded-b-[20px] flex justify-center items-center text-center">
-        Arraste o marcador para adicionar a localização
-      </span>
+      <div className="w-full absolute bottom-0 bg-bg-btn-map rounded-b-[20px] flex justify-center items-center flex-col py-2 md:flex-row md:justify-between md:px-5">
+        <h2 className="text-base font-bold text-title">
+          {props.orphanage.name}
+        </h2>
+        <div className="flex gap-3">
+          <BtnEdit icon={<FiEdit3 />} event={handleEdit} />
+          <BtnEdit icon={<MdOutlineDelete />} event={handleDelete} />
+        </div>
+      </div>
     </div>
   );
 };
