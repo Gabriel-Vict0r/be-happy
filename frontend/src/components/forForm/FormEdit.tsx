@@ -17,7 +17,13 @@ import withReactContent from "sweetalert2-react-content";
 import showSwal from "./ModalMessage";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-const FormEdit = (orphanageEdit: any) => {
+import { IOrphonage } from "@/types/All";
+
+interface IOrphangeEdit {
+  orphanage: IOrphonage;
+}
+const FormEdit = ({ orphanage }: IOrphangeEdit) => {
+  //console.log(orphanage);
   const SwalForm = withReactContent(Swal);
   //traz o mapa dinamicamente do lado do cliente
   const MapNoSSR = dynamic(() => import("@/components/forForm/MapInput"), {
@@ -25,14 +31,14 @@ const FormEdit = (orphanageEdit: any) => {
   });
   const [imgPreview, setImgPreview] = useState(null);
   //extrai os estados/funções de atualização do contexto
-  const {
-    position,
-    newPos,
-    setnewPos,
-    setPosition,
-    setCanSubmit,
-    canSubmit,
-  } = useFormContext();
+  const { position, newPos, setnewPos, setPosition, setCanSubmit, canSubmit } =
+    useFormContext();
+  useEffect(() => {
+    setPosition!({
+      lat: orphanage.location.latitude,
+      lng: orphanage.location.longitude,
+    });
+  }, []);
   const MapGetMemoizated = useMemo(() => MapNoSSR, [position]);
 
   /**<--------------CONF WITH FORMIK ----------------> */
@@ -98,15 +104,27 @@ const FormEdit = (orphanageEdit: any) => {
   interface IImagePreview {
     url: string;
   }
+
+  let arr: IImagePreview[] = [];
+  console.log(arr);
+  Array(orphanage.pictures).map((img) => {
+    let imgTemp = { url: img.url };
+    arr.push(imgTemp);
+  });
+  console.log("array", arr);
   const [imagePreview, setImagePreview] = useState<IImagePreview[]>([]);
+
   const formik = useFormik({
     initialValues: {
-      name: "",
-      about: "",
-      phone: "",
-      instructions: "",
-      hours: { initial_hour: "", final_hour: "" },
-      acept_weekend: false,
+      name: orphanage.name,
+      about: orphanage.about,
+      phone: orphanage.phone,
+      instructions: orphanage.instructions,
+      hours: {
+        initial_hour: orphanage.hours.initial_hour,
+        final_hour: orphanage.hours.final_hour,
+      },
+      acept_weekend: orphanage.acept_weekend,
       pictures: [],
       location: { latitude: 0, longitude: 0 },
     },
@@ -169,7 +187,7 @@ const FormEdit = (orphanageEdit: any) => {
         />
         {imagePreview.map((img, index) => (
           <Image
-            src={img.url}
+            src={img!}
             alt="preview"
             className="w-24 h-24 object-cover rounded-[20px]"
             width={96}

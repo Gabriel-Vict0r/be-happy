@@ -9,35 +9,8 @@ import React from "react";
 import { FaRegClock } from "react-icons/fa";
 import { IoAlertCircleOutline } from "react-icons/io5";
 import { FaWhatsapp } from "react-icons/fa";
+import { IOrphonage } from "@/types/All";
 
-interface ILocation {
-  id: number;
-  latitude: number;
-  longitude: number;
-}
-interface IPictures {
-  id: number;
-  url: string;
-  id_orphanage: number;
-}
-interface IHours {
-  id: number;
-  initial_hour: string;
-  final_hour: string;
-  id_orphanage: string;
-}
-interface IOrphonage {
-  id: number;
-  name: string;
-  about: string;
-  instructions: string;
-  acept_weekend: boolean;
-  phone: string;
-  acepted: boolean;
-  hours: IHours;
-  location: ILocation;
-  pictures: IPictures;
-}
 interface IArrayOrph {
   index: Array<IOrphonage>;
 }

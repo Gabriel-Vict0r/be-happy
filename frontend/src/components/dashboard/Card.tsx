@@ -11,6 +11,7 @@ import { OrphType } from "@/types/All";
 import { FiEdit3 } from "react-icons/fi";
 import { MdOutlineDelete } from "react-icons/md";
 import BtnEdit from "./BtnEdit";
+import Link from "next/link";
 
 type Props = {
   position: LatLngExpression | undefined;
@@ -41,7 +42,12 @@ const Card = (props: Props) => {
           {props.orphanage.name}
         </h2>
         <div className="flex gap-3">
-          <BtnEdit icon={<FiEdit3 />} event={handleEdit} />
+          <Link
+            href={`/orphanages-edit/${props.orphanage.id}`}
+            className="p-2 bg-back-background text-blue rounded-xl text-2xl hover:bg-yellow transition-colors"
+          >
+            <FiEdit3 />
+          </Link>
           <BtnEdit icon={<MdOutlineDelete />} event={handleDelete} />
         </div>
       </div>
