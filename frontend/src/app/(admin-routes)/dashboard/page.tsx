@@ -8,7 +8,7 @@ type Props = {};
 
 export async function getOrphanages() {
   const res = await fetch(`${process.env.URL_API}/get-orphanages`, {
-    next: { revalidate: 100 },
+    next: { tags: ["orphanages"], revalidate: 60 },
   });
   const orpahanges = res.json();
   //console.log(orpahanges);

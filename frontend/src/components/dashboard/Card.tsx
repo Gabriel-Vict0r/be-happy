@@ -12,15 +12,49 @@ import { FiEdit3 } from "react-icons/fi";
 import { MdOutlineDelete } from "react-icons/md";
 import BtnEdit from "./BtnEdit";
 import Link from "next/link";
-
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import showSwal from "@/components/forForm/ModalMessage";
+import { unstable_cache } from "next/cache";
 type Props = {
   position: LatLngExpression | undefined;
   orphanage: OrphType;
 };
 const Card = (props: Props) => {
   const url = process.env.TOKEN_MAP!;
-  function handleEdit() {}
-  function handleDelete() {}
+
+  async function disableOrphanage() {
+    const result = await fetch(
+      `${process.env.URL_API}/disable-orphanage/${props.orphanage.id}`,
+      {
+        headers: {},
+        method: "PATCH",
+      }
+    );
+
+    if (!result.ok) {
+      return showSwal(
+        "Ocorreu um erro ao tentar desativar o orfanato!",
+        "",
+        "error"
+      );
+    }
+    return showSwal("Orfanato desativado com sucesso!", "", "success");
+  }
+  function handleDelete() {
+    const mySwal = withReactContent(Swal);
+    mySwal.fire({
+      title: "Deseja excluir esse orfanato?",
+      text: "ao optar por sim, o mesmo será desativado do sistema.",
+      icon: "warning",
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonColor: "#FF669D",
+      confirmButtonText: "Sim",
+      cancelButtonText: "Cancelar",
+      preConfirm: disableOrphanage,
+    });
+  }
   return (
     <div className="w-full lg:w-1/2 h-[296px] rounded-[20px] relative border-2 border-border-map-form">
       <MapContainer

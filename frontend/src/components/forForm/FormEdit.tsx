@@ -17,7 +17,7 @@ import withReactContent from "sweetalert2-react-content";
 import showSwal from "./ModalMessage";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { IOrphonage } from "@/types/All";
+import { IHours, IOrphonage } from "@/types/All";
 
 interface IOrphangeEdit {
   orphanage: IOrphonage;
@@ -31,8 +31,14 @@ const FormEdit = ({ orphanage }: IOrphangeEdit) => {
   });
   const [imgPreview, setImgPreview] = useState(null);
   //extrai os estados/funções de atualização do contexto
-  const { position, newPos, setnewPos, setPosition, setCanSubmit, canSubmit } =
-    useFormContext();
+  const {
+    position,
+    newPos,
+    setnewPos,
+    setPosition,
+    setCanSubmit,
+    canSubmit,
+  } = useFormContext();
   useEffect(() => {
     setPosition!({
       lat: orphanage.location.latitude,
@@ -44,24 +50,32 @@ const FormEdit = ({ orphanage }: IOrphangeEdit) => {
   /**<--------------CONF WITH FORMIK ----------------> */
 
   const router = useRouter();
-
-  const sendData = async (formData: FormData) => {
-    const result = await fetch(`${process.env.URL_API}/create-orphanage`, {
-      headers: {},
-      method: "PUT",
-      body: formData,
-    });
+  const redirectPage = () => router.push("/dashboard");
+  const sendData = async (id: number, formData: string) => {
+    const result = await fetch(
+      `${process.env.URL_API}/update-orphanage/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PUT",
+        body: formData,
+      }
+    );
     const message = await result.json();
     if (!result.ok) {
       showSwal(
-        "Erro ao realizar o cadastro!",
+        "Erro ao atualizar o cadastro!",
         `${message.field} - ${message.error}`,
         "error"
       );
     } else {
-      showSwal("Tudo Ok!", "cadastro realizado com sucesso!", "success");
-      formik.resetForm();
-      router.push("/Submited");
+      showSwal(
+        "Tudo Ok!",
+        "Cadastro atualizado com sucesso!",
+        "success",
+        redirectPage
+      );
     }
   };
   useEffect(() => {
@@ -69,15 +83,8 @@ const FormEdit = ({ orphanage }: IOrphangeEdit) => {
       const values = formik.values;
       values.location = { latitude: position.lat, longitude: position.lng };
       console.log("valores", values);
-      const formData = new FormData();
-      for (let index = 0; index < formik.values.pictures.length; index++) {
-        formData.append("image", formik.values.pictures[index]);
-      }
-      formData.append("orphanage", JSON.stringify(formik.values));
-      for (const value of formData.values()) {
-        console.log(value);
-      }
-      sendData(formData);
+      const data = JSON.stringify(values);
+      sendData(orphanage.id, data);
       setnewPos(false);
       setCanSubmit(false);
     }
@@ -98,21 +105,11 @@ const FormEdit = ({ orphanage }: IOrphangeEdit) => {
     instructions: string;
     hours: THour;
     acept_weekend: boolean;
-    pictures: never[];
     position: Tlocation;
   }
-  interface IImagePreview {
-    url: string;
-  }
 
-  let arr: IImagePreview[] = [];
-  console.log(arr);
-  Array(orphanage.pictures).map((img) => {
-    let imgTemp = { url: img.url };
-    arr.push(imgTemp);
-  });
-  console.log("array", arr);
-  const [imagePreview, setImagePreview] = useState<IImagePreview[]>([]);
+  const tHours = Array(orphanage.hours)[0];
+  const hour: IHours = Object(tHours)[0];
 
   const formik = useFormik({
     initialValues: {
@@ -121,28 +118,20 @@ const FormEdit = ({ orphanage }: IOrphangeEdit) => {
       phone: orphanage.phone,
       instructions: orphanage.instructions,
       hours: {
-        initial_hour: orphanage.hours.initial_hour,
-        final_hour: orphanage.hours.final_hour,
+        initial_hour: hour.initial_hour,
+        final_hour: hour.final_hour,
       },
       acept_weekend: orphanage.acept_weekend,
-      pictures: [],
       location: { latitude: 0, longitude: 0 },
     },
-    validationSchema: schema,
+    //validationSchema: schema,
     validateOnChange: false,
     onSubmit: async (values) => {
       values.acept_weekend = values.acept_weekend as boolean;
       setnewPos(true);
     },
   });
-  const previewImage = (event: any) => {
-    formik.setFieldValue("pictures", event.currentTarget.files);
 
-    for (let index = 0; index < event.currentTarget.files.length; index++) {
-      let url = URL.createObjectURL(event.currentTarget.files[index]);
-      setImagePreview((imagePreview) => [...imagePreview, { url: url }]);
-    }
-  };
   return (
     <form
       className="bg-white w-[95%] md:w-[70%] md:max-w-[44.25rem] rounded-2xl p-4 md:p-8 border-2 border-border-form flex flex-col justify-between gap-6"
@@ -178,25 +167,6 @@ const FormEdit = ({ orphanage }: IOrphangeEdit) => {
         maxLength={15}
         error={formik.errors.phone}
       />
-      <div className="flex gap-2 w-full flex-wrap items-end">
-        <InputImage
-          label="Fotos"
-          type="file"
-          name="pictures"
-          handleInput={(event) => previewImage(event)}
-        />
-        {imagePreview.map((img, index) => (
-          <Image
-            src={img!}
-            alt="preview"
-            className="w-24 h-24 object-cover rounded-[20px]"
-            width={96}
-            objectFit="cover"
-            height={96}
-            key={index}
-          />
-        ))}
-      </div>
       <SubTitle subTitle="Visitação" />
       <TextArea
         label="Instruções"
