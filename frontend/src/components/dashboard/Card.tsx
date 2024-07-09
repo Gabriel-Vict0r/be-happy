@@ -20,6 +20,7 @@ type Props = {
   position: LatLngExpression | undefined;
   orphanage: OrphType;
 };
+
 const Card = (props: Props) => {
   const url = process.env.TOKEN_MAP!;
 
