@@ -40,13 +40,16 @@ const Card = (props: Props) => {
         "error"
       );
     }
+    if (result.ok) {
+      //unstable_cache();
+    }
     return showSwal("Orfanato desativado com sucesso!", "", "success");
   }
   function handleDelete() {
     const mySwal = withReactContent(Swal);
     mySwal.fire({
       title: "Deseja excluir esse orfanato?",
-      text: "ao optar por sim, o mesmo será desativado do sistema.",
+      text: "Ao optar por sim, o orfanato será desativado do sistema.",
       icon: "warning",
       showCancelButton: true,
       showConfirmButton: true,

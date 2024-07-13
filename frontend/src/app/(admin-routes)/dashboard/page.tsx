@@ -1,12 +1,13 @@
 import Card from "@/components/dashboard/Card";
 import SideBarDashboard from "@/components/dashboard/SideBarDashboard";
 import { OrphType } from "@/types/All";
+import { unstable_cache } from "next/cache";
 import dynamic from "next/dynamic";
 import React from "react";
 
 type Props = {};
 
-export async function getOrphanages() {
+export async function getStaticSideProps() {
   const res = await fetch(`${process.env.URL_API}/get-orphanages`, {
     next: { tags: ["orphanages"], revalidate: 60 },
   });
@@ -19,7 +20,14 @@ const Dashboard = async () => {
   const CardDynamic = dynamic(() => import("@/components/dashboard/Card"), {
     ssr: false,
   });
-  const orphanages = await getOrphanages();
+  const orphanages = unstable_cache(
+    async () => await getStaticSideProps(),
+    undefined,
+    {
+      tags: ["orphanages"],
+      revalidate: 60,
+    }
+  );
   //console.log(orphanages);
   return (
     <main className="p-5">
