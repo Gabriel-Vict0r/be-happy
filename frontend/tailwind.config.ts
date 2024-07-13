@@ -39,6 +39,7 @@ const config: Config = {
         'green-btn-submit-h': '#3BD689',
         'green-box': '#39CC83',
         'red-box': '#FF669D',
+        'red-box-dark': '#C54F7A',
         'border-green': '#A1E9C5',
         'border-red': '#FFBCD4',
         'back-background': '#EBF2F5',

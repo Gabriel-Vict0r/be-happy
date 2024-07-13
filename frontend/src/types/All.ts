@@ -13,6 +13,7 @@ export type OrphType = {
     phone: string;
     acepted: boolean;
     id_location: number;
+    deletedAt: Date | null;
     location: {
         id: number;
         latitude: number;
