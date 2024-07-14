@@ -1,6 +1,12 @@
-import { fetchOrphanages } from "@/app/actions";
+import {
+  fetchOrphanages,
+  fetchOrphanagesPending,
+  revalidateTagAction,
+} from "@/app/actions";
 import ContainerAdmin from "@/components/admin-area/ContainerAdmin";
+import NoOne from "@/components/dashboard/NoOne";
 import { OrphType } from "@/types/All";
+import { unstable_cache } from "next/cache";
 import dynamic from "next/dynamic";
 import React from "react";
 
@@ -13,27 +19,33 @@ const Pending = async (props: Props) => {
       ssr: false,
     }
   );
-  const orphanages: OrphType[] = await fetchOrphanages(
+  const orphanagesPending: OrphType[] = await fetchOrphanagesPending(
     "get-pending",
-    "pending"
+    ["orphanages-pending"],
+    ["pending"]
   );
-  console.log(orphanages);
+  //revalidateTagAction("pending");
+  //console.log();
   return (
     <ContainerAdmin
       title="Cadastros pendentes"
-      subtitle={` ${orphanages.length}
-          ${orphanages.length === 1 ? "orfanato" : "orfanatos"}`}
+      subtitle={` ${orphanagesPending.length}
+          ${orphanagesPending.length === 1 ? "orfanato" : "orfanatos"}`}
     >
-      {orphanages.map((orph) => (
-        <CardDynamic
-          key={orph.id}
-          position={{
-            lat: orph.location.latitude,
-            lng: orph.location.longitude,
-          }}
-          orphanage={orph}
-        />
-      ))}
+      {orphanagesPending.length === 0 ? (
+        <NoOne />
+      ) : (
+        orphanagesPending.map((orph: OrphType) => (
+          <CardDynamic
+            key={orph.id}
+            position={{
+              lat: orph.location.latitude,
+              lng: orph.location.longitude,
+            }}
+            orphanage={orph}
+          />
+        ))
+      )}
     </ContainerAdmin>
   );
 };

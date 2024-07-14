@@ -43,7 +43,7 @@ const Card = (props: Props) => {
       );
     }
 
-    revalidateTagAction();
+    revalidateTagAction("orphanages");
 
     return showSwal("Orfanato desativado com sucesso!", "", "success");
   }

@@ -16,14 +16,15 @@ export async function generateStaticParams() {
 
 export async function getStaticSideProps(id: number) {
   const orphanageEdit = await fetch(
-    `${process.env.URL_API}/get-orphanage/${id}`
+    `${process.env.URL_API}/get-orphanage/${id}`,
+    { next: { revalidate: 120 } }
   );
   const orphanage = orphanageEdit.json();
 
   return orphanage;
 }
 
-const page = async ({ params }: { params: { id: number } }) => {
+const AceptOrphanage = async ({ params }: { params: { id: number } }) => {
   const { id } = params;
   const orphEdit = await getStaticSideProps(id);
   return (
@@ -40,4 +41,4 @@ const page = async ({ params }: { params: { id: number } }) => {
   );
 };
 
-export default page;
+export default AceptOrphanage;

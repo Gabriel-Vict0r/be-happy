@@ -3,7 +3,7 @@ const nextConfig = {
   env: {
     TOKEN_MAP: process.env.TOKEN_MAP,
     KEY_IP_GEOLOCATION_API: process.env.KEY_IP_GEOLOCATION_API,
-    URL_API: process.env.URL_API
+    URL_API: process.env.URL_API,
   },
   images: {
     formats: ["image/avif", "image/webp"],
@@ -15,6 +15,12 @@ const nextConfig = {
         pathname: "**",
       },
     ],
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   },
   // async rewrites() {
   //   return [

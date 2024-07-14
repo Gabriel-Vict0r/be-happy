@@ -27,16 +27,9 @@ const FormPending = ({ orphanage }: IOrphangeEdit) => {
   const MapNoSSR = dynamic(() => import("@/components/forForm/MapInput"), {
     ssr: false,
   });
-  const [imgPreview, setImgPreview] = useState(null);
   //extrai os estados/funções de atualização do contexto
-  const {
-    position,
-    newPos,
-    setnewPos,
-    setPosition,
-    setCanSubmit,
-    canSubmit,
-  } = useFormContext();
+  const { position, newPos, setnewPos, setPosition, setCanSubmit, canSubmit } =
+    useFormContext();
   useEffect(() => {
     setPosition!({
       lat: orphanage.location.latitude,
@@ -69,6 +62,8 @@ const FormPending = ({ orphanage }: IOrphangeEdit) => {
         "error"
       );
     } else {
+      revalidateTagAction("orphanages");
+      revalidateTagAction("pending");
       showSwal(
         "Tudo Ok!",
         "Cadastro atualizado com sucesso!",
@@ -116,7 +111,7 @@ const FormPending = ({ orphanage }: IOrphangeEdit) => {
       about: orphanage.about,
       phone: orphanage.phone,
       instructions: orphanage.instructions,
-      acept: true,
+      acepted: true,
       hours: {
         initial_hour: hour.initial_hour,
         final_hour: hour.final_hour,
@@ -148,7 +143,8 @@ const FormPending = ({ orphanage }: IOrphangeEdit) => {
         "error"
       );
     }
-    revalidateTagAction();
+    revalidateTagAction("orphanages");
+    revalidateTagAction("pending");
     return showSwal(
       "Tudo Ok!",
       "Esse cadastro foi recusado com sucesso!",

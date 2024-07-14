@@ -18,6 +18,7 @@ import showSwal from "./ModalMessage";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { IHours, IOrphonage } from "@/types/All";
+import { revalidateTagAction } from "@/app/actions";
 
 interface IOrphangeEdit {
   orphanage: IOrphonage;
@@ -31,14 +32,8 @@ const FormEdit = ({ orphanage }: IOrphangeEdit) => {
   });
   const [imgPreview, setImgPreview] = useState(null);
   //extrai os estados/funções de atualização do contexto
-  const {
-    position,
-    newPos,
-    setnewPos,
-    setPosition,
-    setCanSubmit,
-    canSubmit,
-  } = useFormContext();
+  const { position, newPos, setnewPos, setPosition, setCanSubmit, canSubmit } =
+    useFormContext();
   useEffect(() => {
     setPosition!({
       lat: orphanage.location.latitude,
@@ -70,6 +65,8 @@ const FormEdit = ({ orphanage }: IOrphangeEdit) => {
         "error"
       );
     } else {
+      revalidateTagAction("orphanages");
+      revalidateTagAction("pending");
       showSwal(
         "Tudo Ok!",
         "Cadastro atualizado com sucesso!",
