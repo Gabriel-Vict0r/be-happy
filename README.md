@@ -10,21 +10,8 @@
 <li>TypeScript</li>
 <li>Next.js</li>
 <li>TailwindCSS</li>
+<li>Map box + react-leaflet</li>
 <li>Jest + Testing Library</li>
 </ul>
-<h3>Back-end</h3>
-<ul>
-<li>Node.JS</li>
-<li>TypeScript</li>
-<li>Express</li>
-<li>TypeORM</li>
-<li>SQL</li>
-<li>Postgres</li>
-</ul>
-<h4>Arquitetura / padrão</h4>
-<ul>
-<li>REST (para a criação da API)</li>
-<li>MVC (para organização do back-end)</li>
-</ul>
-<h4>Modelagem do BD</h4>
-<a href='https://drawsql.app/teams/gabriel-victor/diagrams/be-happy'>Clique aqui para visualizar</a>
+<h4>Repositório da API</h4>
+<a href='https://github.com/Gabriel-Vict0r/behappy-api'>Clique aqui para conferir</a>
