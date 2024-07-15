@@ -53,13 +53,12 @@ const authOptions: NextAuthOptions = {
     },
     callbacks: {
         async jwt({ token, user, account }) {
-            if (account && account.access_token) {
-                token.acessToken = account.access_token;
-            }
-            return token;
+            user && (token.user = user)
+            return token
         },
         async session({ session, token, user }) {
-            return { ...session, token: token.acessToken }
+            session = token.user as any
+            return session
         }
     },
     secret: process.env.NEXTAUTH_SECRET
