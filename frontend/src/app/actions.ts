@@ -8,15 +8,44 @@ import { authOptions } from "./api/auth/[...nextauth]/route";
 export async function revalidateTagAction(tag: string) {
     revalidateTag(tag);
 }
+interface IUser {
+    id: number;
+    name: string;
+    email: string;
+}
+interface IUserSession {
+    user: IUser;
+    token: string;
+}
+
+export async function getToken(): Promise<string | Error> {
+    try {
+        const session: IUserSession | null = await getServerSession(authOptions);
+        const webtoken = `Barer ${session?.token}`;
+        return webtoken;
+    } catch (error) {
+        throw new Error(`Erro ao obter token: ${error}`);
+        ;
+    }
+}
+
 async function getOrphanages(route: string, tag: string[]) {
-    const session = await getServerSession(authOptions);
-    const res = await fetch(`${process.env.URL_API}/${route}`, {
-        next: { tags: tag, revalidate: 60 },
-        headers: { 'authorization': session.token! }
-    });
-    const orpahanges = res.json();
-    //console.log(orpahanges);
-    return orpahanges;
+    const session: IUserSession | null = await getServerSession(authOptions);
+    const webtoken = `Barer ${session?.token}`;
+    //console.log(webtoken)
+    try {
+        const res = await fetch(`${process.env.URL_API}/${route}`, {
+            next: { tags: tag, revalidate: 60 },
+            headers: { 'authorization': webtoken ?? '' }
+            //headers: { 'authorization': session.token! }
+        });
+        const orpahanges = res.json();
+        //console.log(orpahanges);
+        return orpahanges;
+    } catch (error: any) {
+        throw new Error(error);
+
+    }
 }
 export async function fetchOrphanages(route: string, keys: string[], tag: string[]) {
 

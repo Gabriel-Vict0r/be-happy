@@ -18,7 +18,7 @@ import showSwal from "./ModalMessage";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { IHours, IOrphonage } from "@/types/All";
-import { revalidateTagAction } from "@/app/actions";
+import { getToken, revalidateTagAction } from "@/app/actions";
 
 interface IOrphangeEdit {
   orphanage: IOrphonage;
@@ -47,11 +47,13 @@ const FormEdit = ({ orphanage }: IOrphangeEdit) => {
   const router = useRouter();
   const redirectPage = () => router.push("/dashboard");
   const sendData = async (id: number, formData: string) => {
+    const token = await getToken();
     const result = await fetch(
       `${process.env.URL_API}/update-orphanage/${id}`,
       {
         headers: {
           "Content-Type": "application/json",
+          authorization: String(token),
         },
         method: "PUT",
         body: formData,

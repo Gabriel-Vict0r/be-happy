@@ -16,7 +16,7 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import showSwal from "@/components/forForm/ModalMessage";
 import { revalidateTag, unstable_cache } from "next/cache";
-import { revalidateTagAction } from "@/app/actions";
+import { getToken, revalidateTagAction } from "@/app/actions";
 import { useRouter } from "next/navigation";
 type Props = {
   position: LatLngExpression | undefined;
@@ -27,10 +27,11 @@ const Card = (props: Props) => {
   const url = process.env.TOKEN_MAP!;
   const router = useRouter();
   async function disableOrphanage() {
+    const token = await getToken();
     const result = await fetch(
       `${process.env.URL_API}/disable-orphanage/${props.orphanage.id}`,
       {
-        headers: {},
+        headers: { authorization: String(token) },
         method: "PATCH",
       }
     );
